@@ -1,0 +1,44 @@
+---
+title: Send message
+api: "POST /channels/whatsapp/messages"
+description: Send a freeform WhatsApp message
+---
+
+### Body parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `agentId` | string | Yes | Agent sending the message |
+| `to` | string | Yes | Destination number, E.164 |
+| `message` | string | Yes | Message text |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/channels/whatsapp/messages \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "agentId": "AGENT_ID", "to": "+919876543210", "message": "Hello!" }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/channels/whatsapp/messages",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"agentId": "AGENT_ID", "to": "+919876543210", "message": "Hello!"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{ "messageId": "wamid.HBg...", "status": "sent" }
+```
+
+<Callout type="info">
+  Freeform messages are only deliverable within 24 hours of the user's last
+  message. Outside that window, use
+  [Send template](/api-reference/whatsapp/send-template).
+</Callout>

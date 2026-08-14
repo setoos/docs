@@ -1,0 +1,43 @@
+---
+title: List campaigns
+api: "GET /campaigns"
+description: List campaigns for the tenant
+---
+
+### Query parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `status` | string | `DRAFT`, `ACTIVE`, `PAUSED`, `COMPLETED` |
+| `page` | integer | Page number |
+| `pageSize` | integer | Results per page |
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/campaigns?status=ACTIVE" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/campaigns",
+    params={"status": "ACTIVE"},
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "items": [
+    { "id": "770e8400-...", "name": "Product Launch", "status": "ACTIVE", "totalContacts": 100 }
+  ],
+  "total": 10,
+  "page": 1,
+  "pageSize": 20
+}
+```

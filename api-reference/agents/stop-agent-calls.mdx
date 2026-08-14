@@ -1,0 +1,36 @@
+---
+title: Stop agent calls
+api: "POST /agents/{id}/stop-calls"
+description: Immediately stop all live calls for an agent
+---
+
+Terminates every currently in-progress call for the given agent. Useful as a kill
+switch if an agent is misbehaving in production.
+
+### Path parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | Yes | The agent ID |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/agents/AGENT_ID/stop-calls \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/agents/AGENT_ID/stop-calls",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{ "stopped": 3, "agentId": "550e8400-e29b-41d4-a716-446655440000" }
+```

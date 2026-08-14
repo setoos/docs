@@ -1,0 +1,36 @@
+---
+title: Delete agent
+api: "DELETE /agents/{id}"
+description: Permanently delete an agent
+---
+
+<Callout type="warning">
+  This action cannot be undone. All associated call logs and analytics are deleted
+  along with the agent.
+</Callout>
+
+### Path parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | Yes | The agent ID |
+
+<CodeGroup>
+
+```bash curl
+curl -X DELETE https://api.agentic-os.com/api/v1/agents/AGENT_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.delete(
+    "https://api.agentic-os.com/api/v1/agents/AGENT_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+Returns `204 No Content` on success.

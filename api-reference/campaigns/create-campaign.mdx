@@ -1,0 +1,48 @@
+---
+title: Create campaign
+api: "POST /campaigns"
+description: Create an outbound calling campaign
+---
+
+### Body parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | Yes | Campaign name |
+| `agentId` | string | Yes | Agent to use for calls |
+| `contacts` | array | Yes | List of `{ phone, name }` objects |
+| `schedule` | object | No | `startDate`, `endDate`, `callHours` |
+| `retryConfig` | object | No | `maxAttempts`, `retryDelay` |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/campaigns \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Product Launch",
+    "agentId": "AGENT_ID",
+    "contacts": [{ "phone": "+919876543210", "name": "Asha" }]
+  }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/campaigns",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={
+        "name": "Product Launch",
+        "agentId": "AGENT_ID",
+        "contacts": [{"phone": "+919876543210", "name": "Asha"}],
+    },
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{ "id": "770e8400-...", "name": "Product Launch", "status": "DRAFT", "totalContacts": 1 }
+```

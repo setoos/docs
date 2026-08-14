@@ -1,0 +1,49 @@
+---
+title: Make phone call
+api: "POST /channels/voice/call"
+description: Place an outbound call using an agent
+---
+
+### Body parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `agentId` | string | Yes | Agent that will handle the call |
+| `to` | string | Yes | Destination number, E.164 format |
+| `from` | string | Yes | Caller ID number, E.164 format |
+| `provider` | string | Yes | `PLIVO`, `TWILIO`, or `ACEFONE` |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "AGENT_ID",
+    "to": "+919876543210",
+    "from": "+1XXXXXXXXXX",
+    "provider": "PLIVO"
+  }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/channels/voice/call",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={
+        "agentId": "AGENT_ID",
+        "to": "+919876543210",
+        "from": "+1XXXXXXXXXX",
+        "provider": "PLIVO",
+    },
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{ "sessionId": "660e8400-...", "jobId": "job_abc123", "status": "QUEUED" }
+```

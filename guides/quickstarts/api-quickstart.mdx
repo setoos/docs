@@ -1,0 +1,262 @@
+---
+title: API Quickstart
+description: Make your first Voice AI call with the Agentic OS API in about five minutes
+---
+
+Make your first Voice AI call with the Agentic OS API — verify your key, get an agent,
+place a call, and fetch the transcript in about five minutes.
+
+Go from an API key to a real phone call (with a transcript and recording) in four steps.
+Every request below uses the production base URL `https://api.agentic-os.com` and Bearer
+authentication.
+
+<Callout type="info">
+  Don't have a key yet? Follow **Generate an API key** first, then come back here.
+  Telephone calls consume wallet credits, so keep a test number handy.
+</Callout>
+
+## Prerequisites
+
+- An Agentic OS API key ( `Authorization: Bearer <key>` )
+- A recipient phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format, e.g. `+919876543210`
+- `curl`, or Python 3, or Node 18+
+
+Set your key as an environment variable so it's not pasted into every command:
+
+```bash
+export AGENTIC_OS_API_KEY="ao-xxxxxxxxxxxxxxxx"
+```
+
+<Steps>
+
+<Step title="Verify your API key">
+
+A quick read-only call confirms the key works and shows your wallet balance and
+concurrency limit before you spend any credits.
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/billing/wallet \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import os, requests
+
+resp = requests.get(
+    "https://api.agentic-os.com/api/v1/billing/wallet",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+)
+print(resp.json())
+```
+
+```javascript Node
+const resp = await fetch("https://api.agentic-os.com/api/v1/billing/wallet", {
+  headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
+});
+console.log(await resp.json());
+```
+
+</CodeGroup>
+
+A `200` response with a `balance` field means the key is valid.
+
+</Step>
+
+<Step title="Get or create an agent">
+
+Use an existing agent, or create one on the fly.
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/agents \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Quickstart Agent",
+    "agent_prompt": "You are a friendly assistant making a short test call. Keep every reply under two sentences.",
+    "llm_model_id": "gpt-4-turbo",
+    "is_active": true
+  }'
+```
+
+```python Python
+resp = requests.post(
+    "https://api.agentic-os.com/api/v1/agents",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+    json={
+        "name": "Quickstart Agent",
+        "agent_prompt": "You are a friendly assistant making a short test call. Keep every reply under two sentences.",
+        "llm_model_id": "gpt-4-turbo",
+        "is_active": True,
+    },
+)
+agent = resp.json()
+print(agent["id"])
+```
+
+```javascript Node
+const resp = await fetch("https://api.agentic-os.com/api/v1/agents", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: "Quickstart Agent",
+    agent_prompt: "You are a friendly assistant making a short test call. Keep every reply under two sentences.",
+    llm_model_id: "gpt-4-turbo",
+    is_active: true,
+  }),
+});
+const agent = await resp.json();
+console.log(agent.id);
+```
+
+</CodeGroup>
+
+Save the returned `id` — you'll pass it as `agentId` in the next step.
+
+</Step>
+
+<Step title="Place a call">
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "YOUR_AGENT_ID",
+    "to": "+919876543210",
+    "from": "+1XXXXXXXXXX",
+    "provider": "PLIVO"
+  }'
+```
+
+```python Python
+resp = requests.post(
+    "https://api.agentic-os.com/api/v1/channels/voice/call",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+    json={
+        "agentId": "YOUR_AGENT_ID",
+        "to": "+919876543210",
+        "from": "+1XXXXXXXXXX",
+        "provider": "PLIVO",
+    },
+)
+call = resp.json()
+print(call["sessionId"])
+```
+
+```javascript Node
+const resp = await fetch("https://api.agentic-os.com/api/v1/channels/voice/call", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    agentId: "YOUR_AGENT_ID",
+    to: "+919876543210",
+    from: "+1XXXXXXXXXX",
+    provider: "PLIVO",
+  }),
+});
+const call = await resp.json();
+console.log(call.sessionId);
+```
+
+</CodeGroup>
+
+The response returns immediately with `status: "QUEUED"` and a `sessionId` — the call
+itself happens asynchronously.
+
+</Step>
+
+<Step title="Fetch the transcript">
+
+Poll the call detail endpoint once the call has ended.
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/call-logs/YOUR_SESSION_ID/full \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+resp = requests.get(
+    f"https://api.agentic-os.com/api/v1/call-logs/{session_id}/full",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+)
+print(resp.json()["transcript"])
+```
+
+```javascript Node
+const resp = await fetch(
+  `https://api.agentic-os.com/api/v1/call-logs/${sessionId}/full`,
+  { headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` } },
+);
+const { transcript, recording } = await resp.json();
+console.log(transcript, recording);
+```
+
+</CodeGroup>
+
+The response includes the full turn-by-turn `transcript`, a `recording` URL, and
+post-call `analytics` (sentiment, intent, summary).
+
+</Step>
+
+</Steps>
+
+## Alternative: receive results via webhook
+
+Instead of polling, register a webhook URL on the agent and Agentic OS will POST the
+call summary and recording link to it as soon as the call ends. See
+[webhooks](/guides/outbound/making-outgoing-calls#webhooks).
+
+## Run the whole flow as one script
+
+<CodeGroup>
+
+```bash bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+BASE="https://api.agentic-os.com/api/v1"
+AUTH="Authorization: Bearer $AGENTIC_OS_API_KEY"
+
+AGENT_ID=$(curl -s -X POST "$BASE/agents" -H "$AUTH" -H "Content-Type: application/json" \
+  -d '{"name":"Quickstart Agent","agent_prompt":"Be brief and friendly.","llm_model_id":"gpt-4-turbo","is_active":true}' \
+  | jq -r '.id')
+
+SESSION_ID=$(curl -s -X POST "$BASE/channels/voice/call" -H "$AUTH" -H "Content-Type: application/json" \
+  -d "{\"agentId\":\"$AGENT_ID\",\"to\":\"+919876543210\",\"from\":\"+1XXXXXXXXXX\",\"provider\":\"PLIVO\"}" \
+  | jq -r '.sessionId')
+
+echo "Call queued: $SESSION_ID"
+```
+
+</CodeGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Inbound Quickstart" href="/guides/quickstarts/inbound-quickstart" icon="phone-arrow-down-left">
+    Configure a number to receive calls.
+  </Card>
+  <Card title="Batch Calling Quickstart" href="/guides/quickstarts/batch-calling-quickstart" icon="layer-group">
+    Call thousands of contacts at once.
+  </Card>
+  <Card title="Agent Setup" href="/build/overview" icon="sliders">
+    Tune LLM, voice, and call behavior.
+  </Card>
+  <Card title="API Reference" href="/api-reference/introduction" icon="code">
+    Full endpoint documentation.
+  </Card>
+</CardGroup>

@@ -1,0 +1,37 @@
+---
+title: Introduction
+description: Platform overview and live demo
+---
+
+Agentic OS is a platform for building, deploying, and managing AI voice agents.
+We handle the complex infrastructure — telephony, speech-to-text, LLM orchestration,
+and text-to-speech — so you can focus on the conversation itself.
+
+## How it works
+
+Every Agentic OS agent combines three core building blocks:
+
+1. **Transcriber** — converts caller speech to text in real time
+2. **LLM** — generates the agent's response based on your prompt and tools
+3. **Synthesizer** — converts the response back to natural-sounding speech
+
+You choose the providers for each: OpenAI, Anthropic, or Google for the LLM;
+Deepgram or Google for transcription; ElevenLabs or Azure for voice.
+
+## Two ways to build
+
+<CardGroup cols={2}>
+  <Card title="Dashboard" icon="display" href="https://app.agentic-os.com">
+    Build agents visually with the Agent Studio — no code required.
+  </Card>
+  <Card title="API" icon="code" href="/api-reference/introduction">
+    Create and manage agents programmatically from your own backend.
+  </Card>
+</CardGroup>
+
+## Live demo
+
+<Callout type="info">
+  Try a live agent right now from the [dashboard](https://app.agentic-os.com) —
+  no phone number or payment method required for web-call testing.
+</Callout>

@@ -1,0 +1,17 @@
+---
+title: Call Flow
+description: How a call moves through transcriber, LLM, and synthesizer
+---
+
+```
+Caller ──▶ Telephony Provider ──▶ Transcriber ──▶ LLM ──▶ Synthesizer ──▶ Caller
+              (Plivo/Twilio)       (Deepgram)    (GPT-4)   (ElevenLabs)
+```
+
+1. **Inbound audio** streams from the telephony provider over WebSocket.
+2. The **transcriber** converts audio to text in near real time.
+3. The **LLM** receives the transcript plus conversation history and generates a
+   response, optionally calling tools.
+4. The **synthesizer** converts the response to audio, streamed back to the caller.
+
+Each hop adds latency — see [Latency](/concepts/latency) for how to minimize it.

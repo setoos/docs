@@ -1,0 +1,34 @@
+---
+title: Call Campaigns
+description: Automated outbound calling at scale
+---
+
+A call campaign takes a contact list and an agent, then places calls to every
+contact within a scheduled window — with pacing, retries, and guardrails
+handled for you.
+
+## Creating a campaign
+
+Pick an agent, upload or add your contact list, and set a schedule — start
+date and the hours during which calls are allowed to go out.
+
+## Auto-retry
+
+Failed attempts (no-answer, busy, failed) can be retried automatically, up to
+a configurable number of attempts with a delay between tries. Retries respect
+call-hour windows — a retry due outside the allowed hours is deferred to the
+next window.
+
+## Guardrails
+
+Applied automatically to every campaign:
+
+- **Concurrency cap** — respects your plan's max concurrent calls
+- **Call-hour windows** — calls only go out inside the scheduled hours
+- **DND / opt-out lists** — opted-out numbers are excluded from future campaigns
+- **Per-number attempt cap** — prevents repeated same-day retries to one number
+
+## Monitoring
+
+Track campaign progress and a summary of outcomes from the dashboard in real
+time.

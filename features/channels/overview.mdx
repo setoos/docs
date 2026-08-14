@@ -1,0 +1,32 @@
+---
+title: Channels
+description: Voice, chat, WhatsApp, and SMS
+---
+
+A **channel** is how an agent actually reaches someone. Agentic OS supports
+four channels today, all handled by **comms-engine**.
+
+<CardGroup cols={2}>
+  <Card title="Voice Calls" href="/features/channels/voice" icon="phone">
+    Outbound and inbound phone calls via Twilio, Plivo, or Acefone.
+  </Card>
+  <Card title="Chat" href="/features/channels/chat" icon="comments">
+    In-app or web-embedded text conversations.
+  </Card>
+  <Card title="WhatsApp" href="/features/channels/whatsapp" icon="whatsapp">
+    Business messaging over the WhatsApp Business API.
+  </Card>
+  <Card title="SMS" href="/features/channels/sms" icon="message-sms">
+    Text messages sent from a purchased or ported number.
+  </Card>
+</CardGroup>
+
+## Sessions
+
+Every conversation on any channel is tracked as a **session** — a single call,
+chat, or WhatsApp thread instance, viewable from the dashboard.
+
+## Call logs
+
+Regardless of channel, every completed interaction is recorded to call logs —
+transcript, recording (voice), duration, cost, and outcome.

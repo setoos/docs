@@ -1,0 +1,254 @@
+{
+  "theme": "mint",
+  "name": "20X",
+  "logo": {
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#DF4A3A",
+    "light": "#E86E5F",
+    "dark": "#B83A2D"
+  },
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "https://app.agentic-os.com/signup"
+  },
+  "tabs": [
+    {
+      "name": "Documentation",
+      "url": "/"
+    },
+    {
+      "name": "Guides",
+      "url": "guides"
+    },
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    },
+    {
+      "name": "CLI",
+      "url": "cli"
+    },
+    {
+      "name": "Developer Resources",
+      "url": "developer-resources"
+    },
+    {
+      "name": "Agent Templates",
+      "url": "agent-templates"
+    },
+    {
+      "name": "Build with AI",
+      "url": "build-with-ai"
+    },
+    {
+      "name": "Changelog",
+      "url": "changelog"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Status",
+      "icon": "signal",
+      "url": "https://status.agentic-os.com"
+    },
+    {
+      "name": "Ask us on Slack",
+      "icon": "slack",
+      "url": "https://agentic-os.slack.com"
+    },
+    {
+      "name": "Platform",
+      "icon": "arrow-up-right-from-square",
+      "url": "https://app.agentic-os.com"
+    }
+  ],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Overview & Evaluation",
+            "pages": [
+              "index",
+              "introduction",
+              "platform-concepts",
+              "faqs",
+              "getting-help"
+            ]
+          },
+          {
+            "group": "Platform Features",
+            "pages": [
+              "features/overview",
+              {
+                "group": "Agents",
+                "pages": [
+                  "features/agents/overview",
+                  "features/agents/agent-types",
+                  "features/agents/prompts-personas",
+                  "features/agents/tool-bindings"
+                ]
+              },
+              {
+                "group": "Channels",
+                "pages": [
+                  "features/channels/overview",
+                  "features/channels/voice",
+                  "features/channels/chat",
+                  "features/channels/whatsapp",
+                  "features/channels/sms"
+                ]
+              },
+              {
+                "group": "Campaigns",
+                "pages": [
+                  "features/campaigns/overview",
+                  "features/campaigns/call",
+                  "features/campaigns/whatsapp",
+                  "features/campaigns/sms"
+                ]
+              },
+              "features/knowledge-base",
+              "features/integrations",
+              "features/billing",
+              "features/api-keys"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts/agent-types",
+              "concepts/call-flow",
+              "concepts/latency",
+              "concepts/choosing-providers",
+              "concepts/security",
+              "concepts/glossary"
+            ]
+          },
+          {
+            "group": "Build & Configure Agents",
+            "pages": [
+              "build/overview",
+              "build/agent-studio",
+              "build/agent-tab",
+              "build/llm-tab",
+              "build/audio-tab",
+              "build/engine-tab",
+              "build/call-tab"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Quickstarts",
+            "pages": [
+              "guides/quickstarts/api-quickstart",
+              "guides/quickstarts/inbound-quickstart",
+              "guides/quickstarts/batch-calling-quickstart"
+            ]
+          },
+          {
+            "group": "Phone Numbers & Calling Setup",
+            "pages": [
+              "guides/numbers/purchase-phone-numbers",
+              "guides/numbers/purchase-140-160-numbers",
+              "guides/numbers/caller-id-verification"
+            ]
+          },
+          {
+            "group": "Outbound Calling",
+            "pages": [
+              "guides/outbound/making-outgoing-calls",
+              "guides/outbound/batch-calling",
+              "guides/outbound/auto-retry",
+              "guides/outbound/calling-guardrails"
+            ]
+          },
+          {
+            "group": "Inbound Calling",
+            "pages": [
+              "guides/inbound/receive-incoming-calls",
+              "guides/inbound/ivr-setup"
+            ]
+          },
+          {
+            "group": "Managing Live Calls",
+            "pages": [
+              "guides/live-calls/hangup-live-calls",
+              "guides/live-calls/terminate-live-calls"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/pagination",
+              "api-reference/rate-limiting",
+              "api-reference/errors-status-codes",
+              "api-reference/limits-quotas"
+            ]
+          },
+          {
+            "group": "Agents",
+            "pages": [
+              "api-reference/agents/overview",
+              "api-reference/agents/get-agent",
+              "api-reference/agents/create-agent",
+              "api-reference/agents/update-agent",
+              "api-reference/agents/patch-update-agent",
+              "api-reference/agents/list-agents",
+              "api-reference/agents/get-agent-execution",
+              "api-reference/agents/get-all-executions",
+              "api-reference/agents/delete-agent",
+              "api-reference/agents/stop-agent-calls"
+            ]
+          },
+          {
+            "group": "Calls",
+            "pages": [
+              "api-reference/calls/overview",
+              "api-reference/calls/make-phone-call",
+              "api-reference/calls/stop-phone-call"
+            ]
+          },
+          {
+            "group": "Campaigns",
+            "pages": [
+              "api-reference/campaigns/overview",
+              "api-reference/campaigns/create-campaign",
+              "api-reference/campaigns/list-campaigns",
+              "api-reference/campaigns/get-campaign"
+            ]
+          },
+          {
+            "group": "WhatsApp",
+            "pages": [
+              "api-reference/whatsapp/send-message",
+              "api-reference/whatsapp/send-template"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "api-reference/workflows/create-workflow",
+              "api-reference/workflows/trigger-run"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

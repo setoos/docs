@@ -1,0 +1,38 @@
+---
+title: Voice Calls
+description: Outbound and inbound phone calls
+---
+
+Voice is the original and most-used channel. A call moves through four hops:
+
+```
+Caller ──▶ Telephony Provider ──▶ Transcriber ──▶ LLM ──▶ Synthesizer ──▶ Caller
+              (Plivo/Twilio)       (Deepgram)    (GPT-4)   (ElevenLabs)
+```
+
+1. **Inbound audio** streams from the telephony provider over WebSocket.
+2. The **transcriber** converts audio to text in near real time.
+3. The **LLM** receives the transcript plus conversation history and generates
+   a response, optionally calling tools.
+4. The **synthesizer** converts the response to audio, streamed back to the
+   caller.
+
+## Making an outbound call
+
+Place an outbound call to a contact from the dashboard or trigger one as part
+of a campaign.
+
+## Receiving inbound calls
+
+Point your telephony number at Agentic OS — see
+[Receive Incoming Calls](/guides/inbound/receive-incoming-calls).
+
+## Latency
+
+Each hop above adds latency. Typical end-to-end latency on a well-tuned agent
+is 600–900ms. To reduce it:
+
+- Use a streaming-capable LLM configuration
+- Choose a low-latency transcriber model
+- Tune the synthesizer's buffering to start playback early
+- Keep response length short for faster generation

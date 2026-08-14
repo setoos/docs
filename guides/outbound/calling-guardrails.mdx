@@ -1,0 +1,16 @@
+---
+title: Calling Guardrails
+description: Concurrency, call-hour, and DND protections
+---
+
+Agentic OS applies guardrails automatically to keep outbound campaigns compliant
+and within plan limits:
+
+- **Concurrency cap** — respects your plan's max concurrent calls
+- **Call-hour windows** — calls are only placed within the configured `callHours`
+- **DND / opt-out lists** — numbers that opt out are automatically excluded from
+  future campaigns
+- **Per-number attempt cap** — prevents repeated same-day retries to one number
+
+Configure call-hour windows per campaign under `schedule.callHours` when calling
+[Create campaign](/api-reference/campaigns/create-campaign).

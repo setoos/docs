@@ -1,0 +1,42 @@
+---
+title: Get agent execution
+api: "GET /agents/{id}/executions/{executionId}"
+description: Retrieve details of a single agent call/chat execution
+---
+
+### Path parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | Yes | The agent ID |
+| `executionId` | string | Yes | The execution (session) ID |
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/agents/AGENT_ID/executions/EXECUTION_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/agents/AGENT_ID/executions/EXECUTION_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "executionId": "660e8400-e29b-41d4-a716-446655440000",
+  "agentId": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "completed",
+  "duration": 125,
+  "transcript": [
+    { "role": "agent", "content": "Hello! How can I help you today?" }
+  ]
+}
+```

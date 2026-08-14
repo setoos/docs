@@ -1,0 +1,22 @@
+---
+title: Agent Types
+description: Single-prompt vs. conversational-flow agents
+---
+
+Agentic OS supports two agent types:
+
+## Single Prompt
+
+A single system prompt drives the entire conversation. Fast to build, best for
+simple, free-form conversations like FAQs or lead qualification.
+
+## Conversational Flow
+
+A graph of nodes and edges — each node has its own prompt, and transitions are
+explicit. Best for production use cases needing deterministic behavior, like IVR
+replacement or structured intake.
+
+<Callout type="tip">
+  Start with Single Prompt to validate the idea, then migrate to Conversational
+  Flow once you need deterministic branching.
+</Callout>

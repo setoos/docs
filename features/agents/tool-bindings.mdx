@@ -1,0 +1,24 @@
+---
+title: Tool Bindings
+description: Give an agent the ability to take real actions
+---
+
+A **tool binding** attaches a tool (an external action the agent can call mid
+conversation — e.g. "check order status", "book an appointment") to a specific
+agent.
+
+## Attaching a tool
+
+Bind a tool to an agent from the dashboard. Each binding can override the
+tool's static parameters and set a priority order if an agent has multiple
+tools available for a given turn.
+
+## Listing available tools
+
+Browse the tools available to your tenant, or register a custom tool of your
+own.
+
+## Runtime resolution
+
+At call/chat time, the agent resolves its full tool list — with any bindings
+applied — automatically.

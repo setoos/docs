@@ -1,0 +1,47 @@
+---
+title: Pagination
+description: How list endpoints paginate results
+---
+
+List endpoints (`GET /agents`, `GET /call-logs`, `GET /campaigns`, ...) return
+results in pages rather than all at once.
+
+## Query parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `page` | integer | `1` | Page number to retrieve |
+| `pageSize` | integer | `20` | Results per page (max `100`) |
+
+## Response shape
+
+```json
+{
+  "items": [ ... ],
+  "total": 150,
+  "page": 1,
+  "pageSize": 20,
+  "totalPages": 8
+}
+```
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/agents?page=2&pageSize=50" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/agents",
+    params={"page": 2, "pageSize": 50},
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+<Callout type="info">
+  Keep `pageSize` under 100. Larger values are rejected with a `400` error.
+</Callout>

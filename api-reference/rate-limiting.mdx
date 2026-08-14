@@ -1,0 +1,42 @@
+---
+title: Rate Limiting
+description: Request limits per plan tier
+---
+
+API requests are rate limited per tenant to ensure fair usage across all customers.
+
+| Tier | Requests / minute | Requests / day | Concurrent calls |
+|---|---|---|---|
+| Free | 60 | 1,000 | 2 |
+| Starter | 300 | 10,000 | 10 |
+| Pro | 1,000 | 100,000 | 50 |
+| Enterprise | Custom | Custom | Custom |
+
+## Response headers
+
+Every response includes rate limit headers:
+
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 998
+X-RateLimit-Reset: 1735689600
+```
+
+## Handling `429 Too Many Requests`
+
+When you exceed the limit, the API returns `429` with a `Retry-After` header
+(seconds until the limit resets). Back off and retry after that window.
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Too many requests. Retry after 12 seconds."
+  }
+}
+```
+
+<Callout type="tip">
+  Use exponential backoff for retries instead of a fixed delay to avoid thundering
+  herd issues on shared endpoints.
+</Callout>

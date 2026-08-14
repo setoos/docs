@@ -1,0 +1,37 @@
+---
+title: Send template
+api: "POST /channels/whatsapp/send-template"
+description: Send a pre-approved WhatsApp template message
+---
+
+### Body parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `to` | string | Yes | Destination number |
+| `templateName` | string | Yes | Approved template name |
+| `templateType` | string | Yes | `text`, `media`, or `interactive` |
+| `language` | string | No | Default `en` |
+| `parameters` | array | No | Template variable values |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/channels/whatsapp/send-template \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to": "+919876543210",
+    "templateName": "order_confirmation",
+    "templateType": "text",
+    "parameters": [{ "type": "text", "text": "Asha" }]
+  }'
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{ "messageId": "wamid.HBg...", "status": "sent" }
+```

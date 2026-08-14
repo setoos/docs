@@ -1,0 +1,36 @@
+---
+title: Integrations
+description: Connect telephony, LLM, and messaging provider credentials
+---
+
+An **integration** stores a tenant's credentials for an external provider —
+Twilio, Plivo, OpenAI, WhatsApp, etc. — encrypted at rest, so your agents can
+use them without you re-entering secrets per agent.
+
+## Connecting a provider
+
+Give the integration a display name and enter the provider's credentials.
+Credentials are verified against the provider before being saved — a bad
+Twilio auth token or invalid OpenAI key is rejected immediately rather than
+failing on the next call.
+
+## Available providers
+
+Providers are grouped by channel (telephony, LLM, transcription, speech
+synthesis, messaging) so the dashboard shows only relevant options per
+context.
+
+## Provider balances
+
+For providers with a wallet of their own (e.g. Twilio credit), Agentic OS
+surfaces the live balance alongside the integration.
+
+## Revoking
+
+Any connected integration can be revoked at any time.
+
+<Callout type="warning">
+  Revoking an integration a live agent depends on will start failing that
+  agent's calls immediately — rotate credentials instead of revoking when
+  possible.
+</Callout>

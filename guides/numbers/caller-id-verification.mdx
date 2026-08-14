@@ -1,0 +1,20 @@
+---
+title: Caller ID Verification
+description: Verify a number before using it as caller ID
+---
+
+Some destinations require the `from` number to be verified before it can be used
+as caller ID on outbound calls.
+
+<Steps>
+  <Step title="Add the number">
+    Go to **Phone Numbers → Verify a Number** and enter the number to verify.
+  </Step>
+  <Step title="Answer the verification call">
+    You'll receive an automated call with a code — enter it in the dashboard.
+  </Step>
+  <Step title="Use it as caller ID">
+    Once verified, pass it as the `from` field in
+    [Make phone call](/api-reference/calls/make-phone-call).
+  </Step>
+</Steps>

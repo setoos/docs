@@ -1,0 +1,33 @@
+---
+title: Stop phone call
+api: "POST /channels/voice/call/{sessionId}/stop"
+description: Immediately terminate a live call
+---
+
+### Path parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `sessionId` | string | Yes | The call session ID |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call/SESSION_ID/stop \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/channels/voice/call/SESSION_ID/stop",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{ "sessionId": "660e8400-...", "status": "terminated" }
+```

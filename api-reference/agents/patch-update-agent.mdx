@@ -1,0 +1,44 @@
+---
+title: Patch update agent
+api: "PATCH /agents/{id}"
+description: Partially update an agent's configuration
+---
+
+Update one or more fields without affecting the rest of the agent's configuration.
+
+### Body parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | No | New name |
+| `agent_prompt` | string | No | New system prompt |
+| `is_active` | boolean | No | Activate or deactivate |
+
+<CodeGroup>
+
+```bash curl
+curl -X PATCH https://api.agentic-os.com/api/v1/agents/AGENT_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "is_active": false }'
+```
+
+```python Python
+requests.patch(
+    "https://api.agentic-os.com/api/v1/agents/AGENT_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"is_active": False},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "is_active": false,
+  "updated_at": "2026-01-16T10:30:00Z"
+}
+```

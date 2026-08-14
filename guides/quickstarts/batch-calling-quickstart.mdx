@@ -1,0 +1,25 @@
+---
+title: Batch Calling Quickstart
+description: Call thousands of contacts with one request
+---
+
+Use the Campaigns API to queue calls to many contacts at once instead of calling
+`/channels/voice/call` in a loop.
+
+```bash
+curl -X POST https://api.agentic-os.com/api/v1/campaigns \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Batch Test",
+    "agentId": "AGENT_ID",
+    "contacts": [
+      { "phone": "+919876543210", "name": "Asha" },
+      { "phone": "+919812345678", "name": "Ravi" }
+    ]
+  }'
+```
+
+Agentic OS paces calls automatically to respect your concurrency limit and retries
+failed attempts — see [Auto-Retry](/guides/outbound/auto-retry) and
+[Calling Guardrails](/guides/outbound/calling-guardrails).

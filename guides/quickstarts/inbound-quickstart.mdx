@@ -1,0 +1,28 @@
+---
+title: Inbound Quickstart
+description: Configure a number to receive calls in five minutes
+---
+
+Route an incoming call on a purchased number to an agent.
+
+<Steps>
+  <Step title="Purchase or bring a number">
+    See [Purchase Phone Numbers](/guides/numbers/purchase-phone-numbers).
+  </Step>
+  <Step title="Assign an agent">
+
+```bash
+curl -X PATCH https://api.agentic-os.com/api/v1/numbers/NUMBER_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "agentId": "AGENT_ID" }'
+```
+
+  </Step>
+  <Step title="Call the number">
+    Dial the number from any phone — the assigned agent answers automatically.
+  </Step>
+</Steps>
+
+See [Receive Incoming Calls](/guides/inbound/receive-incoming-calls) for IVR-style
+routing across multiple agents.

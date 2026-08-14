@@ -1,0 +1,13 @@
+---
+title: Choosing Providers
+description: Picking LLM, voice, and telephony providers
+---
+
+| Layer | Options | Notes |
+|---|---|---|
+| LLM | OpenAI, Anthropic, Google | GPT-4 Turbo balances cost/latency; Claude for longer context |
+| Transcriber | Deepgram, Google STT | Deepgram Nova-3 recommended for lowest latency |
+| Synthesizer | ElevenLabs, Azure TTS | ElevenLabs for the most natural voices |
+| Telephony | Twilio, Plivo, Acefone | Plivo often cheaper for India/APAC traffic |
+
+Configure providers per-tenant under **Integrations** in the dashboard.

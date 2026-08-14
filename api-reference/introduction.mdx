@@ -1,0 +1,71 @@
+---
+title: Agentic OS API Documentation
+description: Use and leverage Agentic OS Voice AI using APIs through HTTP requests from any language
+---
+
+Use and leverage Agentic OS Voice AI using APIs through HTTP requests from any
+language in your applications and workflows.
+
+## What is the Agentic OS API?
+
+The Agentic OS API enables you to programmatically create, configure, and manage
+Voice AI agents from your own applications. Whether you are building complex
+workflows, automating customer support, or integrating voice capabilities into your
+existing products, our REST API provides everything you need.
+
+The API uses predictable, resource-oriented URLs, accepts JSON-encoded request
+bodies, returns JSON-encoded responses, and uses standard HTTP response codes and
+authentication.
+
+<Callout type="warning">
+  You must have an active Agentic OS account to generate and use API keys. If you
+  don't have one, [sign up here](https://app.agentic-os.com/signup).
+</Callout>
+
+## Authentication
+
+All Agentic OS API endpoints require authentication using an API key. You must
+include this key in the `Authorization` header of all your HTTP requests using the
+`Bearer` scheme.
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+### How to generate an API Key
+
+<Steps>
+  <Step title="Navigate to the API Keys page">
+    Log in to the [Agentic OS Dashboard](https://app.agentic-os.com). From the left
+    sidebar navigation menu, select **Settings → API Keys**.
+  </Step>
+  <Step title="Create a new key">
+    Click **Create API Key**, give it a name (e.g. "Production"), and choose the
+    scopes it needs.
+  </Step>
+  <Step title="Copy and store it securely">
+    Copy the key immediately — it will not be shown again. Store it as an
+    environment variable, never in source control.
+  </Step>
+</Steps>
+
+## Base URL
+
+```bash
+https://api.agentic-os.com/api/v1
+```
+
+<CardGroup cols={2}>
+  <Card title="Pagination" href="/api-reference/pagination" icon="list">
+    How list endpoints paginate results.
+  </Card>
+  <Card title="Rate Limiting" href="/api-reference/rate-limiting" icon="gauge">
+    Request limits per plan tier.
+  </Card>
+  <Card title="Errors & Status Codes" href="/api-reference/errors-status-codes" icon="triangle-exclamation">
+    Standard error shape and HTTP codes.
+  </Card>
+  <Card title="Limits & Quotas" href="/api-reference/limits-quotas" icon="chart-simple">
+    Concurrency and usage quotas.
+  </Card>
+</CardGroup>

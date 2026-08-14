@@ -1,0 +1,9 @@
+/* Mintlify's "mint" theme caps the sidebar+content+table-of-contents row at
+   max-w-8xl (1472px), which is why wide screens show large empty margins on
+   both sides. That utility is applied via a compound Tailwind variant class
+   (e.g. "peer-[.is-not-custom]:peer-[.is-not-center]:max-w-8xl"), so it can't
+   be targeted with a plain ".max-w-8xl" selector — use an attribute
+   substring match instead. */
+[class*="max-w-8xl"] {
+  max-width: 1800px !important;
+}

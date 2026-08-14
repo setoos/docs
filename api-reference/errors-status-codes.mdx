@@ -1,0 +1,46 @@
+---
+title: Errors & Status Codes
+description: Standard error shape and HTTP status codes
+---
+
+## Error shape
+
+All errors return a consistent JSON body:
+
+```json
+{
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "The request body is invalid",
+    "details": [
+      { "field": "name", "message": "Name is required" }
+    ]
+  }
+}
+```
+
+## HTTP status codes
+
+| Code | Meaning |
+|---|---|
+| `200` | Success |
+| `201` | Created |
+| `204` | No Content (successful delete) |
+| `400` | Bad Request — malformed input |
+| `401` | Unauthorized — missing/invalid API key |
+| `403` | Forbidden — valid key, insufficient permission |
+| `404` | Not Found |
+| `409` | Conflict — resource already exists |
+| `422` | Unprocessable Entity — validation failed |
+| `429` | Too Many Requests — rate limited |
+| `500` | Internal Server Error |
+
+## Common error codes
+
+| Code | Description |
+|---|---|
+| `INVALID_REQUEST` | Request body failed validation |
+| `AGENT_NOT_FOUND` | The agent ID does not exist or isn't yours |
+| `INSUFFICIENT_BALANCE` | Wallet balance too low to place a call |
+| `PROVIDER_ERROR` | The telephony/LLM provider returned an error |
+| `RATE_LIMIT_EXCEEDED` | Too many requests in the current window |

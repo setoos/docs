@@ -1,0 +1,41 @@
+---
+title: Get campaign
+api: "GET /campaigns/{id}"
+description: Retrieve campaign details and progress
+---
+
+### Path parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | Yes | The campaign ID |
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "770e8400-...",
+  "name": "Product Launch",
+  "status": "ACTIVE",
+  "totalContacts": 100,
+  "completedCalls": 45,
+  "successfulCalls": 38,
+  "failedCalls": 7
+}
+```

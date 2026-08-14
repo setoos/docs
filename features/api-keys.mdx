@@ -1,0 +1,39 @@
+---
+title: API Keys
+description: Programmatic access scoped to your tenant
+---
+
+An **API key** lets you call the Agentic OS API without a user login session —
+the standard way to integrate Agentic OS into your own backend.
+
+## Creating a key
+
+Give the key a name so you can identify it later. You can optionally
+restrict it to specific domains, attach a webhook URL for call-result
+callbacks, and pin it to a single agent.
+
+The full key value is shown **once**, right after creation — it's never
+displayed or retrievable again, so store it securely immediately.
+
+## Using a key
+
+Send it in the `Authorization` header exactly like a session token. The
+platform recognizes API keys automatically — no separate header or scheme
+needed.
+
+## Listing and revoking
+
+You can list all keys created for your tenant (only a masked identifier is
+shown, never the full value) and revoke any key instantly. Revoking a key
+invalidates every request using it immediately.
+
+## Optional: pin to an agent + webhook
+
+Attaching an agent and a webhook URL to a key lets Agentic OS automatically
+forward that agent's call summaries to your URL when a call ends — useful for
+receiving results without polling.
+
+<Callout type="warning">
+  An API key carries the same permissions as the user who created it. Rotate a
+  key immediately if you suspect it's been exposed.
+</Callout>

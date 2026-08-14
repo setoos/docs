@@ -1,0 +1,16 @@
+---
+title: Security
+description: Data handling, encryption, and access control
+---
+
+- All traffic is encrypted in transit
+- Call recordings and transcripts are encrypted at rest
+- Provider credentials (Twilio, Plivo, etc.) are stored in a secrets vault and
+  are never shown again once saved
+- Access is scoped per-tenant with secure, token-based authentication
+- Role-based access control across admin, standard, and platform-level roles
+
+<Callout type="warning">
+  API keys carry the same permissions as the user that created them. Rotate keys
+  immediately if you suspect they've been exposed.
+</Callout>

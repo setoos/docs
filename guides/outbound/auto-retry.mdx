@@ -1,0 +1,24 @@
+---
+title: Auto-Retry
+description: Automatically retry failed call attempts
+---
+
+Campaigns support automatic retries for `no-answer`, `busy`, and `failed`
+outcomes.
+
+```json
+{
+  "retryConfig": {
+    "maxAttempts": 3,
+    "retryDelay": 60
+  }
+}
+```
+
+- `maxAttempts` — total attempts including the first
+- `retryDelay` — seconds to wait before the next attempt
+
+<Callout type="info">
+  Retries respect campaign call-hour windows — a retry due outside allowed hours
+  is deferred to the next window.
+</Callout>

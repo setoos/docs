@@ -1,0 +1,20 @@
+---
+title: Agents Overview
+description: The Agent resource and its lifecycle
+---
+
+An **Agent** is the core resource in Agentic OS — it bundles an LLM prompt, voice,
+knowledge base, and tools into a reusable configuration you can call, message, or
+run in a campaign.
+
+| Endpoint | Method | Path |
+|---|---|---|
+| [Get agent](/api-reference/agents/get-agent) | GET | `/agents/{id}` |
+| [Create agent](/api-reference/agents/create-agent) | POST | `/agents` |
+| [Update agent](/api-reference/agents/update-agent) | PUT | `/agents/{id}` |
+| [Patch update agent](/api-reference/agents/patch-update-agent) | PATCH | `/agents/{id}` |
+| [List agents](/api-reference/agents/list-agents) | GET | `/agents` |
+| [Get agent execution](/api-reference/agents/get-agent-execution) | GET | `/agents/{id}/executions/{executionId}` |
+| [Get all executions](/api-reference/agents/get-all-executions) | GET | `/agents/{id}/executions` |
+| [Delete agent](/api-reference/agents/delete-agent) | DELETE | `/agents/{id}` |
+| [Stop agent calls](/api-reference/agents/stop-agent-calls) | POST | `/agents/{id}/stop-calls` |

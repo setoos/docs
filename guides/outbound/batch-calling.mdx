@@ -1,0 +1,23 @@
+---
+title: Batch Calling
+description: Run large outbound campaigns
+---
+
+For campaigns beyond a few dozen calls, use the
+[Campaigns API](/api-reference/campaigns/create-campaign) rather than calling
+`/channels/voice/call` per contact — it handles pacing, retries, and reporting.
+
+```bash
+curl -X POST https://api.agentic-os.com/api/v1/campaigns \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Q1 Outreach",
+    "agentId": "AGENT_ID",
+    "contacts": [ { "phone": "+919876543210", "name": "Asha" } ],
+    "schedule": { "startDate": "2026-02-01", "callHours": { "start": "09:00", "end": "18:00" } }
+  }'
+```
+
+Monitor progress with
+[Get campaign](/api-reference/campaigns/get-campaign).

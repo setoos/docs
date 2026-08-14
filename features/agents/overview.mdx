@@ -1,0 +1,27 @@
+---
+title: Agents
+description: The brain of every conversation
+---
+
+An **agent** is a configured combination of a prompt, an LLM, a voice/text
+behavior, and any tools or knowledge it can draw on. Every call, chat message,
+or WhatsApp reply is handled by one agent.
+
+<CardGroup cols={2}>
+  <Card title="Agent Types" href="/features/agents/agent-types" icon="diagram-project">
+    Single-prompt vs. conversational-flow agents.
+  </Card>
+  <Card title="Prompts & Personas" href="/features/agents/prompts-personas" icon="feather">
+    System prompts, personas, and use-case templates.
+  </Card>
+  <Card title="Tool Bindings" href="/features/agents/tool-bindings" icon="wrench">
+    Give an agent the ability to take real actions.
+  </Card>
+</CardGroup>
+
+## Where agents live
+
+Agents are created and configured through **ai-engine** (the brain — model,
+prompt, tools) and then attached to a **channel** in comms-engine (voice, chat,
+WhatsApp, SMS) so they can actually talk to someone. See
+[Channels](/features/channels/overview) for how that attachment works.

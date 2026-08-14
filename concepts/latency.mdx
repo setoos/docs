@@ -1,0 +1,19 @@
+---
+title: Latency
+description: Where latency comes from and how to reduce it
+---
+
+Voice AI latency is the sum of transcription, LLM generation, and speech synthesis
+time. Agentic OS streams every stage to minimize perceived delay.
+
+## Reducing latency
+
+- Use a streaming-capable LLM configuration
+- Choose a low-latency transcriber model
+- Tune the synthesizer to start playback as early as possible
+- Keep response length short for faster generation
+- Host your agent's LLM provider in a region close to your telephony provider
+
+<Callout type="info">
+  Typical end-to-end latency on Agentic OS is 600–900ms for a well-tuned agent.
+</Callout>

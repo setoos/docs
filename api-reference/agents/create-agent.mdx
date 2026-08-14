@@ -1,0 +1,73 @@
+---
+title: Create agent
+api: "POST /agents"
+description: Create a new AI voice agent
+---
+
+Create a new agent with an LLM prompt, model, and optional knowledge base.
+
+### Body parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | Yes | Agent display name |
+| `agent_prompt` | string | Yes | System prompt defining behavior |
+| `llm_model_id` | string | Yes | LLM model to use, e.g. `gpt-4-turbo` |
+| `knowledge_base_id` | string | No | Attach a knowledge base |
+| `is_active` | boolean | No | Defaults to `true` |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/agents \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Support Agent",
+    "agent_prompt": "You are a helpful customer support agent.",
+    "llm_model_id": "gpt-4-turbo",
+    "is_active": true
+  }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/agents",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={
+        "name": "Support Agent",
+        "agent_prompt": "You are a helpful customer support agent.",
+        "llm_model_id": "gpt-4-turbo",
+        "is_active": True,
+    },
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/agents", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: "Support Agent",
+    agent_prompt: "You are a helpful customer support agent.",
+    llm_model_id: "gpt-4-turbo",
+    is_active: true,
+  }),
+});
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "Support Agent",
+  "is_active": true,
+  "created_at": "2026-01-15T10:30:00Z"
+}
+```

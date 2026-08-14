@@ -1,0 +1,37 @@
+---
+title: Knowledge Base
+description: Ground agent answers in your own documents and data
+---
+
+A **knowledge base** stores your documents as embeddings so an agent can
+retrieve relevant context and ground its answers in your data
+(retrieval-augmented generation).
+
+## Creating a knowledge base
+
+Give it a name and description, and optionally tune how strict the retrieval
+matching should be — stricter settings favor precision, looser settings
+retrieve more broadly related content.
+
+## Adding sources
+
+A **source** is one unit of content inside a knowledge base — plain text, an
+uploaded file, a URL, Google Drive doc, or API-fed content. You can upload
+files directly (PDF, DOCX, TXT, MD, CSV, HTML, JSON — up to 50MB) or add a
+source by URL.
+
+## Ingestion
+
+Adding a source doesn't make it searchable by itself — it must be **ingested**
+(chunked and embedded) first. You can re-ingest a single source or every
+active source in the knowledge base at once.
+
+## Attaching to an agent
+
+Link a knowledge base to an agent when creating or updating it to enable
+retrieval-augmented responses grounded in that knowledge base.
+
+<Callout type="tip">
+  Keep each source focused on one topic — a single 200-page manual retrieves
+  worse than the same content split into a handful of topic-scoped sources.
+</Callout>

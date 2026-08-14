@@ -1,0 +1,44 @@
+---
+title: List agents
+api: "GET /agents"
+description: Retrieve a paginated list of agents
+---
+
+### Query parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `page` | integer | Page number, default `1` |
+| `pageSize` | integer | Results per page, default `20` |
+| `search` | string | Filter by name or description |
+| `is_active` | boolean | Filter by active status |
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/agents?page=1&pageSize=20" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/agents",
+    params={"page": 1, "pageSize": 20},
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "items": [
+    { "id": "550e8400-...", "name": "Support Agent", "is_active": true }
+  ],
+  "total": 15,
+  "page": 1,
+  "pageSize": 20
+}
+```

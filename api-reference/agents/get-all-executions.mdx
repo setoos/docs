@@ -1,0 +1,49 @@
+---
+title: Get all executions
+api: "GET /agents/{id}/executions"
+description: List all call/chat executions for an agent
+---
+
+### Path parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | Yes | The agent ID |
+
+### Query parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `page` | integer | Page number |
+| `pageSize` | integer | Results per page |
+| `status` | string | Filter by execution status |
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/agents/AGENT_ID/executions?status=completed" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/agents/AGENT_ID/executions",
+    params={"status": "completed"},
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "items": [
+    { "executionId": "660e8400-...", "status": "completed", "duration": 125 }
+  ],
+  "total": 42,
+  "page": 1,
+  "pageSize": 20
+}
+```

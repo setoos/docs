@@ -1,0 +1,32 @@
+---
+title: Create workflow
+api: "POST /workflows"
+description: Create a workflow draft
+---
+
+### Body parameters
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | Yes | Workflow name |
+| `description` | string | No | Workflow description |
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/workflows \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Post-call follow-up" }'
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{ "id": "880e8400-...", "name": "Post-call follow-up", "status": "DRAFT" }
+```
+
+Next, save the DAG with `PATCH /workflows/{id}/definition`, then activate with
+`POST /workflows/{id}/activate`.
