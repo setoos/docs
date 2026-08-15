@@ -3,11 +3,11 @@ title: Terminate Live Calls
 description: Stop all live calls for an agent at once
 ---
 
-Use [Stop agent calls](/api-reference/agents/stop-agent-calls) as a kill switch to
-end every in-progress call for a given agent — useful if an agent is misbehaving in
-production.
+See [Stop agent calls](/api-reference/agents/stop-agent-calls) — intended as a
+kill switch to end every in-progress call for a given agent, useful if an agent
+is misbehaving in production.
 
-```bash
-curl -X POST https://api.agentic-os.com/api/v1/agents/AGENT_ID/stop-calls \
-  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
-```
+<Callout type="warning">
+  This endpoint's exact path is not independently verified in this
+  documentation set.
+</Callout>

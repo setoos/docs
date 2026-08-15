@@ -1,0 +1,35 @@
+---
+title: Get integration
+api: "GET /integrations/{provider}"
+description: Retrieve a single integration by provider
+---
+
+Returns one integration by provider name. Credentials are not included.
+
+### Path parameters
+
+<ParamField path="provider" type="string" required>
+  Provider name, e.g. `TWILIO`, `PLIVO`, `WHATSAPP`, `GOOGLE_DRIVE`
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/integrations/TWILIO \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/integrations/TWILIO",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/integrations/TWILIO", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>

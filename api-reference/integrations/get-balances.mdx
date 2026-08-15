@@ -1,0 +1,47 @@
+---
+title: Get provider balances
+api: "GET /integrations/balances"
+description: Fetch the live account balance of each connected voice provider
+---
+
+Queries each connected voice provider for its current account balance. This is
+the balance held **at the provider** (Twilio, Plivo…), not your Agentic OS wallet
+— for that see [Get wallet balance](/api-reference/account/wallet-balance).
+
+Providers are queried live, so this endpoint is slower than most and a provider
+outage shows up as `status: "error"` on that entry rather than failing the whole
+request.
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/integrations/balances \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/integrations/balances",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/integrations/balances", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+[{ "provider": "TWILIO", "balance": "42.75", "currency": "USD", "status": "ok" }]
+```
+
+| `status` | Meaning |
+| --- | --- |
+| `ok` | Balance retrieved |
+| `error` | Provider call failed — see `error` on that entry |
+| `unsupported` | Provider exposes no balance API |

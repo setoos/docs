@@ -4,13 +4,20 @@ api: "GET /agents/{id}"
 description: Retrieve a single agent by ID
 ---
 
+<Callout type="warning">
+  This single-agent endpoint is not independently verified against a live call in
+  this documentation set — only [List agents](/api-reference/agents/list-agents)
+  has been confirmed. If this returns a `404`, use List agents and find your
+  agent by `id` there instead.
+</Callout>
+
 Return one agent by its ID, including prompt, voice, and model configuration.
 
 ### Path parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `id` | string | Yes | The agent ID |
+<ParamField path="id" type="string" required>
+  The agent ID
+</ParamField>
 
 <CodeGroup>
 

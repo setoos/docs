@@ -1,0 +1,45 @@
+---
+title: Delete campaign
+api: "DELETE /campaigns/{id}"
+description: Delete a campaign and its attempt history
+---
+
+<Callout type="warning">
+  Permanent. Abort a running campaign first with
+  `POST /campaigns/{id}/abort` — see
+  [Schedule campaign](/api-reference/campaigns/schedule-campaign) for the full
+  lifecycle.
+</Callout>
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The campaign ID
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X DELETE https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.delete(
+    "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID", {
+  method: "DELETE",
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+### Response
+
+`204 No Content` on success.

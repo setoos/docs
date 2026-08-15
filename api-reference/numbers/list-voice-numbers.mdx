@@ -1,0 +1,46 @@
+---
+title: List voice numbers
+api: "GET /voice-numbers"
+description: List the phone numbers registered to your tenant
+---
+
+Returns every voice number registered to your tenant, including which agent each
+one is assigned to. Use the `id` from this list as `voiceNumberId` when
+[placing a call](/api-reference/calls/make-phone-call) or
+[creating a campaign](/api-reference/campaigns/create-campaign).
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/voice-numbers \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/voice-numbers",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/voice-numbers", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+[
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440000",
+    "number": "+14155551234",
+    "provider": "TWILIO",
+    "agentId": "550e8400-e29b-41d4-a716-446655440000",
+    "isActive": true
+  }
+]
+```

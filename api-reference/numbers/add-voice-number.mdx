@@ -1,0 +1,70 @@
+---
+title: Add voice number
+api: "POST /voice-numbers"
+description: Register a phone number from a connected provider
+---
+
+Registers a number you already own at a connected telephony provider so agents
+can place and receive calls on it. Connect the provider first — see
+[List integrations](/api-reference/integrations/list-integrations).
+
+### Body parameters
+
+<ParamField body="provider" type="string" required>
+  Telephony provider — one of `PLIVO`, `TWILIO`, `ACEFONE`, `EXOTEL`
+</ParamField>
+
+<ParamField body="number" type="string" required>
+  The phone number in E.164 format, e.g. `+14155551234`
+</ParamField>
+
+<ParamField body="agentId" type="string">
+  Agent to assign the number to. Can be attached later instead
+</ParamField>
+
+<ParamField body="isActive" type="boolean" default="true">
+  Whether the number is available for use
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/voice-numbers \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "provider": "TWILIO",
+    "number": "+14155551234",
+    "agentId": "AGENT_ID"
+  }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/voice-numbers",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"provider": "TWILIO", "number": "+14155551234", "agentId": "AGENT_ID"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/voice-numbers", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    provider: "TWILIO",
+    number: "+14155551234",
+    agentId: "AGENT_ID",
+  }),
+});
+```
+
+</CodeGroup>
+
+<Callout type="warning">
+  Updating and removing numbers stays restricted to the dashboard — `PATCH` and
+  `DELETE /voice-numbers/{id}` reject API keys.
+</Callout>

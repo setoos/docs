@@ -1,0 +1,49 @@
+---
+title: Get analytics results
+api: "GET /analytics/results"
+description: Structured data your agents extracted during conversations
+---
+
+Returns the structured results agents extracted from conversations — the answers
+captured against the analytics fields bound to each agent. This is how you get
+conversation outcomes out of the platform and into your own systems.
+
+### Query parameters
+
+Filters are passed through to the analytics engine. Commonly used:
+
+<ParamField query="agent_id" type="string">
+  Only results for this agent
+</ParamField>
+
+<ParamField query="session_id" type="string">
+  Only results for one conversation
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/analytics/results \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/analytics/results",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/analytics/results", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+### Related
+
+`GET /analytics/tools` lists the tools available to agents, and
+`GET /analytics/agents/{agentId}/bindings` shows which analytics fields an agent
+is currently extracting.

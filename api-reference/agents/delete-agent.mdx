@@ -6,14 +6,16 @@ description: Permanently delete an agent
 
 <Callout type="warning">
   This action cannot be undone. All associated call logs and analytics are deleted
-  along with the agent.
+  along with the agent. This endpoint's exact behavior is not independently
+  verified in this documentation set — confirm on a test agent before relying on
+  it in production.
 </Callout>
 
 ### Path parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `id` | string | Yes | The agent ID |
+<ParamField path="id" type="string" required>
+  The agent ID
+</ParamField>
 
 <CodeGroup>
 

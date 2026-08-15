@@ -1,0 +1,39 @@
+---
+title: Get call detail
+api: "GET /call-logs/{sessionId}/full"
+description: Full call record with transcript, analytics and billing
+---
+
+Composes the call record with the AI transcript and analytics plus billing
+totals. The base call info is always present; AI and billing fields come back
+`null` if those services are briefly unavailable, so the call record itself never
+fails to load.
+
+### Path parameters
+
+<ParamField path="sessionId" type="string" required>
+  Session ID of the call — the `sessionId` from
+  [List call logs](/api-reference/logs/list-call-logs)
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/call-logs/SESSION_ID/full \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/call-logs/SESSION_ID/full",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/call-logs/SESSION_ID/full", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>

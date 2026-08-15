@@ -1,3 +1,4 @@
+
 ---
 title: Agents Overview
 description: The Agent resource and its lifecycle
@@ -9,12 +10,16 @@ run in a campaign.
 
 | Endpoint | Method | Path |
 |---|---|---|
-| [Get agent](/api-reference/agents/get-agent) | GET | `/agents/{id}` |
-| [Create agent](/api-reference/agents/create-agent) | POST | `/agents` |
-| [Update agent](/api-reference/agents/update-agent) | PUT | `/agents/{id}` |
-| [Patch update agent](/api-reference/agents/patch-update-agent) | PATCH | `/agents/{id}` |
-| [List agents](/api-reference/agents/list-agents) | GET | `/agents` |
-| [Get agent execution](/api-reference/agents/get-agent-execution) | GET | `/agents/{id}/executions/{executionId}` |
-| [Get all executions](/api-reference/agents/get-all-executions) | GET | `/agents/{id}/executions` |
-| [Delete agent](/api-reference/agents/delete-agent) | DELETE | `/agents/{id}` |
-| [Stop agent calls](/api-reference/agents/stop-agent-calls) | POST | `/agents/{id}/stop-calls` |
+| Endpoint | Method | Path | Verified |
+|---|---|---|---|
+| [Create agent](/api-reference/agents/create-agent) | POST | `/agents` | ✅ |
+| [List agents](/api-reference/agents/list-agents) | GET | `/agents` | ✅ |
+| [Patch update agent](/api-reference/agents/patch-update-agent) | PATCH | `/agents/{id}` | ✅ |
+| [Get agent](/api-reference/agents/get-agent) | GET | `/agents/{id}` | ⚠️ unverified |
+| [Get agent execution](/api-reference/agents/get-agent-execution) | GET | `/agents/{id}/executions/{executionId}` | ⚠️ unverified |
+| [Get all executions](/api-reference/agents/get-all-executions) | GET | `/agents/{id}/executions` | ⚠️ unverified |
+| [Delete agent](/api-reference/agents/delete-agent) | DELETE | `/agents/{id}` | ⚠️ unverified |
+| [Stop agent calls](/api-reference/agents/stop-agent-calls) | POST | `/agents/{id}/stop-calls` | ⚠️ unverified |
+
+There is no verified `PUT /agents/{id}` (full replace) — use
+[Patch update agent](/api-reference/agents/patch-update-agent) for all updates.

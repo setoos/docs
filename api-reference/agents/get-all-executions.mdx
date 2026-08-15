@@ -1,22 +1,35 @@
 ---
 title: Get all executions
-api: "GET /agents/{id}/executions"
 description: List all call/chat executions for an agent
 ---
 
+<Callout type="warning">
+  **Not available.** `GET /agents/{id}/executions` is not implemented in the API,
+  so this page has no request runner.
+
+  To list an agent's calls, use **`GET /call-logs`**, which is filterable by
+  agent and supports the same pagination described below.
+</Callout>
+
 ### Path parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `id` | string | Yes | The agent ID |
+<ParamField path="id" type="string" required>
+  The agent ID
+</ParamField>
 
 ### Query parameters
 
-| Name | Type | Description |
-|---|---|---|
-| `page` | integer | Page number |
-| `pageSize` | integer | Results per page |
-| `status` | string | Filter by execution status |
+<ParamField query="page" type="integer">
+  Page number
+</ParamField>
+
+<ParamField query="pageSize" type="integer">
+  Results per page
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by execution status
+</ParamField>
 
 <CodeGroup>
 

@@ -4,41 +4,89 @@ api: "PATCH /agents/{id}"
 description: Partially update an agent's configuration
 ---
 
-Update one or more fields without affecting the rest of the agent's configuration.
+This is the primary way to configure an agent after creation — rename it,
+set its prompt/greeting, assign a telephony number, or connect WhatsApp.
+Only the fields you include are changed; everything else is left as-is.
 
-### Body parameters
+### Path parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `name` | string | No | New name |
-| `agent_prompt` | string | No | New system prompt |
-| `is_active` | boolean | No | Activate or deactivate |
+<ParamField path="id" type="string" required>
+  The agent ID
+</ParamField>
+
+### Common body fields
+
+<ParamField body="name" type="string">
+  New display name
+</ParamField>
+
+<ParamField body="greetMessage" type="string">
+  First line the agent speaks/sends
+</ParamField>
+
+<ParamField body="agent_prompt" type="string">
+  System prompt
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Free-form metadata, e.g. `{ fallback_message }`
+</ParamField>
+
+<ParamField body="channel" type="string">
+  `"VOICE"` when setting telephony fields below
+</ParamField>
+
+<ParamField body="settings" type="object">
+  Channel-specific settings — see examples
+</ParamField>
+
+<ParamField body="connectionId" type="string">
+  An integration ID (e.g. the WhatsApp integration)
+</ParamField>
 
 <CodeGroup>
 
-```bash curl
+```bash curl (rename)
 curl -X PATCH https://api.agentic-os.com/api/v1/agents/AGENT_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "is_active": false }'
+  -d '{ "name": "Support Agent v2" }'
 ```
 
-```python Python
-requests.patch(
-    "https://api.agentic-os.com/api/v1/agents/AGENT_ID",
-    headers={"Authorization": f"Bearer {API_KEY}"},
-    json={"is_active": False},
-)
+```bash curl (set prompt + greeting)
+curl -X PATCH https://api.agentic-os.com/api/v1/agents/AGENT_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "greetMessage": "Hello! How can I help you today?",
+    "agent_prompt": "You are a helpful customer support assistant.",
+    "metadata": { "fallback_message": "Sorry, could you repeat that?" }
+  }'
+```
+
+```bash curl (assign outbound telephony number)
+curl -X PATCH https://api.agentic-os.com/api/v1/agents/AGENT_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "channel": "VOICE",
+    "settings": { "phone_provider": "PLIVO", "phone_number": "912269976288" }
+  }'
+```
+
+```bash curl (connect WhatsApp)
+curl -X PATCH https://api.agentic-os.com/api/v1/agents/AGENT_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "connectionId": "WHATSAPP_INTEGRATION_ID",
+    "settings": { "phoneNumberId": "WHATSAPP_PHONE_NUMBER_ID" }
+  }'
 ```
 
 </CodeGroup>
 
-### Response
-
-```json
-{
-  "id": "550e8400-e29b-41d4-a716-446655440000",
-  "is_active": false,
-  "updated_at": "2026-01-16T10:30:00Z"
-}
-```
+<Callout type="info">
+  To enable WhatsApp on an agent, first call `POST /agents/{id}/webhook-token`
+  to generate its per-agent webhook token, then patch the connection as above.
+</Callout>

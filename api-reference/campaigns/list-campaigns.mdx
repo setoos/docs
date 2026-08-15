@@ -4,40 +4,35 @@ api: "GET /campaigns"
 description: List campaigns for the tenant
 ---
 
+Returns a paginated list of the campaigns belonging to your tenant.
+
 ### Query parameters
 
-| Name | Type | Description |
-|---|---|---|
-| `status` | string | `DRAFT`, `ACTIVE`, `PAUSED`, `COMPLETED` |
-| `page` | integer | Page number |
-| `pageSize` | integer | Results per page |
+<ParamField query="status" type="string">
+  Filter by campaign status — one of `DRAFT`, `SCHEDULED`, `RUNNING`, `PAUSED`,
+  `COMPLETED`, `FAILED`
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  1-based page number
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="15">
+  Items per page, maximum 100
+</ParamField>
 
 <CodeGroup>
 
 ```bash curl
-curl "https://api.agentic-os.com/api/v1/campaigns?status=ACTIVE" \
+curl https://api.agentic-os.com/api/v1/campaigns \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
     "https://api.agentic-os.com/api/v1/campaigns",
-    params={"status": "ACTIVE"},
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 </CodeGroup>
-
-### Response
-
-```json
-{
-  "items": [
-    { "id": "770e8400-...", "name": "Product Launch", "status": "ACTIVE", "totalContacts": 100 }
-  ],
-  "total": 10,
-  "page": 1,
-  "pageSize": 20
-}
-```

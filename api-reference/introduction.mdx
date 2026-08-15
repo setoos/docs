@@ -24,30 +24,27 @@ authentication.
 
 ## Authentication
 
-All Agentic OS API endpoints require authentication using an API key. You must
-include this key in the `Authorization` header of all your HTTP requests using the
-`Bearer` scheme.
+All Agentic OS API endpoints require authentication using an API key, which you
+create yourself from the platform dashboard. Include it in the `Authorization`
+header of every request using the `Bearer` scheme.
 
 ```bash
-Authorization: Bearer YOUR_API_KEY
+Authorization: Bearer aok_your_key_here
 ```
 
-### How to generate an API Key
+See [Authentication](/api-reference/authentication) for the full walkthrough —
+logging in, creating a key, and using it.
 
-<Steps>
-  <Step title="Navigate to the API Keys page">
-    Log in to the [Agentic OS Dashboard](https://app.agentic-os.com). From the left
-    sidebar navigation menu, select **Settings → API Keys**.
-  </Step>
-  <Step title="Create a new key">
-    Click **Create API Key**, give it a name (e.g. "Production"), and choose the
-    scopes it needs.
-  </Step>
-  <Step title="Copy and store it securely">
-    Copy the key immediately — it will not be shown again. Store it as an
-    environment variable, never in source control.
-  </Step>
-</Steps>
+## Try it without writing code
+
+Every endpoint page in this reference has a built-in request runner. Paste your
+API key into the **Bearer Token** field, fill in the required parameters, and hit
+**Send** to call the API against your own tenant and see the real response.
+
+<Callout type="warning">
+  The runner makes real API calls against your live tenant, with the same effects
+  and billing as calling from your own code. Use a test agent while exploring.
+</Callout>
 
 ## Base URL
 
@@ -56,6 +53,9 @@ https://api.agentic-os.com/api/v1
 ```
 
 <CardGroup cols={2}>
+  <Card title="Authentication" href="/api-reference/authentication" icon="key">
+    Create an API key and run requests from the docs.
+  </Card>
   <Card title="Pagination" href="/api-reference/pagination" icon="list">
     How list endpoints paginate results.
   </Card>

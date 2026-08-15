@@ -4,22 +4,44 @@ description: Call thousands of contacts with one request
 ---
 
 Use the Campaigns API to queue calls to many contacts at once instead of calling
-`/channels/voice/call` in a loop.
+`/channels/voice/call` in a loop. A campaign always calls a **contact list**
+you build first.
 
 ```bash
+# 1. Create a contact list
+curl -X POST https://api.agentic-os.com/api/v1/contact-lists \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Batch Test" }'
+# → { "id": "CONTACT_LIST_ID" }
+
+# 2. Add contacts in bulk
+curl -X POST https://api.agentic-os.com/api/v1/contact-lists/CONTACT_LIST_ID/contacts/bulk \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "contacts": [
+      { "phoneNumber": "+919876543210" },
+      { "phoneNumber": "+919812345678" }
+    ]
+  }'
+
+# 3. Create the campaign against that list
 curl -X POST https://api.agentic-os.com/api/v1/campaigns \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Batch Test",
     "agentId": "AGENT_ID",
-    "contacts": [
-      { "phone": "+919876543210", "name": "Asha" },
-      { "phone": "+919812345678", "name": "Ravi" }
-    ]
+    "voiceNumberId": "VOICE_NUMBER_ID",
+    "contactListId": "CONTACT_LIST_ID"
   }'
+# → { "id": "CAMPAIGN_ID" }
+
+# 4. Start it — dialing only begins after this call
+curl -X POST https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/start \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
-Agentic OS paces calls automatically to respect your concurrency limit and retries
-failed attempts — see [Auto-Retry](/guides/outbound/auto-retry) and
+Agentic OS paces calls automatically to respect your concurrency limit — see
 [Calling Guardrails](/guides/outbound/calling-guardrails).

@@ -1,0 +1,31 @@
+---
+title: List personas
+api: "GET /prompts/personas"
+description: List the agent personas you can build an agent from
+---
+
+Personas are pre-written behavioural templates — tone, style and default
+instructions. Pass a persona `id` as `agent_persona_id` when
+[creating an agent](/api-reference/agents/create-agent).
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/prompts/personas \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/prompts/personas",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/prompts/personas", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>

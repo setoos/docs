@@ -1,37 +1,44 @@
 ---
 title: Send template
-api: "POST /channels/whatsapp/send-template"
-description: Send a pre-approved WhatsApp template message
+description: Sending pre-approved WhatsApp templates
 ---
 
-### Body parameters
+<Callout type="warning">
+  **Not callable with an API key.** A `POST /channels/whatsapp/send-template`
+  endpoint does exist, but it's internal — it requires a service token rather
+  than a tenant API key, so it has no request runner here.
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `to` | string | Yes | Destination number |
-| `templateName` | string | Yes | Approved template name |
-| `templateType` | string | Yes | `text`, `media`, or `interactive` |
-| `language` | string | No | Default `en` |
-| `parameters` | array | No | Template variable values |
+  The supported way to send pre-approved templates is through a
+  [WhatsApp Campaign](/api-reference/campaigns/overview) — a campaign maps each
+  call outcome to a template and sends it automatically.
+</Callout>
 
-<CodeGroup>
+### Creating a WhatsApp campaign with templates
 
-```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/channels/whatsapp/send-template \
-  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "to": "+919876543210",
-    "templateName": "order_confirmation",
-    "templateType": "text",
-    "parameters": [{ "type": "text", "text": "Asha" }]
-  }'
+```bash
+POST /whatsapp/campaigns
 ```
-
-</CodeGroup>
-
-### Response
 
 ```json
-{ "messageId": "wamid.HBg...", "status": "sent" }
+{
+  "name": "Post-call follow-up",
+  "agentId": "AGENT_ID",
+  "phoneNumberId": "WHATSAPP_PHONE_NUMBER_ID",
+  "templates": [
+    {
+      "templateName": "call_answered_followup",
+      "languageCode": "en_US",
+      "process": "OUTGOING",
+      "callStatus": "ANSWERED"
+    }
+  ]
+}
 ```
+
+- `phoneNumberId` — from `GET /whatsapp/fetch-numbers` (campaign-engine)
+- `templates` — each entry maps a `callStatus` (`ANSWERED`/`UNANSWERED`) to an
+  approved Meta template name; list approved templates via
+  `GET /whatsapp/meta-templates`
+
+See [Create campaign](/api-reference/campaigns/create-campaign) for the general
+campaign lifecycle (start, monitor, etc.).

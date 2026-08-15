@@ -1,0 +1,54 @@
+---
+title: Get wallet balance
+api: "GET /billing/wallet"
+description: Current wallet balance and paginated transaction history
+---
+
+Returns your Agentic OS wallet balance plus a page of transactions. Calls,
+messages and campaigns all draw down this balance, so poll it to avoid runs
+stopping mid-flight.
+
+For balances held at your telephony providers instead, see
+[Get provider balances](/api-reference/integrations/get-balances).
+
+### Query parameters
+
+<ParamField query="currency" type="string">
+  Return the balance converted to this currency
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  1-based page number for the transaction list
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="10">
+  Transactions per page
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/billing/wallet \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/billing/wallet",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/billing/wallet", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+<Callout type="warning">
+  Reading the balance works with an API key, but **moving money does not**.
+  Recharging the wallet, changing billing currency and debiting for purchases are
+  dashboard-only and reject API keys with `403`.
+</Callout>

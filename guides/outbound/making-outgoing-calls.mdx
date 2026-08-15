@@ -6,30 +6,17 @@ description: Place outbound calls via the API
 See [Make phone call](/api-reference/calls/make-phone-call) for the full request
 reference. This guide covers common patterns.
 
-## Webhooks
+## Fetching results after a call
 
-Register a webhook to be notified when a call ends, instead of polling:
+Poll the call's detail once it ends to get the transcript, recording, and
+outcome:
 
 ```bash
-curl -X PATCH https://api.agentic-os.com/api/v1/agents/AGENT_ID \
-  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{ "webhook_url": "https://yourapp.com/webhooks/agentic-os" }'
+curl https://api.agentic-os.com/api/v1/call-logs/SESSION_ID/full \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
-Agentic OS POSTs a payload with `sessionId`, `status`, `transcript`, and
-`recording` once the call completes.
-
-## Passing dynamic variables
-
-Inject per-call variables (e.g. customer name) into the prompt:
-
-```json
-{
-  "agentId": "AGENT_ID",
-  "to": "+919876543210",
-  "from": "+1XXXXXXXXXX",
-  "provider": "PLIVO",
-  "variables": { "customer_name": "Asha" }
-}
-```
+<Callout type="warning">
+  Webhook-based delivery (instead of polling) is not independently verified in
+  this documentation set.
+</Callout>

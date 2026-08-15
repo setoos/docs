@@ -4,15 +4,97 @@ api: "POST /campaigns"
 description: Create an outbound calling campaign
 ---
 
+A campaign calls a **contact list** you create ahead of time — contacts aren't
+passed inline when creating the campaign itself.
+
+<Steps>
+  <Step title="Create a contact list">
+
+```bash
+POST /contact-lists
+```
+```json
+{ "name": "Q1 Outreach" }
+```
+
+Returns `{ "id": "..." }` — save it as `contactListId`.
+
+  </Step>
+  <Step title="Add contacts to the list in bulk">
+
+```bash
+POST /contact-lists/{contactListId}/contacts/bulk
+```
+```json
+{
+  "contacts": [
+    { "phoneNumber": "+919876543210" },
+    { "phoneNumber": "+919812345678" }
+  ]
+}
+```
+
+  </Step>
+  <Step title="Create the campaign">
+
 ### Body parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `name` | string | Yes | Campaign name |
-| `agentId` | string | Yes | Agent to use for calls |
-| `contacts` | array | Yes | List of `{ phone, name }` objects |
-| `schedule` | object | No | `startDate`, `endDate`, `callHours` |
-| `retryConfig` | object | No | `maxAttempts`, `retryDelay` |
+<ParamField body="name" type="string" required>
+  Campaign name
+</ParamField>
+
+<ParamField body="agentId" type="string" required>
+  Agent to use for calls
+</ParamField>
+
+<ParamField body="voiceNumberId" type="string" required>
+  Voice number to call from — see [Purchase Phone Numbers](/guides/numbers/purchase-phone-numbers)
+</ParamField>
+
+<ParamField body="contactListId" type="string">
+  The contact list created above. Optional at creation time, but the campaign has
+  nothing to dial until one is attached
+</ParamField>
+
+<ParamField body="description" type="string">
+  Free-text description of the campaign
+</ParamField>
+
+<ParamField body="scheduledAt" type="string">
+  ISO-8601 date-time to start the campaign, e.g. `2026-06-10T09:00:00.000Z`
+</ParamField>
+
+<ParamField body="timezone" type="string" default="Asia/Kolkata">
+  IANA timezone the call window is evaluated in
+</ParamField>
+
+<ParamField body="callWindowStart" type="string" default="00:00">
+  Earliest time of day to dial, `HH:MM`
+</ParamField>
+
+<ParamField body="callWindowEnd" type="string" default="23:59">
+  Latest time of day to dial, `HH:MM`
+</ParamField>
+
+<ParamField body="callDays" type="integer[]" default="[1,2,3,4,5,6,7]">
+  Allowed days to dial — `1` = Monday through `7` = Sunday
+</ParamField>
+
+<ParamField body="dialTimeout" type="integer" default="60">
+  Seconds to let a call ring before giving up. Between 10 and 300
+</ParamField>
+
+<ParamField body="maxAttempts" type="integer" default="3">
+  Attempts per contact before marking it failed. Between 1 and 10
+</ParamField>
+
+<ParamField body="redialDelayMin" type="integer" default="30">
+  Minutes to wait before redialling a contact
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key/value data stored with the campaign
+</ParamField>
 
 <CodeGroup>
 
@@ -23,7 +105,8 @@ curl -X POST https://api.agentic-os.com/api/v1/campaigns \
   -d '{
     "name": "Product Launch",
     "agentId": "AGENT_ID",
-    "contacts": [{ "phone": "+919876543210", "name": "Asha" }]
+    "voiceNumberId": "VOICE_NUMBER_ID",
+    "contactListId": "CONTACT_LIST_ID"
   }'
 ```
 
@@ -34,7 +117,8 @@ requests.post(
     json={
         "name": "Product Launch",
         "agentId": "AGENT_ID",
-        "contacts": [{"phone": "+919876543210", "name": "Asha"}],
+        "voiceNumberId": "VOICE_NUMBER_ID",
+        "contactListId": "CONTACT_LIST_ID",
     },
 )
 ```
@@ -44,5 +128,17 @@ requests.post(
 ### Response
 
 ```json
-{ "id": "770e8400-...", "name": "Product Launch", "status": "DRAFT", "totalContacts": 1 }
+{ "id": "770e8400-..." }
 ```
+
+  </Step>
+  <Step title="Start the campaign">
+
+Creating a campaign leaves it inactive — dialing only begins once you start it:
+
+```bash
+POST /campaigns/{id}/start
+```
+
+  </Step>
+</Steps>

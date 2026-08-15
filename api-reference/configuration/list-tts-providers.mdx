@@ -1,0 +1,30 @@
+---
+title: List TTS providers
+api: "GET /tts-providers"
+description: List text-to-speech providers available for voice agents
+---
+
+Returns the text-to-speech providers you can synthesise agent speech with. To
+pick a specific voice, see [List voices](/api-reference/configuration/list-voices).
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/tts-providers \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/tts-providers",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/tts-providers", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>

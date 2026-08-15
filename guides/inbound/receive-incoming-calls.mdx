@@ -3,14 +3,22 @@ title: Receive Incoming Calls
 description: Route inbound calls to an agent
 ---
 
-Assign an agent to a number so inbound calls are answered automatically.
+Register a number bound to an agent so inbound calls are answered automatically.
 
 ```bash
-curl -X PATCH https://api.agentic-os.com/api/v1/numbers/NUMBER_ID \
+curl -X POST https://api.agentic-os.com/api/v1/voice-numbers \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "agentId": "AGENT_ID" }'
+  -d '{
+    "provider": "PLIVO",
+    "number": "912269976288",
+    "connectionId": "YOUR_PLIVO_INTEGRATION_ID",
+    "agentId": "AGENT_ID"
+  }'
 ```
 
-Once assigned, any call to that number is answered by the agent — no additional
+`connectionId` is your connected telephony integration's ID — list integrations
+via `GET /integrations` (platform-core) to find it.
+
+Once registered, any call to that number is answered by the agent — no additional
 setup is required. Call logs and transcripts appear the same way as outbound calls.

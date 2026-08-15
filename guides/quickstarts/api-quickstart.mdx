@@ -66,7 +66,7 @@ A `200` response with a `balance` field means the key is valid.
 
 <Step title="Get or create an agent">
 
-Use an existing agent, or create one on the fly.
+Use an existing agent, or create one from a persona.
 
 <CodeGroup>
 
@@ -76,8 +76,7 @@ curl -X POST https://api.agentic-os.com/api/v1/agents \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Quickstart Agent",
-    "agent_prompt": "You are a friendly assistant making a short test call. Keep every reply under two sentences.",
-    "llm_model_id": "gpt-4-turbo",
+    "agent_persona_id": "PERSONA_ID",
     "is_active": true
   }'
 ```
@@ -88,8 +87,7 @@ resp = requests.post(
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
     json={
         "name": "Quickstart Agent",
-        "agent_prompt": "You are a friendly assistant making a short test call. Keep every reply under two sentences.",
-        "llm_model_id": "gpt-4-turbo",
+        "agent_persona_id": "PERSONA_ID",
         "is_active": True,
     },
 )
@@ -106,8 +104,7 @@ const resp = await fetch("https://api.agentic-os.com/api/v1/agents", {
   },
   body: JSON.stringify({
     name: "Quickstart Agent",
-    agent_prompt: "You are a friendly assistant making a short test call. Keep every reply under two sentences.",
-    llm_model_id: "gpt-4-turbo",
+    agent_persona_id: "PERSONA_ID",
     is_active: true,
   }),
 });
@@ -117,7 +114,24 @@ console.log(agent.id);
 
 </CodeGroup>
 
-Save the returned `id` — you'll pass it as `agentId` in the next step.
+Need a persona ID? List them first with `GET /prompts/personas`. Save the
+returned agent `id` — you'll pass it as `agentId` in the next step.
+
+</Step>
+
+<Step title="Register or find a voice number">
+
+Calls go out through a voice number already registered to your tenant, not a
+raw phone string:
+
+```bash
+curl https://api.agentic-os.com/api/v1/voice-numbers \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+Save one entry's `id` as `voiceNumberId`. See
+[Purchase Phone Numbers](/guides/numbers/purchase-phone-numbers) if you don't
+have one yet.
 
 </Step>
 
@@ -131,9 +145,8 @@ curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call \
   -H "Content-Type: application/json" \
   -d '{
     "agentId": "YOUR_AGENT_ID",
-    "to": "+919876543210",
-    "from": "+1XXXXXXXXXX",
-    "provider": "PLIVO"
+    "voiceNumberId": "YOUR_VOICE_NUMBER_ID",
+    "toNumber": "+919876543210"
   }'
 ```
 
@@ -143,9 +156,8 @@ resp = requests.post(
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
     json={
         "agentId": "YOUR_AGENT_ID",
-        "to": "+919876543210",
-        "from": "+1XXXXXXXXXX",
-        "provider": "PLIVO",
+        "voiceNumberId": "YOUR_VOICE_NUMBER_ID",
+        "toNumber": "+919876543210",
     },
 )
 call = resp.json()
@@ -161,9 +173,8 @@ const resp = await fetch("https://api.agentic-os.com/api/v1/channels/voice/call"
   },
   body: JSON.stringify({
     agentId: "YOUR_AGENT_ID",
-    to: "+919876543210",
-    from: "+1XXXXXXXXXX",
-    provider: "PLIVO",
+    voiceNumberId: "YOUR_VOICE_NUMBER_ID",
+    toNumber: "+919876543210",
   }),
 });
 const call = await resp.json();
@@ -231,12 +242,16 @@ set -euo pipefail
 BASE="https://api.agentic-os.com/api/v1"
 AUTH="Authorization: Bearer $AGENTIC_OS_API_KEY"
 
+PERSONA_ID=$(curl -s "$BASE/prompts/personas" -H "$AUTH" | jq -r '.[0].id')
+
 AGENT_ID=$(curl -s -X POST "$BASE/agents" -H "$AUTH" -H "Content-Type: application/json" \
-  -d '{"name":"Quickstart Agent","agent_prompt":"Be brief and friendly.","llm_model_id":"gpt-4-turbo","is_active":true}' \
+  -d "{\"name\":\"Quickstart Agent\",\"agent_persona_id\":\"$PERSONA_ID\",\"is_active\":true}" \
   | jq -r '.id')
 
+VOICE_NUMBER_ID=$(curl -s "$BASE/voice-numbers" -H "$AUTH" | jq -r '.[0].id')
+
 SESSION_ID=$(curl -s -X POST "$BASE/channels/voice/call" -H "$AUTH" -H "Content-Type: application/json" \
-  -d "{\"agentId\":\"$AGENT_ID\",\"to\":\"+919876543210\",\"from\":\"+1XXXXXXXXXX\",\"provider\":\"PLIVO\"}" \
+  -d "{\"agentId\":\"$AGENT_ID\",\"voiceNumberId\":\"$VOICE_NUMBER_ID\",\"toNumber\":\"+919876543210\"}" \
   | jq -r '.sessionId')
 
 echo "Call queued: $SESSION_ID"

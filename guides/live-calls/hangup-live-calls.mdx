@@ -3,10 +3,7 @@ title: Hangup Live Calls
 description: End a specific in-progress call
 ---
 
-See [Stop phone call](/api-reference/calls/stop-phone-call) — pass the call's
-`sessionId` to terminate it immediately.
-
-```bash
-curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call/SESSION_ID/stop \
-  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
-```
+See [Stop phone call](/api-reference/calls/stop-phone-call) — there is currently
+no verified endpoint for stopping one specific live call by session ID. To end
+every live call for an agent at once, see
+[Terminate Live Calls](/guides/live-calls/terminate-live-calls) instead.

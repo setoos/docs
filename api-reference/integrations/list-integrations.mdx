@@ -1,0 +1,61 @@
+---
+title: List integrations
+api: "GET /integrations"
+description: List the provider integrations connected to your tenant
+---
+
+Returns the integrations connected to your tenant — telephony, messaging,
+calendar and data providers. Credentials are **never** included in the response.
+
+### Query parameters
+
+<ParamField query="category" type="string">
+  Filter by category, e.g. `calendar`, `messaging`, `data`, or `all`
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search integration name or provider
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/integrations \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/integrations",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/integrations", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+[
+  {
+    "id": "twilio",
+    "provider": "TWILIO",
+    "displayName": "Twilio",
+    "category": "messaging",
+    "status": "ACTIVE",
+    "metadata": {}
+  }
+]
+```
+
+<Callout type="warning">
+  Adding, rotating and revoking credentials is dashboard-only. `POST`, `PATCH`
+  and `DELETE /integrations` reject API keys so a leaked key can never read or
+  replace your provider secrets.
+</Callout>

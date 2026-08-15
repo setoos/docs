@@ -1,17 +1,25 @@
 ---
 title: Stop agent calls
-api: "POST /agents/{id}/stop-calls"
 description: Immediately stop all live calls for an agent
 ---
+
+<Callout type="warning">
+  **Not available yet.** `POST /agents/{id}/stop-calls` is not implemented in the
+  API — there is no bulk "stop all calls for an agent" endpoint. The shape below
+  describes the intended contract only, so this page has no request runner.
+
+  To end calls today, hang up individual live sessions from the dashboard. See
+  [Hangup live calls](/guides/live-calls/hangup-live-calls).
+</Callout>
 
 Terminates every currently in-progress call for the given agent. Useful as a kill
 switch if an agent is misbehaving in production.
 
 ### Path parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `id` | string | Yes | The agent ID |
+<ParamField path="id" type="string" required>
+  The agent ID
+</ParamField>
 
 <CodeGroup>
 

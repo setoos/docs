@@ -1,0 +1,72 @@
+---
+title: Get profile details
+api: "GET /profile"
+description: Tenant details, onboarding state and wallet summary
+---
+
+Returns your account context: tenant details, onboarding progress and a wallet
+summary.
+
+### What you get depends on how you authenticate
+
+<ParamField body="data.user" type="object">
+  The signed-in user. **`null` when you authenticate with an API key** — a key
+  belongs to a tenant, not a person, so no user identity is returned
+</ParamField>
+
+<ParamField body="data.tenant" type="object">
+  Tenant id, name, slug, status, country and currency
+</ParamField>
+
+<ParamField body="data.onboarding" type="object">
+  Onboarding flags — `hasIntegration`, `hasFlow`, `hasTestedCall`, `completed`
+</ParamField>
+
+<ParamField body="data.wallet" type="object">
+  Wallet id, balance, currency and low-balance threshold
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/profile \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/profile",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/profile", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+### Response with an API key
+
+```json
+{
+  "success": true,
+  "message": "Tenant profile fetched successfully",
+  "data": {
+    "user": null,
+    "tenant": {
+      "id": "c3fb83c6-…",
+      "name": "Acme Corp",
+      "currency": "USD",
+      "status": "ACTIVE"
+    },
+    "onboarding": { "hasIntegration": true, "completed": true },
+    "wallet": { "balance": "142.50", "currency": "USD" }
+  }
+}
+```
+
+This is the quickest way to confirm a new key works and to discover your tenant
+ID.

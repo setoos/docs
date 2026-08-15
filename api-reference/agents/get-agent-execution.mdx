@@ -1,15 +1,25 @@
 ---
 title: Get agent execution
-api: "GET /agents/{id}/executions/{executionId}"
 description: Retrieve details of a single agent call/chat execution
 ---
 
+<Callout type="warning">
+  **Not available.** `GET /agents/{id}/executions/{executionId}` is not
+  implemented in the API, so this page has no request runner.
+
+  For call detail — transcript, recording, cost and outcome — use
+  **`GET /call-logs/{sessionId}/full`**.
+</Callout>
+
 ### Path parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `id` | string | Yes | The agent ID |
-| `executionId` | string | Yes | The execution (session) ID |
+<ParamField path="id" type="string" required>
+  The agent ID
+</ParamField>
+
+<ParamField path="executionId" type="string" required>
+  The execution (session) ID
+</ParamField>
 
 <CodeGroup>
 

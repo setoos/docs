@@ -1,0 +1,56 @@
+---
+title: Get usage breakdown
+api: "GET /analytics/my-detail"
+description: Usage and cost breakdown for your tenant
+---
+
+Returns a usage and spend breakdown for your tenant across a date range —
+per-component costs (STT, TTS, LLM, telephony, platform fee) rolled up for
+billing reconciliation.
+
+### Query parameters
+
+<ParamField query="from" type="string">
+  ISO-8601 start of range
+</ParamField>
+
+<ParamField query="to" type="string">
+  ISO-8601 end of range
+</ParamField>
+
+<ParamField query="agentId" type="string">
+  Restrict to a single agent
+</ParamField>
+
+<ParamField query="summary" type="boolean">
+  Return only totals, without the per-item breakdown
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/analytics/my-detail?from=2026-06-01&to=2026-06-30" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/analytics/my-detail",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    params={"from": "2026-06-01", "to": "2026-06-30"},
+)
+```
+
+```javascript Node
+await fetch(
+  "https://api.agentic-os.com/api/v1/analytics/my-detail?from=2026-06-01&to=2026-06-30",
+  { headers: { Authorization: `Bearer ${API_KEY}` } },
+);
+```
+
+</CodeGroup>
+
+### Spend and volume trends
+
+`GET /analytics/my-trends` returns spend-over-time and call-volume series for
+charting, and accepts the same `from`, `to` and `agentId` parameters.

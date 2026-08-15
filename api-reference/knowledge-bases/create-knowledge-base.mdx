@@ -1,0 +1,68 @@
+---
+title: Create knowledge base
+api: "POST /knowledge-bases"
+description: Create a knowledge base and its vector collection
+---
+
+Creates a knowledge base your agents can retrieve answers from. Creating it also
+provisions the underlying vector collection, so this is the first step before
+adding sources or uploading documents.
+
+### Body parameters
+
+<ParamField body="kbKey" type="string" required>
+  Short key, unique within your tenant — e.g. `support`
+</ParamField>
+
+<ParamField body="kbName" type="string" required>
+  Display name — e.g. `Support Knowledge Base`
+</ParamField>
+
+<ParamField body="description" type="string">
+  What this knowledge base contains
+</ParamField>
+
+<ParamField body="retrievalScoreThreshold" type="number">
+  Cosine relevance floor for retrieval, between `0` and `1`. Overrides the
+  platform default — raise it to return fewer, more relevant chunks
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key/value data stored with the knowledge base
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/knowledge-bases \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "kbKey": "support", "kbName": "Support Knowledge Base" }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/knowledge-bases",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"kbKey": "support", "kbName": "Support Knowledge Base"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/knowledge-bases", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ kbKey: "support", kbName: "Support Knowledge Base" }),
+});
+```
+
+</CodeGroup>
+
+### Next steps
+
+Add content with `POST /knowledge-bases/{kbId}/sources`, or upload a file to
+`POST /knowledge-bases/{kbId}/documents/upload`, then queue ingestion with
+`POST /knowledge-bases/{kbId}/ingestion-jobs`.

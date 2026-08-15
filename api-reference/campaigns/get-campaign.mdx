@@ -6,9 +6,9 @@ description: Retrieve campaign details and progress
 
 ### Path parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `id` | string | Yes | The campaign ID |
+<ParamField path="id" type="string" required>
+  The campaign ID
+</ParamField>
 
 <CodeGroup>
 
@@ -26,16 +26,5 @@ requests.get(
 
 </CodeGroup>
 
-### Response
-
-```json
-{
-  "id": "770e8400-...",
-  "name": "Product Launch",
-  "status": "ACTIVE",
-  "totalContacts": 100,
-  "completedCalls": 45,
-  "successfulCalls": 38,
-  "failedCalls": 7
-}
-```
+For per-attempt detail (each individual contact dial), see the campaign's
+attempts under `GET /campaigns/{id}/attempts`.

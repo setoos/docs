@@ -1,0 +1,198 @@
+---
+title: Authentication
+description: Create an API key in the platform and use it to run any endpoint from these docs
+---
+
+Every Agentic OS API request is authenticated with an **API key** that you create
+yourself from the platform dashboard. The same key works in your own code and in
+the **interactive playground** built into every endpoint page in this reference.
+
+## 1. Log in to the platform
+
+Sign in at [app.agentic-os.com](https://app.agentic-os.com) with your business
+account. If you don't have one yet,
+[create an account](https://app.agentic-os.com/signup) first — API keys are scoped
+to your tenant, so you need an active account before you can generate one.
+
+## 2. Create an API key
+
+<Steps>
+  <Step title="Open the API Keys page">
+    In the dashboard sidebar, go to **API Keys**.
+  </Step>
+  <Step title="Create the key">
+    Click **Create API Key** and give it a name you'll recognise later
+    (for example `Docs playground` or `Production backend`).
+
+    Optionally you can also set:
+
+    - **Expiry date** — the key stops working after this date
+    - **Webhook URL** — where call results get posted
+    - **Agent** — pin the key so its webhook only fires for one agent
+  </Step>
+  <Step title="Copy it immediately">
+    The full key is shown **once**, right after creation. It starts with `aok_`
+    and is never retrievable again — if you lose it, revoke it and create
+    another.
+  </Step>
+</Steps>
+
+<Callout type="warning">
+  An API key carries the same tenant access as the user who created it. Store it
+  as an environment variable, never in source control or frontend code. Revoke it
+  immediately if you suspect it's been exposed.
+</Callout>
+
+## 3. Send it with your requests
+
+Pass the key as a **bearer token** in the `Authorization` header. There is no
+separate header or scheme — the platform detects API keys automatically from the
+`aok_` prefix.
+
+```bash
+Authorization: Bearer aok_your_key_here
+```
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/agents \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import os, requests
+
+requests.get(
+    "https://api.agentic-os.com/api/v1/agents",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/agents", {
+  headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+## 4. Run endpoints straight from these docs
+
+Every endpoint page in this reference has a live request runner. To use it:
+
+<Steps>
+  <Step title="Open any endpoint page">
+    For example [List agents](/api-reference/agents/list-agents).
+  </Step>
+  <Step title="Paste your key into the Authorization field">
+    The playground panel has an **Authorization** input at the top. Paste **only
+    the `aok_...` value** — don't type the word `Bearer`, the playground adds the
+    scheme for you. The key is kept in your browser only and is never sent to the
+    docs site.
+  </Step>
+  <Step title="Pick the right server">
+    Use the server dropdown next to the request URL to choose the base URL you
+    want to call. See [Choosing a server](#choosing-a-server) below.
+  </Step>
+  <Step title="Fill in the required fields">
+    Required parameters are marked `required`. Path parameters like `{id}` must
+    be filled in before the request will send.
+  </Step>
+  <Step title="Send">
+    Hit **Send**. You'll get the real response from your own tenant, along with
+    the status code and response time.
+  </Step>
+</Steps>
+
+### Choosing a server
+
+The server dropdown next to the request URL offers two base URLs:
+
+| Server | Use it for |
+| --- | --- |
+| `http://localhost:8787/api/v1` | Local development, via the dev gateway below |
+| `https://api.agentic-os.com/api/v1` | Production |
+
+<Callout type="warning">
+  **`api.agentic-os.com` is not serving traffic yet.** The hostname resolves but
+  nothing is listening on it, so selecting it makes the playground report
+  *"unable to complete request"* or *"no response received"*. Use the local
+  gateway until the production gateway is deployed.
+</Callout>
+
+Reading the errors:
+
+- **"unable to complete request" / "no response received"** — the base URL isn't
+  reachable. A connectivity problem, not an auth problem.
+- **`401 Invalid API key`** — you reached the API. The key is wrong, revoked, or
+  you pasted the word `Bearer` along with it.
+- **`404 No gateway route for ...`** — the dev gateway doesn't know that path
+  prefix. Add it to `ROUTES` in the script.
+
+### Running the local gateway
+
+Agentic OS is several services, each on its own port — `/agents` and `/channels`
+come from comms-engine, `/campaigns` from campaign-engine, `/api-keys` and
+`/auth` from platform-core. The dev gateway fronts them all on one origin so the
+playground can use a single base URL.
+
+Start your services, then run:
+
+```bash
+node docs/scripts/dev-gateway.mjs
+```
+
+```
+Agentic OS dev gateway listening on http://localhost:8787/api/v1
+  routing to:
+    platformCore     :3001
+    commsEngine      :3002
+    campaignEngine   :3003
+    agentWorkflow    :3004
+```
+
+If your services use different ports, override them:
+
+```bash
+COMMS_ENGINE=3010 CAMPAIGN_ENGINE=3011 node docs/scripts/dev-gateway.mjs
+```
+
+If `8787` is taken, use `GATEWAY_PORT=8880` and update the server entry in
+`docs.json` to match.
+
+<Callout type="warning">
+  The playground calls the API directly from your browser, so this only works
+  while you're previewing the docs locally over `http` (`mint dev`). A docs site
+  served over `https` cannot call an `http://localhost` API — browsers block it as
+  mixed content. On a deployed docs site, use the production server.
+</Callout>
+
+Once the production gateway is live, move
+`https://api.agentic-os.com/api/v1` to the top of the `api.mdx.server` list in
+`docs.json` so it becomes the default.
+
+<Callout type="warning">
+  The playground makes **real API calls against your live tenant**. Creating a
+  campaign or sending a WhatsApp message from these docs has the same effect —
+  and the same billing consequences — as calling the API from your own code. Use
+  a test agent when you're exploring.
+</Callout>
+
+## Revoking a key
+
+From the same **API Keys** page you can revoke any key. Revocation takes effect
+immediately and every request using that key starts failing with `401`. Keys are
+stored only as a hash, so the platform can never show you an existing key value —
+rotation means creating a new key and deleting the old one.
+
+## Errors you might hit
+
+| Status | Meaning |
+| --- | --- |
+| `401 Invalid API key` | The key doesn't exist, was revoked, or was mistyped |
+| `401 API key has expired` | The key's expiry date has passed — create a new one |
+| `403 Tenant context required` | The key isn't associated with a tenant |
+| `403 API key authentication is not allowed for this route` | The endpoint is restricted to dashboard (JWT) sessions |
+
+See [Errors & Status Codes](/api-reference/errors-status-codes) for the full list.

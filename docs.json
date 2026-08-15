@@ -11,62 +11,59 @@
     "light": "#E86E5F",
     "dark": "#B83A2D"
   },
-  "topbarCtaButton": {
-    "name": "Get Started",
-    "url": "https://app.agentic-os.com/signup"
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Get Started",
+      "href": "https://app.agentic-os.com/signup"
+    }
   },
-  "tabs": [
-    {
-      "name": "Documentation",
-      "url": "/"
+  "api": {
+    "mdx": {
+      "server": [
+        "http://localhost:8787/api/v1",
+        "https://api.agentic-os.com/api/v1"
+      ],
+      "auth": {
+        "method": "bearer"
+      }
     },
-    {
-      "name": "Guides",
-      "url": "guides"
+    "playground": {
+      "display": "interactive",
+      "proxy": false
     },
-    {
-      "name": "API Reference",
-      "url": "api-reference"
+    "params": {
+      "expanded": "all"
     },
-    {
-      "name": "CLI",
-      "url": "cli"
-    },
-    {
-      "name": "Developer Resources",
-      "url": "developer-resources"
-    },
-    {
-      "name": "Agent Templates",
-      "url": "agent-templates"
-    },
-    {
-      "name": "Build with AI",
-      "url": "build-with-ai"
-    },
-    {
-      "name": "Changelog",
-      "url": "changelog"
+    "examples": {
+      "defaults": "required",
+      "languages": [
+        "bash",
+        "python",
+        "javascript"
+      ]
     }
-  ],
-  "anchors": [
-    {
-      "name": "Status",
-      "icon": "signal",
-      "url": "https://status.agentic-os.com"
-    },
-    {
-      "name": "Ask us on Slack",
-      "icon": "slack",
-      "url": "https://agentic-os.slack.com"
-    },
-    {
-      "name": "Platform",
-      "icon": "arrow-up-right-from-square",
-      "url": "https://app.agentic-os.com"
-    }
-  ],
+  },
   "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Status",
+          "icon": "signal",
+          "href": "https://status.agentic-os.com"
+        },
+        {
+          "anchor": "Ask us on Slack",
+          "icon": "slack",
+          "href": "https://agentic-os.slack.com"
+        },
+        {
+          "anchor": "Platform",
+          "icon": "arrow-up-right-from-square",
+          "href": "https://app.agentic-os.com"
+        }
+      ]
+    },
     "tabs": [
       {
         "tab": "Documentation",
@@ -195,6 +192,7 @@
             "group": "Overview",
             "pages": [
               "api-reference/introduction",
+              "api-reference/authentication",
               "api-reference/pagination",
               "api-reference/rate-limiting",
               "api-reference/errors-status-codes",
@@ -202,18 +200,51 @@
             ]
           },
           {
+            "group": "Account",
+            "pages": [
+              "api-reference/account/profile",
+              "api-reference/account/wallet-balance"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "api-reference/integrations/list-integrations",
+              "api-reference/integrations/get-integration",
+              "api-reference/integrations/list-providers",
+              "api-reference/integrations/get-balances"
+            ]
+          },
+          {
             "group": "Agents",
             "pages": [
               "api-reference/agents/overview",
-              "api-reference/agents/get-agent",
               "api-reference/agents/create-agent",
-              "api-reference/agents/update-agent",
-              "api-reference/agents/patch-update-agent",
               "api-reference/agents/list-agents",
+              "api-reference/agents/get-agent",
+              "api-reference/agents/patch-update-agent",
+              "api-reference/agents/delete-agent",
+              "api-reference/agents/generate-prompt",
               "api-reference/agents/get-agent-execution",
               "api-reference/agents/get-all-executions",
-              "api-reference/agents/delete-agent",
               "api-reference/agents/stop-agent-calls"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "api-reference/configuration/list-personas",
+              "api-reference/configuration/list-llm-models",
+              "api-reference/configuration/list-stt-providers",
+              "api-reference/configuration/list-tts-providers",
+              "api-reference/configuration/list-voices"
+            ]
+          },
+          {
+            "group": "Numbers",
+            "pages": [
+              "api-reference/numbers/list-voice-numbers",
+              "api-reference/numbers/add-voice-number"
             ]
           },
           {
@@ -221,6 +252,7 @@
             "pages": [
               "api-reference/calls/overview",
               "api-reference/calls/make-phone-call",
+              "api-reference/calls/start-web-call",
               "api-reference/calls/stop-phone-call"
             ]
           },
@@ -230,7 +262,21 @@
               "api-reference/campaigns/overview",
               "api-reference/campaigns/create-campaign",
               "api-reference/campaigns/list-campaigns",
-              "api-reference/campaigns/get-campaign"
+              "api-reference/campaigns/get-campaign",
+              "api-reference/campaigns/update-campaign",
+              "api-reference/campaigns/schedule-campaign",
+              "api-reference/campaigns/delete-campaign",
+              "api-reference/campaigns/create-contact-list"
+            ]
+          },
+          {
+            "group": "Knowledge Bases",
+            "pages": [
+              "api-reference/knowledge-bases/create-knowledge-base",
+              "api-reference/knowledge-bases/list-knowledge-bases",
+              "api-reference/knowledge-bases/get-knowledge-base",
+              "api-reference/knowledge-bases/update-knowledge-base",
+              "api-reference/knowledge-bases/delete-knowledge-base"
             ]
           },
           {
@@ -241,10 +287,17 @@
             ]
           },
           {
-            "group": "Workflows",
+            "group": "Logs",
             "pages": [
-              "api-reference/workflows/create-workflow",
-              "api-reference/workflows/trigger-run"
+              "api-reference/logs/list-call-logs",
+              "api-reference/logs/get-call-detail"
+            ]
+          },
+          {
+            "group": "Analytics",
+            "pages": [
+              "api-reference/analytics/analytics-results",
+              "api-reference/analytics/usage-detail"
             ]
           }
         ]

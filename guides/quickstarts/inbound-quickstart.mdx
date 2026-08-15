@@ -9,14 +9,25 @@ Route an incoming call on a purchased number to an agent.
   <Step title="Purchase or bring a number">
     See [Purchase Phone Numbers](/guides/numbers/purchase-phone-numbers).
   </Step>
-  <Step title="Assign an agent">
+  <Step title="Register the number, bound to an agent">
+
+Registering a number under a telephony provider's integration is what binds it
+to an agent for inbound calls:
 
 ```bash
-curl -X PATCH https://api.agentic-os.com/api/v1/numbers/NUMBER_ID \
+curl -X POST https://api.agentic-os.com/api/v1/voice-numbers \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "agentId": "AGENT_ID" }'
+  -d '{
+    "provider": "PLIVO",
+    "number": "912269976288",
+    "connectionId": "YOUR_PLIVO_INTEGRATION_ID",
+    "agentId": "AGENT_ID"
+  }'
 ```
+
+`connectionId` is the ID of your connected telephony integration — list your
+integrations with `GET /integrations` (platform-core) to find it.
 
   </Step>
   <Step title="Call the number">

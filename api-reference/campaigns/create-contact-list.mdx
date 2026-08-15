@@ -1,0 +1,57 @@
+---
+title: Create contact list
+api: "POST /contact-lists"
+description: Create a contact list to dial in a campaign
+---
+
+A campaign dials a contact list. Create the list, add contacts to it, then point
+a campaign at it via `contactListId`.
+
+### Body parameters
+
+<ParamField body="name" type="string" required>
+  List name
+</ParamField>
+
+<ParamField body="description" type="string">
+  What this list contains
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/contact-lists \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "June prospects" }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/contact-lists",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"name": "June prospects"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/contact-lists", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ name: "June prospects" }),
+});
+```
+
+</CodeGroup>
+
+### Adding contacts
+
+Upload a CSV to `POST /contact-lists/{id}/upload` as `multipart/form-data` with a
+`file` field. Columns: `phone_number` (required), `name`, `email`, `metadata`.
+Maximum 500 rows per upload.
+
+List, read, update and delete follow the usual shape at
+`GET|PATCH|DELETE /contact-lists` and `/contact-lists/{id}`.

@@ -5,6 +5,13 @@ description: Batch outbound calling and messaging
 
 | Endpoint | Method | Path |
 |---|---|---|
+| Create contact list | POST | `/contact-lists` |
+| Add contacts to a list | POST | `/contact-lists/{id}/contacts/bulk` |
 | [Create campaign](/api-reference/campaigns/create-campaign) | POST | `/campaigns` |
+| Start campaign | POST | `/campaigns/{id}/start` |
 | [List campaigns](/api-reference/campaigns/list-campaigns) | GET | `/campaigns` |
 | [Get campaign](/api-reference/campaigns/get-campaign) | GET | `/campaigns/{id}` |
+
+A campaign always references a **contact list** (created separately) and a
+**voice number** (created via [voice-numbers](/guides/numbers/purchase-phone-numbers)) —
+it does not accept contacts inline.

@@ -1,0 +1,44 @@
+---
+title: Delete knowledge base
+api: "DELETE /knowledge-bases/{id}"
+description: Delete a knowledge base and drop its vector collection
+---
+
+<Callout type="warning">
+  This is permanent. Deleting a knowledge base also drops its vector collection
+  and every source, document and chunk inside it. Agents still pointing at it
+  lose their retrieval context.
+</Callout>
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The knowledge base ID
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X DELETE https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.delete(
+    "https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID", {
+  method: "DELETE",
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>
+
+### Response
+
+`204 No Content` on success.

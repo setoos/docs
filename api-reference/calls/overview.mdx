@@ -6,7 +6,16 @@ description: Making and stopping phone calls
 | Endpoint | Method | Path |
 |---|---|---|
 | [Make phone call](/api-reference/calls/make-phone-call) | POST | `/channels/voice/call` |
-| [Stop phone call](/api-reference/calls/stop-phone-call) | POST | `/channels/voice/call/{sessionId}/stop` |
+
+<Callout type="warning">
+  There is currently no verified endpoint for stopping a single in-progress call by
+  session ID. To end every live call for an agent at once, use
+  [Stop agent calls](/api-reference/agents/stop-agent-calls) instead.
+</Callout>
+
+A call always uses a **voice number** that's already been registered to your
+tenant (see [Purchase Phone Numbers](/guides/numbers/purchase-phone-numbers)) —
+you pass its ID, not a raw phone number, as the call's `from`.
 
 See also [Call Logs](/api-reference/introduction) for retrieving transcripts and
 recordings after a call completes.

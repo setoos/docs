@@ -1,0 +1,69 @@
+---
+title: Update knowledge base
+api: "PATCH /knowledge-bases/{id}"
+description: Update a knowledge base's name, description, threshold or active state
+---
+
+Only the fields you send are changed.
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The knowledge base ID
+</ParamField>
+
+### Body parameters
+
+<ParamField body="kbKey" type="string">
+  Tenant-unique key
+</ParamField>
+
+<ParamField body="kbName" type="string">
+  Display name
+</ParamField>
+
+<ParamField body="description" type="string">
+  What this knowledge base contains
+</ParamField>
+
+<ParamField body="isActive" type="boolean" default="true">
+  Whether agents may retrieve from it
+</ParamField>
+
+<ParamField body="retrievalScoreThreshold" type="number">
+  Cosine relevance floor for retrieval, between `0` and `1`
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key/value data
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X PATCH https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "kbName": "Renamed KB", "retrievalScoreThreshold": 0.35 }'
+```
+
+```python Python
+requests.patch(
+    "https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"kbName": "Renamed KB", "retrievalScoreThreshold": 0.35},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID", {
+  method: "PATCH",
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ kbName: "Renamed KB", retrievalScoreThreshold: 0.35 }),
+});
+```
+
+</CodeGroup>

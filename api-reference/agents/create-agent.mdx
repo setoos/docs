@@ -4,17 +4,58 @@ api: "POST /agents"
 description: Create a new AI voice agent
 ---
 
-Create a new agent with an LLM prompt, model, and optional knowledge base.
+Creates a minimal agent from a persona. The prompt, voice, and other behavior
+settings are configured afterward via [Patch update agent](/api-reference/agents/patch-update-agent).
 
 ### Body parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `name` | string | Yes | Agent display name |
-| `agent_prompt` | string | Yes | System prompt defining behavior |
-| `llm_model_id` | string | Yes | LLM model to use, e.g. `gpt-4-turbo` |
-| `knowledge_base_id` | string | No | Attach a knowledge base |
-| `is_active` | boolean | No | Defaults to `true` |
+<ParamField body="name" type="string" required>
+  Agent display name, 1–120 characters. This is the only required field
+</ParamField>
+
+<ParamField body="channel" type="string">
+  Channel the agent serves — one of `VOICE`, `CHAT`, `WHATSAPP`, `SMS`
+</ParamField>
+
+<ParamField body="agent_persona_id" type="string">
+  A persona ID to start from — list available personas via `GET /prompts/personas`
+</ParamField>
+
+<ParamField body="agent_prompt" type="string">
+  System prompt driving the agent's behaviour
+</ParamField>
+
+<ParamField body="llm_model_id" type="string">
+  LLM model to run the agent on
+</ParamField>
+
+<ParamField body="description" type="string">
+  Agent description
+</ParamField>
+
+<ParamField body="voiceProfileId" type="string">
+  Voice profile UUID, for `VOICE` agents
+</ParamField>
+
+<ParamField body="knowledge_base_id" type="string">
+  Knowledge base to ground the agent's answers in
+</ParamField>
+
+<ParamField body="greet" type="boolean" default="true">
+  Whether the agent speaks first
+</ParamField>
+
+<ParamField body="greetMessage" type="string" default="Hello">
+  Opening line when `greet` is enabled
+</ParamField>
+
+<ParamField body="recordCalls" type="boolean" default="false">
+  Whether calls handled by this agent are recorded
+</ParamField>
+
+<ParamField body="is_active" type="boolean" default="true">
+  Whether the agent is active
+</ParamField>
 
 <CodeGroup>
 
@@ -24,8 +65,7 @@ curl -X POST https://api.agentic-os.com/api/v1/agents \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Support Agent",
-    "agent_prompt": "You are a helpful customer support agent.",
-    "llm_model_id": "gpt-4-turbo",
+    "agent_persona_id": "PERSONA_ID",
     "is_active": true
   }'
 ```
@@ -36,8 +76,7 @@ requests.post(
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
         "name": "Support Agent",
-        "agent_prompt": "You are a helpful customer support agent.",
-        "llm_model_id": "gpt-4-turbo",
+        "agent_persona_id": "PERSONA_ID",
         "is_active": True,
     },
 )
@@ -52,8 +91,7 @@ await fetch("https://api.agentic-os.com/api/v1/agents", {
   },
   body: JSON.stringify({
     name: "Support Agent",
-    agent_prompt: "You are a helpful customer support agent.",
-    llm_model_id: "gpt-4-turbo",
+    agent_persona_id: "PERSONA_ID",
     is_active: true,
   }),
 });
@@ -67,7 +105,13 @@ await fetch("https://api.agentic-os.com/api/v1/agents", {
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
   "name": "Support Agent",
-  "is_active": true,
-  "created_at": "2026-01-15T10:30:00Z"
+  "is_active": true
 }
 ```
+
+<Callout type="info">
+  The response's `id` is the agent's **channel** id, used for most endpoints
+  (calls, campaigns, patching). Some endpoints — like generating a prompt — use
+  the agent's underlying brain id instead, returned as `agent_id` or
+  `brain.id` on this same response.
+</Callout>

@@ -4,14 +4,48 @@ api: "POST /channels/voice/call"
 description: Place an outbound call using an agent
 ---
 
+Places a real outbound call. The agent answers and drives the conversation.
+
+<Callout type="warning">
+  This places a **real phone call** and bills your wallet. Make sure your wallet
+  has balance and use a number you control while testing.
+</Callout>
+
 ### Body parameters
 
-| Name | Type | Required | Description |
-|---|---|---|---|
-| `agentId` | string | Yes | Agent that will handle the call |
-| `to` | string | Yes | Destination number, E.164 format |
-| `from` | string | Yes | Caller ID number, E.164 format |
-| `provider` | string | Yes | `PLIVO`, `TWILIO`, or `ACEFONE` |
+<ParamField body="agentId" type="string" required>
+  Agent that will handle the call, as a UUID
+</ParamField>
+
+<ParamField body="voiceNumberId" type="string" required>
+  ID of a voice number already registered to your tenant (**not** a raw phone
+  number) — see [Purchase Phone Numbers](/guides/numbers/purchase-phone-numbers)
+</ParamField>
+
+<ParamField body="toNumber" type="string" required>
+  Destination number, E.164 format — e.g. `+14155551234`
+</ParamField>
+
+<ParamField body="tenantId" type="string">
+  Your tenant ID. Omit it when authenticating with an API key — the tenant is
+  taken from the key itself
+</ParamField>
+
+<ParamField body="customerId" type="string">
+  UUID of an existing contact to attribute the call to
+</ParamField>
+
+<ParamField body="campaignId" type="string">
+  Campaign reference
+</ParamField>
+
+<ParamField body="campaignAttemptId" type="string">
+  Campaign attempt reference
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key/value data stored with the call session
+</ParamField>
 
 <CodeGroup>
 
@@ -21,9 +55,8 @@ curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call \
   -H "Content-Type: application/json" \
   -d '{
     "agentId": "AGENT_ID",
-    "to": "+919876543210",
-    "from": "+1XXXXXXXXXX",
-    "provider": "PLIVO"
+    "voiceNumberId": "VOICE_NUMBER_ID",
+    "toNumber": "+919876543210"
   }'
 ```
 
@@ -33,9 +66,8 @@ requests.post(
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
         "agentId": "AGENT_ID",
-        "to": "+919876543210",
-        "from": "+1XXXXXXXXXX",
-        "provider": "PLIVO",
+        "voiceNumberId": "VOICE_NUMBER_ID",
+        "toNumber": "+919876543210",
     },
 )
 ```
@@ -47,3 +79,8 @@ requests.post(
 ```json
 { "sessionId": "660e8400-...", "jobId": "job_abc123", "status": "QUEUED" }
 ```
+
+<Callout type="info">
+  Don't know your `voiceNumberId`? List your registered numbers first with
+  `GET /voice-numbers`.
+</Callout>

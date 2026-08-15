@@ -1,0 +1,55 @@
+---
+title: Start web call
+api: "POST /channels/web/session"
+description: Open a browser-based voice session with an agent and get WebRTC connection details
+---
+
+Creates a live web-call session so a user can talk to a voice agent directly in
+the browser — no phone number involved. The response carries the WebRTC
+connection details your frontend needs to join the session.
+
+### Body parameters
+
+<ParamField body="agentId" type="string" required>
+  UUID of a VOICE-capable agent to talk to
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/channels/web/session \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "agentId": "AGENT_ID" }'
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/channels/web/session",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"agentId": "AGENT_ID"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/channels/web/session", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ agentId: "AGENT_ID" }),
+});
+```
+
+</CodeGroup>
+
+### Response
+
+Returns the session identifier plus the connection details for the browser
+client. Shape varies with the configured voice provider.
+
+<Callout type="warning">
+  A web call consumes wallet balance for as long as it stays open, the same way a
+  phone call does.
+</Callout>

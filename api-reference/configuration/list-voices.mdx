@@ -1,0 +1,63 @@
+---
+title: List voices
+api: "GET /voices"
+description: Browse the voice catalog, filterable by provider, language and gender
+---
+
+Returns the catalog of voices your agents can speak with. The catalog is large,
+so filter it.
+
+### Query parameters
+
+<ParamField query="provider" type="string">
+  Filter by TTS provider
+</ParamField>
+
+<ParamField query="languageCode" type="string">
+  Filter by language, e.g. `en-US`, `hi-IN`
+</ParamField>
+
+<ParamField query="gender" type="string">
+  Filter by voice gender
+</ParamField>
+
+<ParamField query="voiceType" type="string">
+  Filter by voice type
+</ParamField>
+
+<ParamField query="autoCompatible" type="boolean">
+  Only voices usable with automatic voice selection
+</ParamField>
+
+<ParamField query="isActive" type="boolean">
+  Only active voices
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/voices?languageCode=en-US&gender=female" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/voices",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    params={"languageCode": "en-US", "gender": "female"},
+)
+```
+
+```javascript Node
+await fetch(
+  "https://api.agentic-os.com/api/v1/voices?languageCode=en-US&gender=female",
+  { headers: { Authorization: `Bearer ${API_KEY}` } },
+);
+```
+
+</CodeGroup>
+
+<Callout type="warning">
+  The catalog is shared platform configuration, so it's read-only over the API.
+  Creating and editing voices is restricted to the dashboard.
+</Callout>

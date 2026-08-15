@@ -1,0 +1,59 @@
+---
+title: Schedule campaign
+api: "POST /campaigns/{id}/schedule"
+description: Move a campaign to SCHEDULED so it starts at its scheduledAt time
+---
+
+Transitions a campaign to `SCHEDULED` and registers the exact start timer. The
+campaign begins dialling at its `scheduledAt` time — or immediately if
+`scheduledAt` is in the past or unset.
+
+Set `scheduledAt`, `timezone` and the call window when you
+[create the campaign](/api-reference/campaigns/create-campaign) or via
+[Update campaign](/api-reference/campaigns/update-campaign).
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The campaign ID
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/schedule \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.post(
+    "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/schedule",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch(
+  "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/schedule",
+  { method: "POST", headers: { Authorization: `Bearer ${API_KEY}` } },
+);
+```
+
+</CodeGroup>
+
+### Lifecycle
+
+`202 Accepted` with the updated campaign. The other transitions follow the same
+shape:
+
+| Action | Endpoint | Valid from |
+| --- | --- | --- |
+| Start now | `POST /campaigns/{id}/start` | `DRAFT`, `SCHEDULED` |
+| Pause | `POST /campaigns/{id}/pause` | `RUNNING` |
+| Resume | `POST /campaigns/{id}/resume` | `PAUSED` |
+| Abort | `POST /campaigns/{id}/abort` | any active state |
+
+<Callout type="warning">
+  Scheduling a campaign leads to **real outbound calls** and wallet charges once
+  the start time arrives.
+</Callout>

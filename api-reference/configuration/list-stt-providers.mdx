@@ -1,0 +1,31 @@
+---
+title: List STT providers
+api: "GET /stt-providers"
+description: List speech-to-text providers with their models and supported languages
+---
+
+Returns the speech-to-text providers available for voice agents, each with its
+models, supported languages and capabilities. Use this to decide what to put in
+an agent's voice configuration.
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/stt-providers \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/stt-providers",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/stt-providers", {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+```
+
+</CodeGroup>

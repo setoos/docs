@@ -1,0 +1,98 @@
+---
+title: Update campaign
+api: "PATCH /campaigns/{id}"
+description: Change a campaign's settings, schedule or pacing
+---
+
+Only the fields you send are changed. Accepts the same fields as
+[Create campaign](/api-reference/campaigns/create-campaign).
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The campaign ID
+</ParamField>
+
+### Body parameters
+
+<ParamField body="name" type="string">
+  Campaign name
+</ParamField>
+
+<ParamField body="description" type="string">
+  Free-text description
+</ParamField>
+
+<ParamField body="contactListId" type="string">
+  Contact list to dial
+</ParamField>
+
+<ParamField body="scheduledAt" type="string">
+  ISO-8601 start time
+</ParamField>
+
+<ParamField body="timezone" type="string">
+  IANA timezone the call window is evaluated in
+</ParamField>
+
+<ParamField body="callWindowStart" type="string">
+  Earliest time of day to dial, `HH:MM`
+</ParamField>
+
+<ParamField body="callWindowEnd" type="string">
+  Latest time of day to dial, `HH:MM`
+</ParamField>
+
+<ParamField body="callDays" type="integer[]">
+  Allowed days — `1` = Monday through `7` = Sunday
+</ParamField>
+
+<ParamField body="dialTimeout" type="integer">
+  Ring timeout in seconds, 10–300
+</ParamField>
+
+<ParamField body="maxAttempts" type="integer">
+  Attempts per contact, 1–10
+</ParamField>
+
+<ParamField body="redialDelayMin" type="integer">
+  Minutes before redialling
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key/value data
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X PATCH https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "callWindowStart": "09:00", "callWindowEnd": "18:00", "maxAttempts": 2 }'
+```
+
+```python Python
+requests.patch(
+    "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={"callWindowStart": "09:00", "callWindowEnd": "18:00", "maxAttempts": 2},
+)
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID", {
+  method: "PATCH",
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    callWindowStart: "09:00",
+    callWindowEnd: "18:00",
+    maxAttempts: 2,
+  }),
+});
+```
+
+</CodeGroup>

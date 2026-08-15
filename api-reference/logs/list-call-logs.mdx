@@ -1,0 +1,139 @@
+---
+title: List call logs
+api: "GET /call-logs"
+description: Paginated call logs with full filtering
+---
+
+Returns your tenant's call logs, enriched with AI and billing data. This is the
+main reporting endpoint — every filter below can be combined.
+
+### Filters
+
+<ParamField query="status" type="string">
+  Outcome — `active`, `answered`, `missed`, `busy`, `failed`
+</ParamField>
+
+<ParamField query="channel" type="string">
+  Channel — `VOICE`, `CHAT`, `WHATSAPP`, `SMS`
+</ParamField>
+
+<ParamField query="agentId" type="string">
+  Only calls handled by this agent
+</ParamField>
+
+<ParamField query="campaignId" type="string">
+  Only calls from this campaign
+</ParamField>
+
+<ParamField query="customerId" type="string">
+  Only calls with this contact
+</ParamField>
+
+<ParamField query="customerNumber" type="string">
+  Only calls to/from this phone number
+</ParamField>
+
+<ParamField query="provider" type="string">
+  Telephony provider that carried the call
+</ParamField>
+
+<ParamField query="direction" type="string">
+  Call direction — inbound or outbound
+</ParamField>
+
+<ParamField query="fromNumber" type="string">
+  Originating number
+</ParamField>
+
+<ParamField query="toNumber" type="string">
+  Destination number
+</ParamField>
+
+<ParamField query="eventFilter" type="string">
+  Free-text search across agent name and from/to numbers
+</ParamField>
+
+<ParamField query="toolName" type="string">
+  Only calls where the agent used this tool
+</ParamField>
+
+<ParamField query="analyticsFilter" type="string">
+  `has_analytics` or `no_analytics`
+</ParamField>
+
+<ParamField query="fromDate" type="string">
+  ISO-8601 start of range, inclusive
+</ParamField>
+
+<ParamField query="toDate" type="string">
+  ISO-8601 end of range, inclusive
+</ParamField>
+
+<ParamField query="deduplicateByContact" type="boolean" default="false">
+  Collapse repeat attempts to the same number down to the most recent call.
+  Useful for exports where campaign retries create duplicate rows
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  1-based page number
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="50">
+  Items per page, maximum 100
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/call-logs?status=answered&fromDate=2026-06-01T00:00:00Z&pageSize=25" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+requests.get(
+    "https://api.agentic-os.com/api/v1/call-logs",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    params={"status": "answered", "fromDate": "2026-06-01T00:00:00Z", "pageSize": 25},
+)
+```
+
+```javascript Node
+await fetch(
+  "https://api.agentic-os.com/api/v1/call-logs?status=answered&pageSize=25",
+  { headers: { Authorization: `Bearer ${API_KEY}` } },
+);
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "results": [
+    {
+      "sessionId": "770e8400-e29b-41d4-a716-446655440000",
+      "channel": "VOICE",
+      "status": "COMPLETED",
+      "agentName": "Support Agent",
+      "customerNumber": "+14155551234",
+      "durationSec": 92,
+      "totalCost": "0.0412",
+      "currency": "USD",
+      "recordingUrl": "https://…"
+    }
+  ],
+  "count": 1,
+  "next": null,
+  "previous": null
+}
+```
+
+### Related endpoints
+
+| Purpose | Endpoint |
+| --- | --- |
+| Full detail incl. transcript | `GET /call-logs/{sessionId}/full` |
+| Aggregate counts and durations | `GET /call-logs/summary` |
+| Export up to 500 enriched rows | `GET /call-logs/export` |
+| Allowed filter values | `GET /call-logs/filter-options` |
