@@ -1,0 +1,103 @@
+---
+title: API Keys Management
+api: "GET /api-keys"
+description: List, create, and revoke API keys programmatically for your organization
+---
+
+Manage developer API keys programmatically. Keys allow external applications, backend microservices, and scripts to authenticate with Agentic OS APIs using `Authorization: Bearer aok_...`.
+
+### List API Keys
+`GET /api-keys`
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/api-keys \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import os, requests
+
+resp = requests.get(
+    "https://api.agentic-os.com/api/v1/api-keys",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+)
+print(resp.json())
+```
+
+```javascript Node
+const resp = await fetch("https://api.agentic-os.com/api/v1/api-keys", {
+  headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
+});
+console.log(await resp.json());
+```
+
+</CodeGroup>
+
+---
+
+### Create an API Key
+`POST /api-keys`
+
+### Body parameters
+
+<ParamField body="name" type="string" required>
+  Label identifying the API key (e.g. `Zapier Lead Sync` or `Website Backend`)
+</ParamField>
+
+<ParamField body="expiresAt" type="string">
+  ISO timestamp when key should expire (e.g. `2027-01-01T00:00:00Z`)
+</ParamField>
+
+<ParamField body="webhookUrl" type="string">
+  HTTP endpoint to receive call completion webhook payloads
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/api-keys \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Production Server Key" }'
+```
+
+```python Python
+import os, requests
+
+resp = requests.post(
+    "https://api.agentic-os.com/api/v1/api-keys",
+    headers={
+        "Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}",
+        "Content-Type": "application/json",
+    },
+    json={"name": "Production Server Key"},
+)
+print(resp.json())
+```
+
+</CodeGroup>
+
+### Response (Key is shown once)
+
+```json
+{
+  "id": "key_123456",
+  "name": "Production Server Key",
+  "key": "aok_live_8f7e6d5c4b3a2109876543210abcdef",
+  "createdAt": "2026-08-15T12:00:00.000Z"
+}
+```
+
+---
+
+### Revoke an API Key
+`DELETE /api-keys/{id}`
+
+Revokes an existing key. Immediate 401 on any future request using this key.
+
+```bash curl
+curl -X DELETE https://api.agentic-os.com/api/v1/api-keys/KEY_ID \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```

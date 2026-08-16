@@ -1,0 +1,77 @@
+---
+title: Wallet transactions & rates
+api: "GET /wallet/transactions"
+description: Retrieve transaction history and multi-currency foreign exchange rates
+---
+
+Returns the ledger of all wallet transactions (credits, auto-topups, call usage charges, and refunds).
+
+### Query parameters
+
+<ParamField query="page" type="number" default="1">
+  Page number
+</ParamField>
+
+<ParamField query="pageSize" type="number" default="20">
+  Number of transactions per page
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl "https://api.agentic-os.com/api/v1/wallet/transactions?page=1&pageSize=10" \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import os, requests
+
+resp = requests.get(
+    "https://api.agentic-os.com/api/v1/wallet/transactions",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+    params={"page": 1, "pageSize": 10},
+)
+print(resp.json())
+```
+
+```javascript Node
+const resp = await fetch("https://api.agentic-os.com/api/v1/wallet/transactions?page=1&pageSize=10", {
+  headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
+});
+console.log(await resp.json());
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "transactions": [
+    {
+      "id": "tx_998877",
+      "type": "CREDIT",
+      "amount": "100.00",
+      "currency": "USD",
+      "status": "COMPLETED",
+      "description": "Card Recharge via Stripe",
+      "createdAt": "2026-08-15T12:00:00.000Z"
+    }
+  ],
+  "total": 1,
+  "page": 1,
+  "pageSize": 10
+}
+```
+
+---
+
+### Get Multi-Currency FX Rates
+`GET /billing/fx-rates`
+
+Fetches active foreign exchange conversion rates applied to billing wallets.
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/billing/fx-rates \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```

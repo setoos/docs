@@ -1,0 +1,98 @@
+---
+title: Attach tool to agent
+api: "POST /tools/agents/{brainId}/bindings"
+description: Attach a callable function (e.g. appointment booking, custom webhooks) to an AI agent brain
+---
+
+Attaches an executable tool or custom function to an agent brain. When the conversation reaches a point where this action is needed, the LLM calls this tool with structured arguments.
+
+### Path parameters
+
+<ParamField path="brainId" type="string" required>
+  UUID of the AI agent brain (retrieved from `created.agent_id` or `created.brain.id` when creating an agent)
+</ParamField>
+
+### Body parameters
+
+<ParamField body="tool_id" type="string" required>
+  UUID of the tool from the catalog (see [List tools](/api-reference/configuration/list-tools))
+</ParamField>
+
+<ParamField body="static_params" type="object">
+  Default or fixed parameters supplied to the tool execution (e.g. `{ "duration_minutes": 30 }`)
+</ParamField>
+
+<ParamField body="is_active" type="boolean" default="true">
+  Whether this tool binding is currently active and callable by the agent
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/tools/agents/BRAIN_ID/bindings \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tool_id": "TOOL_UUID",
+    "static_params": {
+      "notes": "Booked via AI Assistant",
+      "duration_minutes": 30
+    },
+    "is_active": true
+  }'
+```
+
+```python Python
+import os, requests
+
+resp = requests.post(
+    "https://api.agentic-os.com/api/v1/tools/agents/BRAIN_ID/bindings",
+    headers={
+        "Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "tool_id": "TOOL_UUID",
+        "static_params": {
+            "notes": "Booked via AI Assistant",
+            "duration_minutes": 30,
+        },
+        "is_active": True,
+    },
+)
+print(resp.json())
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/tools/agents/BRAIN_ID/bindings", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    tool_id: "TOOL_UUID",
+    static_params: {
+      notes: "Booked via AI Assistant",
+      duration_minutes: 30,
+    },
+    is_active: true,
+  }),
+});
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "binding_123456",
+  "tool_id": "tool_abc123",
+  "agent_id": "brain_xyz789",
+  "is_active": true,
+  "static_params": {
+    "duration_minutes": 30
+  }
+}
+```

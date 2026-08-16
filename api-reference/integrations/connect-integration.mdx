@@ -1,0 +1,99 @@
+---
+title: Connect integration
+api: "POST /integrations"
+description: Connect or update credentials for a telephony, WhatsApp, or scheduling provider
+---
+
+Connects or updates credentials for a third-party provider. The backend verifies the credentials with the live provider API before saving them (returning 201 on success, 400 if credentials are rejected by the provider, or 502 if the provider is unreachable).
+
+### Body parameters
+
+<ParamField body="provider" type="string" required>
+  Provider key — one of `PLIVO`, `TWILIO`, `ACEFONE`, `VOBIZ`, `CAL_COM`, `WHATSAPP`
+</ParamField>
+
+<ParamField body="displayName" type="string" required>
+  A friendly label for this connection (e.g. `Main Plivo Account` or `Support WhatsApp`)
+</ParamField>
+
+<ParamField body="credentials" type="object" required>
+  Key-value pair credentials specific to the provider:
+  - **PLIVO**: `{ "auth_id": "...", "auth_token": "...", "application_id": "..." }`
+  - **TWILIO**: `{ "account_sid": "...", "auth_token": "..." }`
+  - **ACEFONE**: `{ "api_token": "...", "auth_token": "..." }`
+  - **VOBIZ**: `{ "auth_id": "...", "auth_token": "..." }`
+  - **CAL_COM**: `{ "api_key": "..." }`
+  - **WHATSAPP**: `{ "accessToken": "...", "phone_number_id": "...", "business_account_id": "..." }`
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/integrations \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "provider": "PLIVO",
+    "displayName": "Main Plivo Account",
+    "credentials": {
+      "auth_id": "MAMXXXXXXXXXXXXXXXXX",
+      "auth_token": "your_auth_token_here",
+      "application_id": "app_xxxxxxxx"
+    }
+  }'
+```
+
+```python Python
+import os, requests
+
+resp = requests.post(
+    "https://api.agentic-os.com/api/v1/integrations",
+    headers={
+        "Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "provider": "PLIVO",
+        "displayName": "Main Plivo Account",
+        "credentials": {
+            "auth_id": "MAMXXXXXXXXXXXXXXXXX",
+            "auth_token": "your_auth_token_here",
+            "application_id": "app_xxxxxxxx",
+        },
+    },
+)
+print(resp.json())
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/integrations", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    provider: "PLIVO",
+    displayName: "Main Plivo Account",
+    credentials: {
+      auth_id: "MAMXXXXXXXXXXXXXXXXX",
+      auth_token: "your_auth_token_here",
+      application_id: "app_xxxxxxxx",
+    },
+  }),
+});
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "conn_9a8b7c6d-...",
+  "provider": "PLIVO",
+  "displayName": "Main Plivo Account",
+  "status": "CONNECTED",
+  "createdAt": "2026-08-15T12:00:00.000Z"
+}
+```

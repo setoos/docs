@@ -1,0 +1,57 @@
+---
+title: Abort campaign
+api: "POST /campaigns/{id}/abort"
+description: Immediately abort a running, paused, or scheduled campaign
+---
+
+Halts all execution on an active campaign and marks it as `FAILED` (aborted). Any pending scheduled timers are cancelled and no further dial attempts will be placed.
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The unique UUID of the campaign to abort.
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/abort \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/abort",
+    headers={
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json",
+    },
+    json={},
+)
+print(response.status_code)
+```
+
+```javascript Node
+const response = await fetch(
+  "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/abort",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  },
+);
+console.log(response.status);
+```
+
+</CodeGroup>
+
+### Response
+
+`202 Accepted` indicating that the campaign has been aborted.

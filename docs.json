@@ -11,19 +11,15 @@
     "light": "#E86E5F",
     "dark": "#B83A2D"
   },
-  "navbar": {
-    "primary": {
-      "type": "button",
-      "label": "Get Started",
-      "href": "https://app.agentic-os.com/signup"
-    }
+  "search": {
+    "prompt": "Search documentation or APIs..."
+  },
+  "seo": {
+    "indexing": "all"
   },
   "api": {
     "mdx": {
-      "server": [
-        "http://localhost:8787/api/v1",
-        "https://api.agentic-os.com/api/v1"
-      ],
+      "server": "http://localhost:8787/api/v1",
       "auth": {
         "method": "bearer"
       }
@@ -45,25 +41,6 @@
     }
   },
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Status",
-          "icon": "signal",
-          "href": "https://status.agentic-os.com"
-        },
-        {
-          "anchor": "Ask us on Slack",
-          "icon": "slack",
-          "href": "https://agentic-os.slack.com"
-        },
-        {
-          "anchor": "Platform",
-          "icon": "arrow-up-right-from-square",
-          "href": "https://app.agentic-os.com"
-        }
-      ]
-    },
     "tabs": [
       {
         "tab": "Documentation",
@@ -74,8 +51,8 @@
               "index",
               "introduction",
               "platform-concepts",
-              "faqs",
-              "getting-help"
+              "guides/website-integration",
+              "faqs"
             ]
           },
           {
@@ -142,50 +119,6 @@
         ]
       },
       {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Quickstarts",
-            "pages": [
-              "guides/quickstarts/api-quickstart",
-              "guides/quickstarts/inbound-quickstart",
-              "guides/quickstarts/batch-calling-quickstart"
-            ]
-          },
-          {
-            "group": "Phone Numbers & Calling Setup",
-            "pages": [
-              "guides/numbers/purchase-phone-numbers",
-              "guides/numbers/purchase-140-160-numbers",
-              "guides/numbers/caller-id-verification"
-            ]
-          },
-          {
-            "group": "Outbound Calling",
-            "pages": [
-              "guides/outbound/making-outgoing-calls",
-              "guides/outbound/batch-calling",
-              "guides/outbound/auto-retry",
-              "guides/outbound/calling-guardrails"
-            ]
-          },
-          {
-            "group": "Inbound Calling",
-            "pages": [
-              "guides/inbound/receive-incoming-calls",
-              "guides/inbound/ivr-setup"
-            ]
-          },
-          {
-            "group": "Managing Live Calls",
-            "pages": [
-              "guides/live-calls/hangup-live-calls",
-              "guides/live-calls/terminate-live-calls"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "API Reference",
         "groups": [
           {
@@ -203,12 +136,15 @@
             "group": "Account",
             "pages": [
               "api-reference/account/profile",
-              "api-reference/account/wallet-balance"
+              "api-reference/account/wallet-balance",
+              "api-reference/account/wallet-transactions",
+              "api-reference/account/api-keys"
             ]
           },
           {
             "group": "Integrations",
             "pages": [
+              "api-reference/integrations/connect-integration",
               "api-reference/integrations/list-integrations",
               "api-reference/integrations/get-integration",
               "api-reference/integrations/list-providers",
@@ -225,6 +161,7 @@
               "api-reference/agents/patch-update-agent",
               "api-reference/agents/delete-agent",
               "api-reference/agents/generate-prompt",
+              "api-reference/agents/attach-tool",
               "api-reference/agents/get-agent-execution",
               "api-reference/agents/get-all-executions",
               "api-reference/agents/stop-agent-calls"
@@ -234,6 +171,7 @@
             "group": "Configuration",
             "pages": [
               "api-reference/configuration/list-personas",
+              "api-reference/configuration/list-tools",
               "api-reference/configuration/list-llm-models",
               "api-reference/configuration/list-stt-providers",
               "api-reference/configuration/list-tts-providers",
@@ -260,19 +198,77 @@
             "group": "Campaigns",
             "pages": [
               "api-reference/campaigns/overview",
-              "api-reference/campaigns/create-campaign",
-              "api-reference/campaigns/list-campaigns",
-              "api-reference/campaigns/get-campaign",
-              "api-reference/campaigns/update-campaign",
-              "api-reference/campaigns/schedule-campaign",
-              "api-reference/campaigns/delete-campaign",
-              "api-reference/campaigns/create-contact-list"
+              {
+                "group": "Voice Campaigns",
+                "pages": [
+                  "api-reference/campaigns/create-campaign",
+                  "api-reference/campaigns/list-campaigns",
+                  "api-reference/campaigns/get-campaign",
+                  "api-reference/campaigns/get-campaign-summary",
+                  "api-reference/campaigns/update-campaign",
+                  "api-reference/campaigns/start-campaign",
+                  "api-reference/campaigns/schedule-campaign",
+                  "api-reference/campaigns/pause-campaign",
+                  "api-reference/campaigns/resume-campaign",
+                  "api-reference/campaigns/abort-campaign",
+                  "api-reference/campaigns/regenerate-campaign",
+                  "api-reference/campaigns/list-campaign-attempts",
+                  "api-reference/campaigns/get-attempt-stats",
+                  "api-reference/campaigns/get-disposition-summary",
+                  "api-reference/campaigns/delete-campaign"
+                ]
+              },
+              {
+                "group": "Contact Lists",
+                "pages": [
+                  "api-reference/campaigns/create-contact-list",
+                  "api-reference/campaigns/list-contact-lists",
+                  "api-reference/campaigns/get-contact-list",
+                  "api-reference/campaigns/update-contact-list",
+                  "api-reference/campaigns/delete-contact-list",
+                  "api-reference/campaigns/upload-contacts-csv",
+                  "api-reference/campaigns/add-contact",
+                  "api-reference/campaigns/bulk-add-contacts",
+                  "api-reference/campaigns/list-contacts",
+                  "api-reference/campaigns/get-contact",
+                  "api-reference/campaigns/update-contact",
+                  "api-reference/campaigns/delete-contact",
+                  "api-reference/campaigns/batch-delete-contacts"
+                ]
+              },
+              {
+                "group": "WhatsApp Campaigns",
+                "pages": [
+                  "api-reference/campaigns/create-whatsapp-campaign",
+                  "api-reference/campaigns/list-whatsapp-campaigns",
+                  "api-reference/campaigns/get-whatsapp-campaign",
+                  "api-reference/campaigns/update-whatsapp-campaign",
+                  "api-reference/campaigns/delete-whatsapp-campaign",
+                  "api-reference/campaigns/list-whatsapp-meta-templates",
+                  "api-reference/campaigns/list-whatsapp-numbers",
+                  "api-reference/campaigns/attach-whatsapp-number",
+                  "api-reference/campaigns/get-whatsapp-webhook-details",
+                  "api-reference/campaigns/generate-whatsapp-webhook-token"
+                ]
+              },
+              {
+                "group": "SMS Campaigns",
+                "pages": [
+                  "api-reference/campaigns/create-sms-campaign",
+                  "api-reference/campaigns/list-sms-campaigns",
+                  "api-reference/campaigns/get-sms-campaign",
+                  "api-reference/campaigns/update-sms-campaign",
+                  "api-reference/campaigns/delete-sms-campaign"
+                ]
+              }
             ]
           },
           {
             "group": "Knowledge Bases",
             "pages": [
               "api-reference/knowledge-bases/create-knowledge-base",
+              "api-reference/knowledge-bases/add-source",
+              "api-reference/knowledge-bases/list-ingestion-jobs",
               "api-reference/knowledge-bases/list-knowledge-bases",
               "api-reference/knowledge-bases/get-knowledge-base",
               "api-reference/knowledge-bases/update-knowledge-base",

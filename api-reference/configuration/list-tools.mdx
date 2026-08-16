@@ -1,0 +1,57 @@
+---
+title: List tools catalog
+api: "GET /tools"
+description: List all available system and custom tools that agents can execute during conversations
+---
+
+Returns the catalog of callable tools (such as calendar appointment booking, CRM lookup, webhook dispatcher, calculators) that can be bound to agents.
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/tools \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import os, requests
+
+resp = requests.get(
+    "https://api.agentic-os.com/api/v1/tools",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+)
+print(resp.json())
+```
+
+```javascript Node
+const resp = await fetch("https://api.agentic-os.com/api/v1/tools", {
+  headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
+});
+const tools = await resp.json();
+console.log(tools);
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+[
+  {
+    "id": "tool_book_appointment_uuid",
+    "tool_name": "Book Appointment",
+    "function_name": "book_appointment",
+    "description": "Books a live meeting slot on Cal.com calendar",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "event_date": { "type": "string", "description": "Date in YYYY-MM-DD" },
+        "event_time": { "type": "string", "description": "Time slot in HH:MM" },
+        "name": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "required": ["event_date", "event_time", "name", "email"]
+    }
+  }
+]
+```

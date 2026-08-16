@@ -1,42 +1,98 @@
 ---
 title: Rate Limiting
-description: Request limits per plan tier
+description: Request limits applied per tenant, using a sliding window
 ---
 
-API requests are rate limited per tenant to ensure fair usage across all customers.
+API requests are rate limited **per tenant**, not per credential. Every API key
+and every dashboard user in your organisation draws from one shared allowance —
+issuing more keys or adding more users does not multiply your capacity.
 
-| Tier | Requests / minute | Requests / day | Concurrent calls |
-|---|---|---|---|
-| Free | 60 | 1,000 | 2 |
-| Starter | 300 | 10,000 | 10 |
-| Pro | 1,000 | 100,000 | 50 |
-| Enterprise | Custom | Custom | Custom |
+| Authenticated as | Counted against |
+| --- | --- |
+| API key (`Authorization: Bearer aok_…`) | The tenant that owns the key |
+| Dashboard user (JWT) | That user's tenant |
+| Unauthenticated (e.g. login) | Client IP — there is no tenant yet |
+
+The default allowance is **120 requests per minute** per tenant. Limits are
+configured per environment, so the exact number for your deployment may differ —
+always read it from the response headers rather than hardcoding it.
+
+## Sliding window
+
+The limit is enforced with a **sliding window**, not a fixed one. There is no
+clock boundary where the whole allowance resets at once — capacity returns
+gradually as your own earlier requests age out of the trailing 60-second window.
+
+This means you cannot spend your full allowance right at the end of one minute
+and then spend it again right at the start of the next. If you send 120
+requests at `00:00:50`, you do not get another 120 at `00:01:00` — the earliest
+of those requests only ages out at `00:01:50`.
 
 ## Response headers
 
-Every response includes rate limit headers:
+Every rate-limited response carries the current state of the window:
 
 ```
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 998
-X-RateLimit-Reset: 1735689600
+X-RateLimit-Limit: 120
+X-RateLimit-Remaining: 119
+X-RateLimit-Reset: 1786715340
+X-RateLimit-Scope: tenant
 ```
+
+`X-RateLimit-Reset` is a Unix timestamp in seconds — the moment your oldest
+request in the current window ages out and frees up one slot. Because the window
+slides, this timestamp moves with your own traffic rather than sitting on a fixed
+boundary.
+
+`X-RateLimit-Scope` is `tenant` for authenticated requests, or `ip` for
+unauthenticated ones.
 
 ## Handling `429 Too Many Requests`
 
-When you exceed the limit, the API returns `429` with a `Retry-After` header
-(seconds until the limit resets). Back off and retry after that window.
+Exceeding the limit returns `429` with a `Retry-After` header giving the seconds
+until the window has capacity again:
+
+```
+Retry-After: 10
+```
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMIT_EXCEEDED",
-    "message": "Too many requests. Retry after 12 seconds."
-  }
+  "statusCode": 429,
+  "message": "Organisation per-minute rate limit of 120 exceeded. Retry after 10 seconds.",
+  "error": "RATE_LIMIT_EXCEEDED",
+  "scope": "tenant",
+  "limit": 120,
+  "window": "per-minute",
+  "retryAfter": 10,
+  "path": "/api/v1/profile",
+  "timestamp": "2026-08-14T12:29:00.000Z"
 }
 ```
 
-<Callout type="tip">
-  Use exponential backoff for retries instead of a fixed delay to avoid thundering
-  herd issues on shared endpoints.
+Match on `error: "RATE_LIMIT_EXCEEDED"` rather than parsing the message.
+`retryAfter` is the same value as the `Retry-After` header, provided in the body
+too so it survives if intermediate infrastructure strips response headers.
+
+<Callout type="warning">
+  Requests that get rejected still count. If you ignore `Retry-After` and keep
+  sending, your window stays full and every request keeps returning `429` —
+  waiting is what frees up capacity, not sending more.
 </Callout>
+
+## Staying under the limit
+
+- **Read `X-RateLimit-Remaining`** and slow down before you hit zero rather than
+  waiting for a `429`.
+- **Honour `Retry-After`.** Because the window is sliding, sending again before
+  it elapses will just be rejected again.
+- **Paginate deliberately.** `pageSize` up to 100 on list endpoints fetches more
+  per request than looping over small pages.
+- **Coordinate across integrations.** Because the limit is per tenant, a batch
+  job and your production traffic share one allowance — schedule bulk work
+  off-peak rather than assuming a separate key buys separate capacity.
+
+## Exempt endpoints
+
+Health probes and internal service-to-service routes are not rate limited, since
+throttling them would cause outages rather than prevent them.

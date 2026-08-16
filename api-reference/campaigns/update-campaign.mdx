@@ -1,98 +1,146 @@
 ---
 title: Update campaign
 api: "PATCH /campaigns/{id}"
-description: Change a campaign's settings, schedule or pacing
+description: Update settings or schedule for a draft campaign
 ---
 
-Only the fields you send are changed. Accepts the same fields as
-[Create campaign](/api-reference/campaigns/create-campaign).
+Updates configuration fields on an existing campaign.
+
+<Note>
+  Only campaigns in `DRAFT` status can be modified. Once a campaign is running or completed, its core parameters cannot be altered.
+</Note>
 
 ### Path parameters
 
 <ParamField path="id" type="string" required>
-  The campaign ID
+  The unique UUID of the campaign to update.
 </ParamField>
 
 ### Body parameters
 
 <ParamField body="name" type="string">
-  Campaign name
+  New campaign name (must remain unique within tenant).
 </ParamField>
 
-<ParamField body="description" type="string">
-  Free-text description
+<ParamField body="agentId" type="string">
+  UUID of the voice agent.
+</ParamField>
+
+<ParamField body="voiceNumberId" type="string">
+  UUID of the voice number.
 </ParamField>
 
 <ParamField body="contactListId" type="string">
-  Contact list to dial
+  UUID of the contact list to attach. Must have at least 2 contacts.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Updated campaign description.
 </ParamField>
 
 <ParamField body="scheduledAt" type="string">
-  ISO-8601 start time
+  ISO-8601 timestamp to set or update scheduled start time. Setting this transitions the status to `SCHEDULED`.
 </ParamField>
 
 <ParamField body="timezone" type="string">
-  IANA timezone the call window is evaluated in
+  IANA timezone identifier (e.g. `America/New_York`).
 </ParamField>
 
 <ParamField body="callWindowStart" type="string">
-  Earliest time of day to dial, `HH:MM`
+  Earliest dial time in `HH:mm` format.
 </ParamField>
 
 <ParamField body="callWindowEnd" type="string">
-  Latest time of day to dial, `HH:MM`
+  Latest dial time in `HH:mm` format.
 </ParamField>
 
 <ParamField body="callDays" type="integer[]">
-  Allowed days — `1` = Monday through `7` = Sunday
+  Allowed days of the week (`1` = Mon ... `7` = Sun).
 </ParamField>
 
 <ParamField body="dialTimeout" type="integer">
-  Ring timeout in seconds, 10–300
+  Dial timeout in seconds (10 to 300).
 </ParamField>
 
 <ParamField body="maxAttempts" type="integer">
-  Attempts per contact, 1–10
+  Max attempts per contact (1 to 10).
 </ParamField>
 
 <ParamField body="redialDelayMin" type="integer">
-  Minutes before redialling
+  Delay before redialing in minutes (minimum 1).
 </ParamField>
 
 <ParamField body="metadata" type="object">
-  Arbitrary key/value data
+  Updated key-value metadata.
 </ParamField>
 
 <CodeGroup>
 
 ```bash curl
-curl -X PATCH https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID \
+curl -X PATCH https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000 \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "callWindowStart": "09:00", "callWindowEnd": "18:00", "maxAttempts": 2 }'
+  -d '{
+    "callWindowStart": "10:00",
+    "callWindowEnd": "17:00",
+    "maxAttempts": 4,
+    "redialDelayMin": 45
+  }'
 ```
 
 ```python Python
-requests.patch(
-    "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID",
-    headers={"Authorization": f"Bearer {API_KEY}"},
-    json={"callWindowStart": "09:00", "callWindowEnd": "18:00", "maxAttempts": 2},
+import requests
+
+response = requests.patch(
+    "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000",
+    headers={
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "callWindowStart": "10:00",
+        "callWindowEnd": "17:00",
+        "maxAttempts": 4,
+        "redialDelayMin": 45,
+    },
 )
+print(response.json())
 ```
 
 ```javascript Node
-await fetch("https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID", {
-  method: "PATCH",
-  headers: {
-    Authorization: `Bearer ${API_KEY}`,
-    "Content-Type": "application/json",
+const response = await fetch(
+  "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000",
+  {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      callWindowStart: "10:00",
+      callWindowEnd: "17:00",
+      maxAttempts: 4,
+      redialDelayMin: 45,
+    }),
   },
-  body: JSON.stringify({
-    callWindowStart: "09:00",
-    callWindowEnd: "18:00",
-    maxAttempts: 2,
-  }),
-});
+);
+const data = await response.json();
+console.log(data);
 ```
 
 </CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "770e8400-e29b-41d4-a716-446655440000",
+  "name": "Q3 Renewal Outreach",
+  "status": "DRAFT",
+  "callWindowStart": "10:00",
+  "callWindowEnd": "17:00",
+  "maxAttempts": 4,
+  "redialDelayMin": 45,
+  "updatedAt": "2026-06-01T10:15:00.000Z"
+}
+```

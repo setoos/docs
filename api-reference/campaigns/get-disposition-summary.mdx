@@ -1,0 +1,56 @@
+---
+title: Get disposition summary
+api: "GET /campaigns/{campaignId}/attempts/final-summary"
+description: Retrieve counts of final call dispositions per contact for a campaign
+---
+
+Computes and returns the breakdown of final (most recent resolved) call dispositions across all unique contacts in a campaign.
+
+### Path parameters
+
+<ParamField path="campaignId" type="string" required>
+  The unique UUID of the campaign.
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X GET https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts/final-summary \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts/final-summary",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+print(response.json())
+```
+
+```javascript Node
+const response = await fetch(
+  "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts/final-summary",
+  {
+    method: "GET",
+    headers: { Authorization: `Bearer ${API_KEY}` },
+  },
+);
+const data = await response.json();
+console.log(data);
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "ANSWERED": 32,
+  "NO_ANSWER": 8,
+  "BUSY": 3,
+  "FAILED": 2,
+  "VOICEMAIL": 0
+}
+```

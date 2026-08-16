@@ -1,20 +1,19 @@
 ---
 title: Create contact list
 api: "POST /contact-lists"
-description: Create a contact list to dial in a campaign
+description: Create a new contact list to hold campaign recipients
 ---
 
-A campaign dials a contact list. Create the list, add contacts to it, then point
-a campaign at it via `contactListId`.
+Creates a new empty contact list. You can populate the list by uploading a CSV via [`POST /contact-lists/{id}/upload`](/api-reference/campaigns/upload-contacts-csv), adding contacts individually via [`POST /contact-lists/{listId}/contacts`](/api-reference/campaigns/add-contact), or adding contacts in bulk via [`POST /contact-lists/{listId}/contacts/bulk`](/api-reference/campaigns/bulk-add-contacts).
 
 ### Body parameters
 
 <ParamField body="name" type="string" required>
-  List name
+  Unique name for the contact list across your tenant.
 </ParamField>
 
-<ParamField body="description" type="string">
-  What this list contains
+<ParamField body="metadata" type="object">
+  Optional arbitrary key-value metadata (e.g. source tracking or campaign category).
 </ParamField>
 
 <CodeGroup>
@@ -23,35 +22,62 @@ a campaign at it via `contactListId`.
 curl -X POST https://api.agentic-os.com/api/v1/contact-lists \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "name": "June prospects" }'
+  -d '{
+    "name": "Q3 Target Leads",
+    "metadata": {
+      "source": "hubspot_export",
+      "tier": "enterprise"
+    }
+  }'
 ```
 
 ```python Python
-requests.post(
+import requests
+
+response = requests.post(
     "https://api.agentic-os.com/api/v1/contact-lists",
-    headers={"Authorization": f"Bearer {API_KEY}"},
-    json={"name": "June prospects"},
+    headers={
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "name": "Q3 Target Leads",
+        "metadata": {"source": "hubspot_export", "tier": "enterprise"},
+    },
 )
+print(response.json())
 ```
 
 ```javascript Node
-await fetch("https://api.agentic-os.com/api/v1/contact-lists", {
+const response = await fetch("https://api.agentic-os.com/api/v1/contact-lists", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ name: "June prospects" }),
+  body: JSON.stringify({
+    name: "Q3 Target Leads",
+    metadata: { source: "hubspot_export", tier: "enterprise" },
+  }),
 });
+const data = await response.json();
+console.log(data);
 ```
 
 </CodeGroup>
 
-### Adding contacts
+### Response
 
-Upload a CSV to `POST /contact-lists/{id}/upload` as `multipart/form-data` with a
-`file` field. Columns: `phone_number` (required), `name`, `email`, `metadata`.
-Maximum 500 rows per upload.
-
-List, read, update and delete follow the usual shape at
-`GET|PATCH|DELETE /contact-lists` and `/contact-lists/{id}`.
+```json
+{
+  "id": "33333333-3333-3333-3333-333333333333",
+  "tenantId": "990e8400-e29b-41d4-a716-446655440000",
+  "name": "Q3 Target Leads",
+  "metadata": {
+    "source": "hubspot_export",
+    "tier": "enterprise"
+  },
+  "createdAt": "2026-06-01T09:00:00.000Z",
+  "updatedAt": "2026-06-01T09:00:00.000Z"
+}
+```

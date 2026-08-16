@@ -1,59 +1,66 @@
 ---
 title: Schedule campaign
 api: "POST /campaigns/{id}/schedule"
-description: Move a campaign to SCHEDULED so it starts at its scheduledAt time
+description: Move a campaign to SCHEDULED status so it starts at its scheduledAt timestamp
 ---
 
-Transitions a campaign to `SCHEDULED` and registers the exact start timer. The
-campaign begins dialling at its `scheduledAt` time — or immediately if
-`scheduledAt` is in the past or unset.
-
-Set `scheduledAt`, `timezone` and the call window when you
-[create the campaign](/api-reference/campaigns/create-campaign) or via
-[Update campaign](/api-reference/campaigns/update-campaign).
+Transitions a campaign to `SCHEDULED` status and registers the exact timer in the scheduler service. The campaign begins dialing automatically at its configured `scheduledAt` timestamp (or immediately if `scheduledAt` is null or in the past).
 
 ### Path parameters
 
 <ParamField path="id" type="string" required>
-  The campaign ID
+  The unique UUID of the campaign to schedule.
 </ParamField>
 
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/schedule \
-  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+curl -X POST https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/schedule \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}'
 ```
 
 ```python Python
-requests.post(
-    "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/schedule",
-    headers={"Authorization": f"Bearer {API_KEY}"},
+import requests
+
+response = requests.post(
+    "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/schedule",
+    headers={
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json",
+    },
+    json={},
 )
+print(response.json())
 ```
 
 ```javascript Node
-await fetch(
-  "https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/schedule",
-  { method: "POST", headers: { Authorization: `Bearer ${API_KEY}` } },
+const response = await fetch(
+  "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/schedule",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  },
 );
+const data = await response.json();
+console.log(data);
 ```
 
 </CodeGroup>
 
-### Lifecycle
+### Response
 
-`202 Accepted` with the updated campaign. The other transitions follow the same
-shape:
-
-| Action | Endpoint | Valid from |
-| --- | --- | --- |
-| Start now | `POST /campaigns/{id}/start` | `DRAFT`, `SCHEDULED` |
-| Pause | `POST /campaigns/{id}/pause` | `RUNNING` |
-| Resume | `POST /campaigns/{id}/resume` | `PAUSED` |
-| Abort | `POST /campaigns/{id}/abort` | any active state |
-
-<Callout type="warning">
-  Scheduling a campaign leads to **real outbound calls** and wallet charges once
-  the start time arrives.
-</Callout>
+```json
+{
+  "id": "770e8400-e29b-41d4-a716-446655440000",
+  "name": "Q3 Renewal Outreach",
+  "status": "SCHEDULED",
+  "scheduledAt": "2026-06-10T09:00:00.000Z",
+  "updatedAt": "2026-06-01T10:20:00.000Z"
+}
+```

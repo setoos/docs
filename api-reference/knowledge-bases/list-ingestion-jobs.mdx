@@ -1,0 +1,55 @@
+---
+title: List ingestion jobs
+api: "GET /knowledge-bases/{id}/ingestion-jobs"
+description: List background vector indexing and embedding jobs for a knowledge base
+---
+
+Fetches the progress and status of all document vectorization and embedding jobs in this knowledge base.
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the knowledge base
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/ingestion-jobs \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import os, requests
+
+resp = requests.get(
+    "https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/ingestion-jobs",
+    headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
+)
+print(resp.json())
+```
+
+```javascript Node
+const resp = await fetch("https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/ingestion-jobs", {
+  headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
+});
+const jobs = await resp.json();
+console.log(jobs);
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+[
+  {
+    "id": "job_112233",
+    "sourceId": "source_789012",
+    "status": "COMPLETED",
+    "chunksCount": 14,
+    "tokensEmbedded": 1840,
+    "completedAt": "2026-08-15T12:01:10.000Z"
+  }
+]
+```

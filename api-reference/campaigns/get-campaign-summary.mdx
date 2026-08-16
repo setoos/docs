@@ -1,0 +1,83 @@
+---
+title: Get campaign summary
+api: "GET /campaigns/{id}/summary"
+description: Retrieve live aggregated metrics, progress counters, and execution timing
+---
+
+Retrieves an aggregated summary for a voice campaign, including progress percentages, attempt status breakdown, and estimated completion time.
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The unique UUID of the campaign.
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X GET https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/summary \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/summary",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+)
+print(response.json())
+```
+
+```javascript Node
+const response = await fetch(
+  "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/summary",
+  {
+    method: "GET",
+    headers: { Authorization: `Bearer ${API_KEY}` },
+  },
+);
+const data = await response.json();
+console.log(data);
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "campaign": {
+    "id": "770e8400-e29b-41d4-a716-446655440000",
+    "name": "Q3 Renewal Outreach",
+    "status": "RUNNING",
+    "totalContacts": 150,
+    "dialedContacts": 45,
+    "answeredContacts": 32
+  },
+  "progress": {
+    "totalContacts": 150,
+    "dialedContacts": 45,
+    "answeredContacts": 32,
+    "pendingContacts": 105,
+    "completionPercent": 30.0
+  },
+  "attemptStats": {
+    "total": 52,
+    "pending": 98,
+    "dialing": 4,
+    "answered": 32,
+    "completed": 32,
+    "failed": 2,
+    "noAnswer": 10,
+    "busy": 4,
+    "cancelled": 0
+  },
+  "timing": {
+    "startedAt": "2026-06-01T10:05:00.000Z",
+    "completedAt": null,
+    "elapsedSeconds": 1800,
+    "estimatedRemainingSeconds": 4200
+  }
+}
+```

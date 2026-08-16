@@ -1,17 +1,87 @@
 ---
 title: Campaigns Overview
-description: Batch outbound calling and messaging
+description: Automated outbound voice dialing, WhatsApp messaging, and SMS follow-ups
 ---
 
-| Endpoint | Method | Path |
-|---|---|---|
-| Create contact list | POST | `/contact-lists` |
-| Add contacts to a list | POST | `/contact-lists/{id}/contacts/bulk` |
-| [Create campaign](/api-reference/campaigns/create-campaign) | POST | `/campaigns` |
-| Start campaign | POST | `/campaigns/{id}/start` |
-| [List campaigns](/api-reference/campaigns/list-campaigns) | GET | `/campaigns` |
-| [Get campaign](/api-reference/campaigns/get-campaign) | GET | `/campaigns/{id}` |
+Agentic OS provides a multi-channel campaign engine designed for high-scale outbound communications. Campaigns allow you to reach hundreds or thousands of contacts automatically with intelligent pacing, retry policies, call window guardrails, and post-call messaging.
 
-A campaign always references a **contact list** (created separately) and a
-**voice number** (created via [voice-numbers](/guides/numbers/purchase-phone-numbers)) —
-it does not accept contacts inline.
+## Campaign Types
+
+<CardGroup cols={3}>
+  <Card title="Voice Campaigns" icon="phone-volume" href="/api-reference/campaigns/create-campaign">
+    Automated outbound voice calls with concurrency control, retry policies, and time window guardrails.
+  </Card>
+  <Card title="WhatsApp Campaigns" icon="whatsapp" href="/api-reference/campaigns/create-whatsapp-campaign">
+    Automated WhatsApp template messages triggered based on call disposition outcomes.
+  </Card>
+  <Card title="SMS Campaigns" icon="message-sms" href="/api-reference/campaigns/create-sms-campaign">
+    Automated SMS notifications and callback links triggered on answered or unanswered calls.
+  </Card>
+</CardGroup>
+
+---
+
+## API Summary
+
+### Voice Campaigns (`/campaigns`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/campaigns` | Create a new voice campaign |
+| `GET` | `/campaigns` | List all voice campaigns with pagination |
+| `GET` | `/campaigns/{id}` | Get campaign configuration and current status |
+| `GET` | `/campaigns/{id}/summary` | Get aggregated progress, attempt statistics, and time estimates |
+| `PATCH` | `/campaigns/{id}` | Update campaign settings (DRAFT only) |
+| `POST` | `/campaigns/{id}/start` | Start immediate outbound dialing |
+| `POST` | `/campaigns/{id}/schedule` | Schedule campaign to start at its `scheduledAt` timestamp |
+| `POST` | `/campaigns/{id}/pause` | Pause a running campaign |
+| `POST` | `/campaigns/{id}/resume` | Resume a paused campaign |
+| `POST` | `/campaigns/{id}/abort` | Abort a running or scheduled campaign |
+| `POST` | `/campaigns/{id}/regenerate` | Create a follow-up campaign for specific call dispositions |
+| `GET` | `/campaigns/{campaignId}/attempts` | List individual contact call attempts |
+| `GET` | `/campaigns/{campaignId}/attempts/stats` | Get attempt status breakdown |
+| `GET` | `/campaigns/{campaignId}/attempts/final-summary` | Get final disposition counts |
+| `DELETE` | `/campaigns/{id}` | Delete a campaign and its attempt history |
+
+### Contact Lists & Contacts (`/contact-lists`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/contact-lists` | Create a new contact list |
+| `GET` | `/contact-lists` | List all contact lists |
+| `GET` | `/contact-lists/{id}` | Get contact list details |
+| `PATCH` | `/contact-lists/{id}` | Update contact list name or metadata |
+| `DELETE` | `/contact-lists/{id}` | Delete a contact list |
+| `POST` | `/contact-lists/{id}/upload` | Upload CSV contacts (max 500 rows) |
+| `POST` | `/contact-lists/{listId}/contacts` | Add a single contact |
+| `POST` | `/contact-lists/{listId}/contacts/bulk` | Bulk add contacts (up to 5,000) |
+| `GET` | `/contact-lists/{listId}/contacts` | List contacts with pagination |
+| `GET` | `/contact-lists/{listId}/contacts/{id}` | Get single contact details |
+| `PATCH` | `/contact-lists/{listId}/contacts/{id}` | Update contact details |
+| `DELETE` | `/contact-lists/{listId}/contacts/{id}` | Delete a contact |
+| `POST` | `/contact-lists/{listId}/contacts/delete-batch` | Batch delete contacts by IDs |
+
+### WhatsApp Campaigns (`/whatsapp`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/whatsapp/campaigns` | Create a WhatsApp campaign |
+| `GET` | `/whatsapp/campaigns` | List WhatsApp campaigns |
+| `GET` | `/whatsapp/campaigns/{id}` | Get WhatsApp campaign details |
+| `PUT` | `/whatsapp/campaigns/{id}` | Update WhatsApp campaign & templates |
+| `DELETE` | `/whatsapp/campaigns/{id}` | Delete a WhatsApp campaign |
+| `GET` | `/whatsapp/meta-templates` | Fetch approved Meta WhatsApp templates |
+| `GET` | `/whatsapp/fetch-numbers` | List connected WhatsApp sender numbers |
+| `POST` | `/whatsapp/agents/{agentId}/attach-number` | Attach WhatsApp number to an agent |
+| `GET` | `/whatsapp/webhook-details` | Get webhook callback URL and token |
+| `POST` | `/whatsapp/webhook-token` | Generate or fetch webhook verify token |
+
+### SMS Campaigns (`/sms-agent`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/sms-agent/campaigns` | Create an SMS campaign |
+| `GET` | `/sms-agent/campaigns` | List SMS campaigns |
+| `GET` | `/sms-agent/campaigns/{id}` | Get SMS campaign details |
+| `PUT` | `/sms-agent/campaigns/{id}` | Update SMS campaign & templates |
+| `DELETE` | `/sms-agent/campaigns/{id}` | Delete an SMS campaign |

@@ -41,6 +41,9 @@ const ROUTES = [
   ['/voice-numbers', TARGETS.commsEngine],
   ['/voice-profiles', TARGETS.commsEngine],
   ['/tools', TARGETS.commsEngine],
+  ['/stt-providers', TARGETS.commsEngine],
+  ['/tts-providers', TARGETS.commsEngine],
+  ['/llm', TARGETS.commsEngine],
 
   ['/campaigns', TARGETS.campaignEngine],
   ['/contact-lists', TARGETS.campaignEngine],
@@ -61,6 +64,7 @@ const ROUTES = [
   ['/wallet', TARGETS.platformCore],
   ['/integrations', TARGETS.platformCore],
   ['/analytics', TARGETS.platformCore],
+  ['/logs', TARGETS.platformCore],
   ['/profile', TARGETS.platformCore],
 ];
 

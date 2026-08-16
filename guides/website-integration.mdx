@@ -1,0 +1,246 @@
+---
+title: Website Integration Guide
+description: Step-by-step guide for business users to test APIs in the playground and embed Voice AI into their website
+---
+
+Integrate Agentic OS Voice AI directly into your website or web application. Whether you want to add an **in-browser voice calling widget**, a **click-to-call instant callback button**, or **automated WhatsApp/SMS follow-ups**, you can test the APIs in our interactive playground and integrate them with a few lines of code.
+
+<CardGroup cols={2}>
+  <Card title="Interactive Playground" icon="play" href="/api-reference/calls/make-phone-call">
+    Test live API requests directly in your browser using your API key.
+  </Card>
+  <Card title="API Keys Feature Guide" icon="key" href="/features/api-keys">
+    Generate and manage your secure `aok_...` API keys.
+  </Card>
+</CardGroup>
+
+---
+
+## 1. Get Your API Key
+
+Every API call from your backend or development playground requires a secure **API Key**.
+
+<Steps>
+  <Step title="Sign in to your Dashboard">
+    Go to the platform console (e.g. `http://localhost:8080` locally, or your deployed Dev / UAT / Prod URL) and log in to your business organization.
+  </Step>
+  <Step title="Generate a new API Key">
+    Navigate to **API Keys** in the sidebar, click **Create API Key**, and name it (e.g. `Website Production`).
+  </Step>
+  <Step title="Copy the key">
+    Copy the generated key starting with `aok_...`. Store it securely in your backend environment variables (`AGENTIC_OS_API_KEY`).
+  </Step>
+</Steps>
+
+<Callout type="warning">
+  **Security Best Practice**: Never expose your `aok_...` API key in client-side HTML or public JavaScript files. Always call Agentic OS APIs from your secure backend server or serverless functions (Node.js, Python, Next.js API routes, etc.).
+</Callout>
+
+---
+
+## 2. Test in the Interactive Playground
+
+Before writing code, test every endpoint in real-time on our documentation playground:
+
+1. Open any API Reference page, such as [Make Phone Call](/api-reference/calls/make-phone-call) or [Start Web Call](/api-reference/calls/start-web-call).
+2. Look at the **Interactive Playground** panel on the right.
+3. Paste your `aok_...` key into the **Authorization** input field.
+4. Select the target server (e.g., `https://api.agentic-os.com/api/v1` for production or `http://localhost:8787/api/v1` for local gateway testing).
+5. Fill in the parameters (e.g. `agentId`, `toNumber`) and click **Send** to see live responses from your tenant!
+
+---
+
+## 3. Integration Scenario A: Click-to-Call Button
+
+Allow visitors on your website to enter their phone number and receive an immediate phone call from your AI voice agent.
+
+```
+┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
+│ Website Visitor │ ────> │  Your Backend   │ ────> │   Agentic OS    │ ────> │ Customer Phone  │
+│ Enters Number   │       │ (Node / Python) │       │ POST /channels/ │       │ Rings Instantly │
+│ & Clicks Call   │       │ Adds API Key    │       │ voice/call      │       │ AI Talks        │
+└─────────────────┘       └─────────────────┘       └─────────────────┘       └─────────────────┘
+```
+
+### Backend Implementation (Node.js / Express)
+
+Create an endpoint on your server that receives the customer's phone number and calls Agentic OS:
+
+```javascript server.js
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+const AGENTIC_OS_API_KEY = process.env.AGENTIC_OS_API_KEY; // "aok_..."
+const AGENT_ID = "YOUR_AGENT_UUID";
+const VOICE_NUMBER_ID = "YOUR_VOICE_NUMBER_UUID";
+
+app.post('/api/request-call', async (req, res) => {
+  const { customerPhone, customerName } = req.body;
+
+  try {
+    const response = await fetch('https://api.agentic-os.com/api/v1/channels/voice/call', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AGENTIC_OS_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        agentId: AGENT_ID,
+        voiceNumberId: VOICE_NUMBER_ID,
+        toNumber: customerPhone,
+        metadata: {
+          customerName: customerName || 'Valued Visitor',
+          source: 'Website Contact Page',
+        },
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      return res.status(response.status).json({ error: data.message || 'Call failed' });
+    }
+
+    res.json({ success: true, sessionId: data.sessionId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+```
+
+### Frontend Widget (HTML & JavaScript)
+
+Embed this form anywhere on your website:
+
+```html index.html
+<!-- Contact Form Widget -->
+<div class="callback-widget">
+  <h3>Speak with our AI Assistant Now</h3>
+  <p>Enter your phone number and our voice agent will call you in 5 seconds.</p>
+  <form id="callForm">
+    <input type="tel" id="phoneNumber" placeholder="+1 (555) 000-0000" required />
+    <button type="submit" id="callBtn">Call Me Now</button>
+  </form>
+  <div id="callStatus"></div>
+</div>
+
+<script>
+  document.getElementById('callForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('callBtn');
+    const status = document.getElementById('callStatus');
+    const phone = document.getElementById('phoneNumber').value;
+
+    btn.disabled = true;
+    btn.innerText = "Connecting...";
+    status.innerText = "Placing call to your phone...";
+
+    try {
+      const res = await fetch('/api/request-call', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerPhone: phone })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        status.innerText = "✓ Calling now! Please answer your phone.";
+      } else {
+        status.innerText = "Error: " + (data.error || "Could not connect call.");
+      }
+    } catch (err) {
+      status.innerText = "Network error. Please try again.";
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "Call Me Now";
+    }
+  });
+</script>
+```
+
+---
+
+## 4. Integration Scenario B: In-Browser Live Voice Call (Web Call)
+
+Let website visitors talk directly with your AI agent right from their browser using WebRTC — no phone number required.
+
+### 1. Request Session from Backend
+Your backend requests a session token from Agentic OS:
+
+```javascript
+// Backend Route
+app.post('/api/start-web-call', async (req, res) => {
+  const response = await fetch('https://api.agentic-os.com/api/v1/channels/web/session', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ agentId: "YOUR_AGENT_UUID" }),
+  });
+
+  const session = await response.json();
+  res.json(session); // Returns sessionId and WebRTC signaling info
+});
+```
+
+---
+
+## 5. Integration Scenario C: Automated WhatsApp & SMS Lead Nurturing
+
+Trigger automated WhatsApp messages or SMS follow-ups when users complete actions on your site (e.g., booked a demo, submitted a form):
+
+```python Python (FastAPI / Flask)
+import requests
+
+def send_whatsapp_confirmation(phone_number: str, customer_name: str):
+    url = "https://api.agentic-os.com/api/v1/whatsapp/messages"
+    headers = {
+        "Authorization": "Bearer aok_your_api_key_here",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "toNumber": phone_number,
+        "content": f"Hi {customer_name}! Thank you for reaching out on our website. How can we help you today?"
+    }
+    response = requests.post(url, json=payload, headers=headers)
+    return response.json()
+```
+
+---
+
+## 6. Receiving Real-Time Webhooks
+
+When a call finishes, Agentic OS can push the full recording URL, audio transcript, duration, sentiment analysis, and token costs directly to your server.
+
+### Configuring Webhooks:
+1. Go to **API Keys** in your Agentic OS dashboard.
+2. Edit your API key and set the **Webhook URL** (e.g. `https://yourdomain.com/api/agentic-webhook`).
+3. Handle the incoming `POST` payload on your server:
+
+```javascript
+app.post('/api/agentic-webhook', (req, res) => {
+  const event = req.body;
+
+  console.log(`Call completed! Session: ${event.sessionId}`);
+  console.log(`Duration: ${event.durationSeconds}s`);
+  console.log(`Customer: ${event.customerPhone}`);
+  console.log(`Transcript:`, event.transcript);
+  console.log(`Recording URL: ${event.recordingUrl}`);
+
+  // Save to your internal CRM / Database
+  res.sendStatus(200);
+});
+```
+
+---
+
+## Summary Checklist for Go-Live
+
+- [x] Create an API key (`aok_...`) in [API Keys](/features/api-keys).
+- [x] Connect your carrier (Plivo / Twilio) in [Integrations](/api-reference/integrations/list-integrations).
+- [x] Configure your AI Agent in [Agent Studio](/features/agents/overview).
+- [x] Test requests in the [API Playground](/api-reference/calls/make-phone-call).
+- [x] Embed the backend API calls in your website/application.
+- [x] Register your webhook endpoint to receive call transcripts and recordings.

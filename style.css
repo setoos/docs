@@ -1,9 +1,30 @@
-/* Mintlify's "mint" theme caps the sidebar+content+table-of-contents row at
-   max-w-8xl (1472px), which is why wide screens show large empty margins on
-   both sides. That utility is applied via a compound Tailwind variant class
-   (e.g. "peer-[.is-not-custom]:peer-[.is-not-center]:max-w-8xl"), so it can't
-   be targeted with a plain ".max-w-8xl" selector — use an attribute
-   substring match instead. */
-[class*="max-w-8xl"] {
-  max-width: 1800px !important;
+/* Expand content to fill available space and remove empty right gap */
+main {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+article,
+.prose,
+[class*="prose"] {
+  max-width: 100% !important;
+}
+
+/* Allow card groups and grids to span the full available content width */
+[class*="grid-cols"] {
+  width: 100% !important;
+}
+
+/* Keep Ask Assistant button visible in topbar and enable chat panel */
+#assistant-entry,
+#assistant-entry-mobile,
+#chat-assistant-sheet {
+  display: flex !important;
+}
+
+/* Inside search dialog: keep search focused strictly on documentation results */
+[role="dialog"] [data-command-group*="assistant"],
+[role="dialog"] [id*="ask-assistant-prompt"],
+[role="combobox"] [data-command-group*="assistant"] {
+  display: none !important;
 }

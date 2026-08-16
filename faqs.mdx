@@ -1,30 +1,139 @@
 ---
 title: FAQs
-description: Frequently asked questions
+description: Frequently asked questions about the 20X platform
 ---
 
+Everything you need to know about the 20X AI operating system. Still stuck? Reach out at [hello@20x.business](mailto:hello@20x.business).
+
+## Platform
+
 <AccordionGroup>
-  <Accordion title="Do I need a phone number to test an agent?">
-    No. Use web-call testing from the dashboard — it's free and requires no
-    telephony setup.
+  <Accordion title="What is 20X?">
+    20X is an AI operating system for real business operations. Teams use it to build, deploy, and run autonomous voice and chat agents that answer customers, qualify leads, book appointments, chase payments, and complete back-office work across phone, web, WhatsApp, SMS, and email - without writing code. It is built by Setoo Solutions Pvt Ltd and combines agent orchestration, a visual workflow builder, a knowledge base, a built-in CRM, analytics, and 50+ integrations in one workspace.
   </Accordion>
-
-  <Accordion title="Which LLM providers are supported?">
-    OpenAI, Anthropic, and Google models are supported out of the box. See
-    [Choosing Providers](/concepts/choosing-providers).
+  <Accordion title="What business problems does 20X actually solve?">
+    20X removes the repetitive, high-volume work that limits growth: missed calls and slow first response, unqualified leads sitting in a queue, no-show appointments, order and delivery questions, refund and policy queries, feedback collection, and manual data entry into your CRM. Instead of hiring more agents for every spike in volume, you deploy an AI agent that handles the first 80% end to end and hands the remaining 20% to a human with full context.
   </Accordion>
-
-  <Accordion title="Can I bring my own telephony provider?">
-    Yes. Agentic OS supports Twilio, Plivo, and Acefone today, configured per
-    tenant under **Integrations**.
+  <Accordion title="How is 20X different from a chatbot or a generic AI assistant?">
+    A chatbot answers questions. A 20X agent completes work. Each agent has a goal, a knowledge base, tools it can call (transfer a call, hit your API, write to your CRM, send a follow-up), guardrails, and a measurable outcome such as lead qualified, booking confirmed, or ticket resolved. It runs on real telephony with barge-in speech, works in Hindi and English, and every conversation is recorded, transcribed, scored, and costed.
   </Accordion>
-
-  <Accordion title="How is billing calculated?">
-    Calls are billed per minute from your wallet balance. See
-    [Billing & Wallet](/features/billing) for details.
+  <Accordion title="Who is 20X for?">
+    Solopreneurs and one-person businesses all the way up to enterprise teams. A single founder can run 20X alone - the agent becomes the receptionist, the follow-up caller, and the support desk you cannot afford to hire yet. Beyond that, operations, support, sales, and founder-led teams in e-commerce, healthcare, education, real estate, financial services, logistics, and services businesses - typically 1 to 5,000 people - use it to scale coverage without scaling headcount. Agencies and consultants also use 20X white-labelled to deliver AI operations to their own clients.
   </Accordion>
+  <Accordion title="What can a 20X AI agent do on day one?">
+    Answer inbound support calls and chats 24/7, run outbound calling campaigns, and follow up on WhatsApp, SMS, and email from the same agent. On day one it can qualify and score leads, book, reschedule, and confirm appointments, send WhatsApp or SMS confirmations and reminders after a call, run email and messaging campaigns alongside voice, collect feedback and NPS, answer product, pricing, and policy questions from your own documents, transfer to a human when needed, and log every outcome to your CRM through webhooks.
+  </Accordion>
+</AccordionGroup>
 
-  <Accordion title="Is my call data encrypted?">
-    Yes, both in transit (TLS) and at rest. See [Security](/concepts/security).
+## Build & launch
+
+<AccordionGroup>
+  <Accordion title="Do I need developers or coding skills to build an agent?">
+    No. Agents are configured from a dashboard using plain-language instructions: describe the job, pick Hindi or English, choose a voice and tone, upload your reference documents, and connect the channels. Non-technical operations teams launch their first working agent the same day, and most reach a live pilot in under an hour.
+  </Accordion>
+  <Accordion title="How long does implementation take?">
+    A first agent is live in minutes using a template for support, lead qualification, booking, or internal operations. A production rollout - knowledge base tuned, call flows tested, CRM webhooks wired, and campaigns scheduled - typically takes one to two weeks. Enterprise deployments with custom telephony, SSO, and compliance review usually run three to six weeks with our team.
+  </Accordion>
+  <Accordion title="Can I test the agent before customers speak to it?">
+    Yes. Every agent has a built-in simulator and playground. You can speak or type to the agent in your browser in Hindi or English, replay its reasoning, verify prompt instructions and tool calls, and fine-tune tone, pacing, and escalation rules before it ever handles a live customer.
+  </Accordion>
+  <Accordion title="Can I customise how the agent sounds and behaves?">
+    Yes. Choose from a library of natural voices, adjust speaking speed, set the personality and tone - professional, empathetic, or friendly - script the greeting and closing, define what the agent must never say, and set exactly when it escalates to a human.
+  </Accordion>
+  <Accordion title="How do I manage agents and campaigns over time?">
+    Campaigns move through four states: Draft while you configure, Running when live, Paused to stop calls without losing configuration, and Resume to bring the campaign back. Prompts, voices, and knowledge can be updated at any time, and changes take effect on the next conversation.
+  </Accordion>
+</AccordionGroup>
+
+## Language & voice
+
+<AccordionGroup>
+  <Accordion title="Which languages does 20X support?">
+    Hindi and English are fully supported today for both speech recognition and speech generation, including natural Hinglish code-switching within a single conversation. Additional languages are available in beta, and enterprise customers can request priority language enablement.
+  </Accordion>
+  <Accordion title="Which AI models power 20X?">
+    Any model you choose - the LLM is a configurable setting per agent, not a lock-in. Pick the model in the agent settings and switch it later without rebuilding anything. In practice 20X runs on frontier models from OpenAI and Google Gemini, selected for low latency and accurate reasoning, with GPT-4.1 recommended for most production agents. Speech recognition uses Google Cloud Speech-to-Text and speech generation uses Google Cloud Text-to-Speech.
+  </Accordion>
+  <Accordion title="How natural and fast are phone conversations?">
+    Conversations run near real time. Low-latency models paired with streaming speech recognition and synthesis keep responses within a natural conversational gap, and full-duplex barge-in means that if a customer interrupts, the agent stops speaking immediately, listens, and responds to what was actually said.
+  </Accordion>
+  <Accordion title="Which channels can an agent operate on?">
+    Inbound and outbound phone calls over standard telephony, voice directly in a web browser, and text across website chat widgets, SMS, and WhatsApp. The same agent, knowledge base, and CRM record work across every channel, so the customer never repeats themselves.
+  </Accordion>
+  <Accordion title="How many calls can run at the same time?">
+    Your subscription sets the baseline: every plan includes 2 concurrent sessions, and you can buy additional concurrency as your volume grows. Above that, real-world capacity also depends on your telephony provider's configured concurrent-channel and calls-per-second limits, so it scales with the trunk capacity you provision. We help size both during onboarding based on your peak-hour volume, and enterprise deployments regularly run hundreds of simultaneous calls.
+  </Accordion>
+  <Accordion title="What happens when a call needs a human?">
+    The agent triggers the transfer tool and the platform dials your configured destination number and hands the caller over immediately. Because delivery depends on the telecom network, outcomes such as busy, unanswered, or switched-off numbers sit outside platform control, and transfers are executed as direct handoffs without a post-transfer pickup confirmation. Best practice is to pair transfer with a callback or ticket fallback so no customer is lost.
+  </Accordion>
+</AccordionGroup>
+
+## Knowledge & data
+
+<AccordionGroup>
+  <Accordion title="How does the agent learn my products, pricing, and policies?">
+    Upload your own material - PDFs, product catalogues, price lists, SOPs, policy documents, and existing FAQs - into the agent's knowledge base. The agent retrieves from your approved content when answering, so customers get company-approved answers instead of invented ones, and you update behaviour by updating the document.
+  </Accordion>
+  <Accordion title="What if a customer asks something the agent does not know?">
+    You decide the fallback. The agent can say it does not know and offer a human transfer, capture the customer's contact details and promise a callback, create a ticket, or send follow-up information by SMS or email. Unknown questions are logged so you can close the gap in the knowledge base.
+  </Accordion>
+  <Accordion title="Can 20X connect to my CRM and internal systems?">
+    Yes. Configure webhooks in the API section and 20X pushes call and session details - contact, transcript, summary, outcome, and custom fields - into your CRM, helpdesk, or data warehouse in real time. Agents can also call your own REST APIs mid-conversation to check an order, verify a customer, or book a slot. Deeper bi-directional CRM sync is on the roadmap through Workflows; today's webhook and API model already covers most production use cases.
+  </Accordion>
+  <Accordion title="Can I personalise each call with customer data?">
+    Yes. Attach dynamic variables such as name, city, order ID, plan, due amount, or account balance to any contact through CSV upload or single-contact entry. Those variables reach the agent before the call connects, so it opens with the right context instead of asking the customer to identify themselves.
+  </Accordion>
+</AccordionGroup>
+
+## Campaigns
+
+<AccordionGroup>
+  <Accordion title="How do outbound calling campaigns work?">
+    Create a campaign, assign a Hindi or English agent, and add contacts three ways: upload a CSV, paste raw numbers in bulk, or add contacts one by one with name, phone, and email. Every number must include its country code, for example +919876543210. 20X then dials, holds the conversation, answers questions in real time, records the outcome, and pushes results to your systems.
+  </Accordion>
+  <Accordion title="What outbound use cases work best?">
+    Lead follow-up and requalification of old databases, appointment reminders and confirmations, payment and renewal reminders, delivery and order confirmations, post-purchase feedback and NPS, event and webinar invitations, and win-back campaigns. These are high-volume, script-stable calls where speed of contact matters more than nuance.
+  </Accordion>
+  <Accordion title="What is required to run SMS campaigns on 20X?">
+    Running SMS campaigns requires an active Twilio account with an adequate credit balance. Without an active Twilio account and sufficient balance, SMS campaigns will not execute or send messages.
+  </Accordion>
+</AccordionGroup>
+
+## Measurement
+
+<AccordionGroup>
+  <Accordion title="How do I measure whether the agents are working?">
+    The dashboard tracks call minutes and average handling time, token and speech API cost per agent, call, and campaign, and success rates by outcome - resolved, lead qualified, transfer initiated, callback requested. Every call and chat is recorded and transcribed with a summary, so quality teams can audit conversations and monitor active calls from the logs view.
+  </Accordion>
+  <Accordion title="What results do teams typically see?">
+    Teams commonly report first-response time falling from hours to seconds, 60 to 80% of routine contacts fully resolved without a human, three times more leads contacted within the first five minutes, and a sharp drop in no-shows once reminders are automated. The honest answer is that results depend on your volume, data quality, and how tightly the agent is scoped - we set baseline metrics with you during the pilot.
+  </Accordion>
+</AccordionGroup>
+
+## Security
+
+<AccordionGroup>
+  <Accordion title="Is my data secure and compliant?">
+    Yes. 20X is ISO/IEC 27001 compliant and maintains a SOC 2-ready posture (SOC 2-ready, not SOC 2 certified) with role-based access control, audit logs, encryption in transit and at rest, human-in-the-loop approval gates, and enterprise SSO on higher plans. We support GDPR and India's DPDP Act obligations, publish an EU AI Act transparency position, and sign DPAs. Recordings, transcripts, and retention windows are configurable, and your data is not used to train foundation models.
+  </Accordion>
+</AccordionGroup>
+
+## Pricing
+
+<AccordionGroup>
+  <Accordion title="How does pricing work?">
+    There are no plans to decode - you pay per minute for what you actually use, and one balance covers voice, chat, WhatsApp and email. What a minute costs depends on the stack you pick: the language model, the speech-to-text and text-to-speech providers, and whether knowledge retrieval is on. The pricing calculator on this page shows the final live per-minute price for any combination, in USD or INR, broken down by the options you select. Top up whenever you like, your balance never expires, and above 25,000 minutes a month we can talk about committed-use pricing.
+  </Accordion>
+  <Accordion title="Can I see prices in rupees?">
+    Yes - the calculator has a USD/INR toggle, so every per-minute line and the monthly estimate can be read in either currency. Our provider costs are quoted in dollars, so USD is the reference price and the rupee figure is converted at the live exchange rate shown under the estimate. If you pay in rupees, only the top-up amount is converted, at the live rate shown at checkout.
+  </Accordion>
+  <Accordion title="Is there a free trial, and can I cancel?">
+    You can start free and only spend once your agents handle real conversations - there is no plan to commit to and nothing to cancel. Top up when you are ready, pause or stop whenever you like, and unused balance stays with you because it never expires. Refunds follow our published refund and cancellation policy.
+  </Accordion>
+  <Accordion title="Can I white-label 20X and resell it to my clients?">
+    Yes - a fully whitelabelled deployment is coming soon, running on-premise or in your own VPC under your brand, with hosting and support handled for you. Agencies and consultants can deploy agents under their own branding, manage multiple client workspaces, and bill their own margin. Whitelabel is quoted per deployment rather than from usage, so talk to us about scope and we will put a number to it.
+  </Accordion>
+  <Accordion title="Can I run 20X myself, or do I need help?">
+    Both paths work. Most teams self-serve with templates and the visual builder. If you want speed, a 20X expert consultant runs a three-step engagement - audit your workflows, design the agent and escalation rules, then deploy and tune against real traffic - so you go live with proven flows instead of experiments.
   </Accordion>
 </AccordionGroup>

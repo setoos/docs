@@ -1,0 +1,92 @@
+---
+title: Add knowledge source
+api: "POST /knowledge-bases/{id}/sources"
+description: Ingest text, FAQs, or documents into a knowledge base for RAG context retrieval
+---
+
+Adds a new document or text knowledge source to an existing knowledge base. The platform automatically breaks the text into chunks, generates vector embeddings, and indexes them for RAG retrieval during agent calls.
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the target knowledge base
+</ParamField>
+
+### Body parameters
+
+<ParamField body="sourceType" type="string" required>
+  Type of the source — `text`, `url`, or `file`
+</ParamField>
+
+<ParamField body="sourceName" type="string" required>
+  Human-readable title (e.g. `Refund Policy 2026` or `Company FAQ`)
+</ParamField>
+
+<ParamField body="rawText" type="string">
+  The text content to ingest (required when `sourceType` is `text`)
+</ParamField>
+
+<ParamField body="url" type="string">
+  The webpage URL to scrape and index (required when `sourceType` is `url`)
+</ParamField>
+
+<CodeGroup>
+
+```bash curl
+curl -X POST https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/sources \
+  -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sourceType": "text",
+    "sourceName": "Product Pricing & Terms",
+    "rawText": "Our basic plan starts at $49/mo and includes 500 voice minutes. Enterprise plans include custom LLM fine-tuning and dedicated support."
+  }'
+```
+
+```python Python
+import os, requests
+
+resp = requests.post(
+    "https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/sources",
+    headers={
+        "Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "sourceType": "text",
+        "sourceName": "Product Pricing & Terms",
+        "rawText": "Our basic plan starts at $49/mo and includes 500 voice minutes. Enterprise plans include custom LLM fine-tuning and dedicated support.",
+    },
+)
+print(resp.json())
+```
+
+```javascript Node
+await fetch("https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/sources", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    sourceType: "text",
+    sourceName: "Product Pricing & Terms",
+    rawText: "Our basic plan starts at $49/mo and includes 500 voice minutes. Enterprise plans include custom LLM fine-tuning and dedicated support.",
+  }),
+});
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "source_789012",
+  "knowledgeBaseId": "kb_123456",
+  "sourceName": "Product Pricing & Terms",
+  "sourceType": "text",
+  "status": "PROCESSING",
+  "createdAt": "2026-08-15T12:00:00.000Z"
+}
+```
