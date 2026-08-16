@@ -4,7 +4,7 @@ api: "POST /campaigns"
 description: Create a new outbound voice calling campaign
 ---
 
-Creates a new outbound voice calling campaign. A campaign requires an **agent**, a **voice number**, and optionally a **contact list** (which must contain at least 2 contacts before starting).
+Creates a new outbound voice calling campaign. A campaign requires an **agent**, a **voice number**, and a **contact list** (which must contain at least 2 contacts before starting).
 
 <Note>
   Creating a campaign creates it in `DRAFT` status (or `SCHEDULED` if `scheduledAt` is supplied). Outbound dialing begins once you call [`POST /campaigns/{id}/start`](/api-reference/campaigns/start-campaign) or when the scheduled start time arrives.
@@ -24,7 +24,7 @@ Creates a new outbound voice calling campaign. A campaign requires an **agent**,
   UUID of the purchased voice number to dial from. List numbers via [`GET /voice-numbers`](/api-reference/numbers/list-voice-numbers).
 </ParamField>
 
-<ParamField body="contactListId" type="string">
+<ParamField body="contactListId" type="string" required>
   UUID of the contact list to dial. A minimum of 2 contacts in the list is required to start dialing.
 </ParamField>
 

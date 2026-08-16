@@ -137,8 +137,7 @@
             "pages": [
               "api-reference/account/profile",
               "api-reference/account/wallet-balance",
-              "api-reference/account/wallet-transactions",
-              "api-reference/account/api-keys"
+              "api-reference/account/wallet-transactions"
             ]
           },
           {
@@ -152,22 +151,6 @@
             ]
           },
           {
-            "group": "Agents",
-            "pages": [
-              "api-reference/agents/overview",
-              "api-reference/agents/create-agent",
-              "api-reference/agents/list-agents",
-              "api-reference/agents/get-agent",
-              "api-reference/agents/patch-update-agent",
-              "api-reference/agents/delete-agent",
-              "api-reference/agents/generate-prompt",
-              "api-reference/agents/attach-tool",
-              "api-reference/agents/get-agent-execution",
-              "api-reference/agents/get-all-executions",
-              "api-reference/agents/stop-agent-calls"
-            ]
-          },
-          {
             "group": "Configuration",
             "pages": [
               "api-reference/configuration/list-personas",
@@ -176,6 +159,21 @@
               "api-reference/configuration/list-stt-providers",
               "api-reference/configuration/list-tts-providers",
               "api-reference/configuration/list-voices"
+            ]
+          },
+          {
+            "group": "Agents",
+            "pages": [
+              "api-reference/agents/overview",
+              "api-reference/agents/create-agent",
+              "api-reference/agents/list-agents",
+              "api-reference/agents/get-agent",
+              "api-reference/agents/patch-update-agent",
+              "api-reference/agents/delete-agent",
+              "api-reference/agents/attach-tool",
+              "api-reference/agents/get-agent-execution",
+              "api-reference/agents/get-all-executions",
+              "api-reference/agents/stop-agent-calls"
             ]
           },
           {

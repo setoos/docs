@@ -18,43 +18,43 @@ settings are configured afterward via [Patch update agent](/api-reference/agents
 </ParamField>
 
 <ParamField body="agent_persona_id" type="string">
-  A persona ID to start from — list available personas via `GET /prompts/personas`
+  A persona ID to initialize the agent with — list available personas via [`GET /prompts/personas`](/api-reference/configuration/list-personas).
 </ParamField>
 
 <ParamField body="agent_prompt" type="string">
-  System prompt driving the agent's behaviour
+  System prompt driving the agent's behavior and personality.
 </ParamField>
 
 <ParamField body="llm_model_id" type="string">
-  LLM model to run the agent on
+  LLM model UUID to run the agent on — list available LLM models & providers via [`GET /llm/models`](/api-reference/configuration/list-llm-models).
 </ParamField>
 
 <ParamField body="description" type="string">
-  Agent description
+  Agent description or internal notes.
 </ParamField>
 
 <ParamField body="voiceProfileId" type="string">
-  Voice profile UUID, for `VOICE` agents
+  Voice profile UUID, for `VOICE` agents — list available voices via [`GET /voices`](/api-reference/configuration/list-voices).
 </ParamField>
 
 <ParamField body="knowledge_base_id" type="string">
-  Knowledge base to ground the agent's answers in
+  Knowledge base UUID to ground the agent's answers in.
 </ParamField>
 
 <ParamField body="greet" type="boolean" default="true">
-  Whether the agent speaks first
+  Whether the agent speaks first upon connection.
 </ParamField>
 
 <ParamField body="greetMessage" type="string" default="Hello">
-  Opening line when `greet` is enabled
+  Opening line when `greet` is enabled.
 </ParamField>
 
 <ParamField body="recordCalls" type="boolean" default="false">
-  Whether calls handled by this agent are recorded
+  Whether calls handled by this agent are recorded.
 </ParamField>
 
 <ParamField body="is_active" type="boolean" default="true">
-  Whether the agent is active
+  Whether the agent is active.
 </ParamField>
 
 <CodeGroup>
@@ -64,8 +64,13 @@ curl -X POST https://api.agentic-os.com/api/v1/agents \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Support Agent",
-    "agent_persona_id": "PERSONA_ID",
+    "name": "Sales Voice Agent",
+    "channel": "VOICE",
+    "agent_persona_id": "c7a840e6-...",
+    "llm_model_id": "b9d311f2-...",
+    "agent_prompt": "You are a friendly sales representative. Qualify leads concisely.",
+    "greet": true,
+    "greetMessage": "Hello! Thanks for reaching out. How can I help you today?",
     "is_active": true
   }'
 ```
@@ -75,8 +80,13 @@ requests.post(
     "https://api.agentic-os.com/api/v1/agents",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
-        "name": "Support Agent",
-        "agent_persona_id": "PERSONA_ID",
+        "name": "Sales Voice Agent",
+        "channel": "VOICE",
+        "agent_persona_id": "c7a840e6-...",
+        "llm_model_id": "b9d311f2-...",
+        "agent_prompt": "You are a friendly sales representative. Qualify leads concisely.",
+        "greet": True,
+        "greetMessage": "Hello! Thanks for reaching out. How can I help you today?",
         "is_active": True,
     },
 )
@@ -90,8 +100,13 @@ await fetch("https://api.agentic-os.com/api/v1/agents", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    name: "Support Agent",
-    agent_persona_id: "PERSONA_ID",
+    name: "Sales Voice Agent",
+    channel: "VOICE",
+    agent_persona_id: "c7a840e6-...",
+    llm_model_id: "b9d311f2-...",
+    agent_prompt: "You are a friendly sales representative. Qualify leads concisely.",
+    greet: true,
+    greetMessage: "Hello! Thanks for reaching out. How can I help you today?",
     is_active: true,
   }),
 });

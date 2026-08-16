@@ -3,19 +3,7 @@ title: Rate Limiting
 description: Request limits applied per tenant, using a sliding window
 ---
 
-API requests are rate limited **per tenant**, not per credential. Every API key
-and every dashboard user in your organisation draws from one shared allowance —
-issuing more keys or adding more users does not multiply your capacity.
-
-| Authenticated as | Counted against |
-| --- | --- |
-| API key (`Authorization: Bearer aok_…`) | The tenant that owns the key |
-| Dashboard user (JWT) | That user's tenant |
-| Unauthenticated (e.g. login) | Client IP — there is no tenant yet |
-
-The default allowance is **120 requests per minute** per tenant. Limits are
-configured per environment, so the exact number for your deployment may differ —
-always read it from the response headers rather than hardcoding it.
+API requests are rate limited to **120 requests per minute** per organization/API key. Every API key and integration draws from this shared allowance. Limits are enforced automatically on all API endpoints.
 
 ## Sliding window
 
