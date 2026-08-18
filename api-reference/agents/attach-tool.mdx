@@ -29,7 +29,7 @@ Attaches an executable tool or custom function to an agent brain. When the conve
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/tools/agents/BRAIN_ID/bindings \
+curl -X POST https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/tools/agents/BRAIN_ID/bindings \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -46,7 +46,7 @@ curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/tools/agents/BRAIN_ID/
 import os, requests
 
 resp = requests.post(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/tools/agents/BRAIN_ID/bindings",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/tools/agents/BRAIN_ID/bindings",
     headers={
         "Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}",
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ print(resp.json())
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/tools/agents/BRAIN_ID/bindings", {
+await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/tools/agents/BRAIN_ID/bindings", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,

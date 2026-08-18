@@ -19,7 +19,7 @@ Returns the ledger of all wallet transactions (credits, auto-topups, call usage 
 <CodeGroup>
 
 ```bash curl
-curl "https://dev-agentic-os-aks.setoo.work/api/v1/wallet/transactions?page=1&pageSize=10" \
+curl "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/wallet/transactions?page=1&pageSize=10" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -27,7 +27,7 @@ curl "https://dev-agentic-os-aks.setoo.work/api/v1/wallet/transactions?page=1&pa
 import os, requests
 
 resp = requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/wallet/transactions",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/wallet/transactions",
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
     params={"page": 1, "pageSize": 10},
 )
@@ -35,7 +35,7 @@ print(resp.json())
 ```
 
 ```javascript Node
-const resp = await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/wallet/transactions?page=1&pageSize=10", {
+const resp = await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/wallet/transactions?page=1&pageSize=10", {
   headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
 });
 console.log(await resp.json());
@@ -72,6 +72,6 @@ console.log(await resp.json());
 Fetches active foreign exchange conversion rates applied to billing wallets.
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/billing/fx-rates \
+curl https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/billing/fx-rates \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```

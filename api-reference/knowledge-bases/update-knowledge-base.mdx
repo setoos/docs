@@ -41,7 +41,7 @@ Only the fields you send are changed.
 <CodeGroup>
 
 ```bash curl
-curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID \
+curl -X PATCH https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/knowledge-bases/KB_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "kbName": "Renamed KB", "retrievalScoreThreshold": 0.35 }'
@@ -49,14 +49,14 @@ curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID
 
 ```python Python
 requests.patch(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/knowledge-bases/KB_ID",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={"kbName": "Renamed KB", "retrievalScoreThreshold": 0.35},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID", {
+await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/knowledge-bases/KB_ID", {
   method: "PATCH",
   headers: {
     Authorization: `Bearer ${API_KEY}`,

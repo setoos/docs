@@ -71,7 +71,7 @@ Creates a new outbound voice calling campaign. A campaign requires an **agent**,
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/campaigns \
+curl -X POST https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -93,7 +93,7 @@ curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/campaigns \
 import requests
 
 response = requests.post(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns",
+    "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns",
     headers={
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
@@ -116,7 +116,7 @@ print(response.json())
 ```
 
 ```javascript Node
-const response = await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/campaigns", {
+const response = await fetch("https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,

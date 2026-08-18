@@ -15,7 +15,7 @@ Retrieves the configuration and template mappings of a WhatsApp campaign by its 
 <CodeGroup>
 
 ```bash curl
-curl -X GET https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/campaigns/55555555-5555-5555-5555-555555555555 \
+curl -X GET https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/whatsapp/campaigns/55555555-5555-5555-5555-555555555555 \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -23,7 +23,7 @@ curl -X GET https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/campaigns/5555
 import requests
 
 response = requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/campaigns/55555555-5555-5555-5555-555555555555",
+    "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/whatsapp/campaigns/55555555-5555-5555-5555-555555555555",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 print(response.json())
@@ -31,7 +31,7 @@ print(response.json())
 
 ```javascript Node
 const response = await fetch(
-  "https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/campaigns/55555555-5555-5555-5555-555555555555",
+  "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/whatsapp/campaigns/55555555-5555-5555-5555-555555555555",
   {
     method: "GET",
     headers: { Authorization: `Bearer ${API_KEY}` },

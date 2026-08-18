@@ -28,19 +28,19 @@ For balances held at your telephony providers instead, see
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/billing/wallet \
+curl https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/billing/wallet \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/billing/wallet",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/billing/wallet",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/billing/wallet", {
+await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/billing/wallet", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

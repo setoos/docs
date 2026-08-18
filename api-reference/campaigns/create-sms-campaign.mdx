@@ -54,7 +54,7 @@ Creates an SMS campaign that automatically dispatches SMS follow-up messages bas
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/sms-agent/campaigns \
+curl -X POST https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/sms-agent/campaigns \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -79,7 +79,7 @@ curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/sms-agent/campaigns \
 import requests
 
 response = requests.post(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/sms-agent/campaigns",
+    "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/sms-agent/campaigns",
     headers={
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
@@ -106,7 +106,7 @@ print(response.json())
 
 ```javascript Node
 const response = await fetch(
-  "https://dev-agentic-os-aks.setoo.work/api/v1/sms-agent/campaigns",
+  "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/sms-agent/campaigns",
   {
     method: "POST",
     headers: {

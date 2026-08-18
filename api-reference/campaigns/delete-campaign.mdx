@@ -19,7 +19,7 @@ Permanently deletes a campaign.
 <CodeGroup>
 
 ```bash curl
-curl -X DELETE https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000 \
+curl -X DELETE https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000 \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -27,7 +27,7 @@ curl -X DELETE https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e
 import requests
 
 response = requests.delete(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000",
+    "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 print(response.status_code)
@@ -35,7 +35,7 @@ print(response.status_code)
 
 ```javascript Node
 const response = await fetch(
-  "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000",
+  "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000",
   {
     method: "DELETE",
     headers: { Authorization: `Bearer ${API_KEY}` },

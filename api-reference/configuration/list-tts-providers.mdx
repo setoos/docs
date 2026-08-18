@@ -10,19 +10,19 @@ pick a specific voice, see [List voices](/api-reference/configuration/list-voice
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/tts-providers \
+curl https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/tts-providers \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/tts-providers",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/tts-providers",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/tts-providers", {
+await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/tts-providers", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

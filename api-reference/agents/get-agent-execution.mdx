@@ -24,13 +24,13 @@ description: Retrieve details of a single agent call/chat execution
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID/executions/EXECUTION_ID \
+curl https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents/AGENT_ID/executions/EXECUTION_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID/executions/EXECUTION_ID",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents/AGENT_ID/executions/EXECUTION_ID",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```

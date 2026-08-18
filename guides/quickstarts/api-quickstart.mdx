@@ -7,7 +7,7 @@ Make your first Voice AI call with the Agentic OS API — verify your key, get a
 place a call, and fetch the transcript in about five minutes.
 
 Go from an API key to a real phone call (with a transcript and recording) in four steps.
-Every request below uses the production base URL `https://dev-agentic-os-aks.setoo.work` and Bearer
+Every request below uses the production base URL `https://dev-agentic-os-platform-core-api-aks.setoo.work` and Bearer
 authentication.
 
 <Callout type="info">
@@ -37,7 +37,7 @@ concurrency limit before you spend any credits.
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/billing/wallet \
+curl https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/billing/wallet \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -45,14 +45,14 @@ curl https://dev-agentic-os-aks.setoo.work/api/v1/billing/wallet \
 import os, requests
 
 resp = requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/billing/wallet",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/billing/wallet",
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
 )
 print(resp.json())
 ```
 
 ```javascript Node
-const resp = await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/billing/wallet", {
+const resp = await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/billing/wallet", {
   headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
 });
 console.log(await resp.json());
@@ -71,7 +71,7 @@ Use an existing agent, or create one from a persona.
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/agents \
+curl -X POST https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -83,7 +83,7 @@ curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/agents \
 
 ```python Python
 resp = requests.post(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/agents",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents",
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
     json={
         "name": "Quickstart Agent",
@@ -96,7 +96,7 @@ print(agent["id"])
 ```
 
 ```javascript Node
-const resp = await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/agents", {
+const resp = await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
@@ -125,7 +125,7 @@ Calls go out through a voice number already registered to your tenant, not a
 raw phone string:
 
 ```bash
-curl https://dev-agentic-os-aks.setoo.work/api/v1/voice-numbers \
+curl https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/voice-numbers \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -140,7 +140,7 @@ have one yet.
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/channels/voice/call \
+curl -X POST https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/channels/voice/call \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -152,7 +152,7 @@ curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/channels/voice/call \
 
 ```python Python
 resp = requests.post(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/channels/voice/call",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/channels/voice/call",
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
     json={
         "agentId": "YOUR_AGENT_ID",
@@ -165,7 +165,7 @@ print(call["sessionId"])
 ```
 
 ```javascript Node
-const resp = await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/channels/voice/call", {
+const resp = await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/channels/voice/call", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
@@ -195,13 +195,13 @@ Poll the call detail endpoint once the call has ended.
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/call-logs/YOUR_SESSION_ID/full \
+curl https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/call-logs/YOUR_SESSION_ID/full \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 resp = requests.get(
-    f"https://dev-agentic-os-aks.setoo.work/api/v1/call-logs/{session_id}/full",
+    f"https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/call-logs/{session_id}/full",
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
 )
 print(resp.json()["transcript"])
@@ -209,7 +209,7 @@ print(resp.json()["transcript"])
 
 ```javascript Node
 const resp = await fetch(
-  `https://dev-agentic-os-aks.setoo.work/api/v1/call-logs/${sessionId}/full`,
+  `https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/call-logs/${sessionId}/full`,
   { headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` } },
 );
 const { transcript, recording } = await resp.json();
@@ -239,7 +239,7 @@ call summary and recording link to it as soon as the call ends. See
 #!/usr/bin/env bash
 set -euo pipefail
 
-BASE="https://dev-agentic-os-aks.setoo.work/api/v1"
+BASE="https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1"
 AUTH="Authorization: Bearer $AGENTIC_OS_API_KEY"
 
 PERSONA_ID=$(curl -s "$BASE/prompts/personas" -H "$AUTH" | jq -r '.[0].id')

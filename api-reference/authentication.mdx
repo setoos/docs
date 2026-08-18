@@ -104,15 +104,17 @@ Every endpoint page in this reference has a live request runner. To use it:
 
 ### Choosing a server
 
-The API Playground uses the following base URL:
+The API Playground offers the following service base URLs:
 
-| Server | Description |
-| --- | --- |
-| `https://dev-agentic-os-aks.setoo.work/api/v1` | Live Cloud API / Production |
-| `http://localhost:8787/api/v1` | Local development (via the dev gateway below) |
+| Service | Base URL | Scope |
+| --- | --- | --- |
+| **Platform Core** | `https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1` | Profile, Wallet, Billing, Analytics, Integrations |
+| **Comms Engine** | `https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1` | Agents, Channels, Calls, Phone Numbers, Knowledge Bases |
+| **Campaign Engine** | `https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1` | Voice Campaigns, Contact Lists, WhatsApp, SMS Campaigns |
+| **Local Gateway** | `http://localhost:8787/api/v1` | Local development (via the dev gateway below) |
 
 <Callout type="info">
-  Requests in the interactive playground target `https://dev-agentic-os-aks.setoo.work/api/v1` by default. For local multi-service development, you can use the dev gateway script below.
+  Select the appropriate engine server from the server dropdown in the interactive playground depending on the endpoint you are testing.
 </Callout>
 
 Reading the errors:

@@ -19,19 +19,19 @@ fails to load.
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/call-logs/SESSION_ID/full \
+curl https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/call-logs/SESSION_ID/full \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/call-logs/SESSION_ID/full",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/call-logs/SESSION_ID/full",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/call-logs/SESSION_ID/full", {
+await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/call-logs/SESSION_ID/full", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

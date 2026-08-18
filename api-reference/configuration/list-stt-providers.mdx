@@ -11,19 +11,19 @@ an agent's voice configuration.
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/stt-providers \
+curl https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/stt-providers \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/stt-providers",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/stt-providers",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/stt-providers", {
+await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/stt-providers", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

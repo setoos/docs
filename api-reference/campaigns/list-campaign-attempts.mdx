@@ -21,7 +21,7 @@ Returns the chronological list of call attempts for a campaign, with contact pho
 <CodeGroup>
 
 ```bash curl
-curl -X GET "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts?status=COMPLETED" \
+curl -X GET "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts?status=COMPLETED" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -29,7 +29,7 @@ curl -X GET "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29
 import requests
 
 response = requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts",
+    "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts",
     headers={"Authorization": f"Bearer {API_KEY}"},
     params={"status": "COMPLETED"},
 )
@@ -38,7 +38,7 @@ print(response.json())
 
 ```javascript Node
 const response = await fetch(
-  "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts?status=COMPLETED",
+  "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/attempts?status=COMPLETED",
   {
     method: "GET",
     headers: { Authorization: `Bearer ${API_KEY}` },

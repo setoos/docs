@@ -18,9 +18,17 @@
     "indexing": "all"
   },
   "api": {
-    "baseUrl": "https://dev-agentic-os-aks.setoo.work/api/v1",
+    "baseUrl": [
+      "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1",
+      "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1",
+      "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1"
+    ],
     "mdx": {
-      "server": "https://dev-agentic-os-aks.setoo.work/api/v1",
+      "server": [
+        "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1",
+        "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1",
+        "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1"
+      ],
       "auth": {
         "method": "bearer"
       }

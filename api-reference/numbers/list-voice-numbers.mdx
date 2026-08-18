@@ -12,19 +12,19 @@ one is assigned to. Use the `id` from this list as `voiceNumberId` when
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/voice-numbers \
+curl https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/voice-numbers \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/voice-numbers",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/voice-numbers",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/voice-numbers", {
+await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/voice-numbers", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

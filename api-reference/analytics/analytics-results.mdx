@@ -23,19 +23,19 @@ Filters are passed through to the analytics engine. Commonly used:
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/analytics/results \
+curl https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/analytics/results \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/analytics/results",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/analytics/results",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/analytics/results", {
+await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/analytics/results", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

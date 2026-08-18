@@ -17,13 +17,13 @@ providers you can register numbers against.
 <CodeGroup>
 
 ```bash curl
-curl "https://dev-agentic-os-aks.setoo.work/api/v1/integrations/providers?channel=VOICE" \
+curl "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations/providers?channel=VOICE" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/integrations/providers",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations/providers",
     headers={"Authorization": f"Bearer {API_KEY}"},
     params={"channel": "VOICE"},
 )
@@ -31,7 +31,7 @@ requests.get(
 
 ```javascript Node
 await fetch(
-  "https://dev-agentic-os-aks.setoo.work/api/v1/integrations/providers?channel=VOICE",
+  "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations/providers?channel=VOICE",
   { headers: { Authorization: `Bearer ${API_KEY}` } },
 );
 ```

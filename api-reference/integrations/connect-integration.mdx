@@ -29,7 +29,7 @@ Connects or updates credentials for a third-party provider. The backend verifies
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/integrations \
+curl -X POST https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -47,7 +47,7 @@ curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/integrations \
 import os, requests
 
 resp = requests.post(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/integrations",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations",
     headers={
         "Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}",
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ print(resp.json())
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/integrations", {
+await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}`,

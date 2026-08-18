@@ -47,14 +47,14 @@ Only the fields you include are changed; everything else is left as-is.
 <CodeGroup>
 
 ```bash curl (rename)
-curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID \
+curl -X PATCH https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents/AGENT_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "name": "Support Agent v2" }'
 ```
 
 ```bash curl (set prompt + greeting)
-curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID \
+curl -X PATCH https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents/AGENT_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -65,7 +65,7 @@ curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID \
 ```
 
 ```bash curl (assign outbound telephony number)
-curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID \
+curl -X PATCH https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents/AGENT_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -75,7 +75,7 @@ curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID \
 ```
 
 ```bash curl (connect WhatsApp)
-curl -X PATCH https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID \
+curl -X PATCH https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents/AGENT_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

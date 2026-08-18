@@ -19,7 +19,7 @@ Creates a new empty contact list. You can populate the list by uploading a CSV v
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists \
+curl -X POST https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/contact-lists \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -35,7 +35,7 @@ curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists \
 import requests
 
 response = requests.post(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists",
+    "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/contact-lists",
     headers={
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ print(response.json())
 ```
 
 ```javascript Node
-const response = await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists", {
+const response = await fetch("https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1/contact-lists", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,

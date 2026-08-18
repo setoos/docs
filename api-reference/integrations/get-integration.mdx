@@ -15,19 +15,19 @@ Returns one integration by provider name. Credentials are not included.
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-aks.setoo.work/api/v1/integrations/TWILIO \
+curl https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations/TWILIO \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/integrations/TWILIO",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations/TWILIO",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/integrations/TWILIO", {
+await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/integrations/TWILIO", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

@@ -85,13 +85,13 @@ main reporting endpoint — every filter below can be combined.
 <CodeGroup>
 
 ```bash curl
-curl "https://dev-agentic-os-aks.setoo.work/api/v1/call-logs?status=answered&fromDate=2026-06-01T00:00:00Z&pageSize=25" \
+curl "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/call-logs?status=answered&fromDate=2026-06-01T00:00:00Z&pageSize=25" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-aks.setoo.work/api/v1/call-logs",
+    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/call-logs",
     headers={"Authorization": f"Bearer {API_KEY}"},
     params={"status": "answered", "fromDate": "2026-06-01T00:00:00Z", "pageSize": 25},
 )
@@ -99,7 +99,7 @@ requests.get(
 
 ```javascript Node
 await fetch(
-  "https://dev-agentic-os-aks.setoo.work/api/v1/call-logs?status=answered&pageSize=25",
+  "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/call-logs?status=answered&pageSize=25",
   { headers: { Authorization: `Bearer ${API_KEY}` } },
 );
 ```
