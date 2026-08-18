@@ -9,22 +9,22 @@ summary.
 
 ### What you get depends on how you authenticate
 
-<ParamField body="data.user" type="object">
+<ResponseField name="data.user" type="object">
   The signed-in user. **`null` when you authenticate with an API key** — a key
   belongs to a tenant, not a person, so no user identity is returned
-</ParamField>
+</ResponseField>
 
-<ParamField body="data.tenant" type="object">
+<ResponseField name="data.tenant" type="object">
   Tenant id, name, slug, status, country and currency
-</ParamField>
+</ResponseField>
 
-<ParamField body="data.onboarding" type="object">
+<ResponseField name="data.onboarding" type="object">
   Onboarding flags — `hasIntegration`, `hasFlow`, `hasTestedCall`, `completed`
-</ParamField>
+</ResponseField>
 
-<ParamField body="data.wallet" type="object">
+<ResponseField name="data.wallet" type="object">
   Wallet id, balance, currency and low-balance threshold
-</ParamField>
+</ResponseField>
 
 <CodeGroup>
 
