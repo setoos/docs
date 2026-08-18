@@ -29,13 +29,13 @@ billing reconciliation.
 <CodeGroup>
 
 ```bash curl
-curl "https://api.agentic-os.com/api/v1/analytics/my-detail?from=2026-06-01&to=2026-06-30" \
+curl "https://dev-agentic-os-aks.setoo.work/api/v1/analytics/my-detail?from=2026-06-01&to=2026-06-30" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://api.agentic-os.com/api/v1/analytics/my-detail",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/analytics/my-detail",
     headers={"Authorization": f"Bearer {API_KEY}"},
     params={"from": "2026-06-01", "to": "2026-06-30"},
 )
@@ -43,7 +43,7 @@ requests.get(
 
 ```javascript Node
 await fetch(
-  "https://api.agentic-os.com/api/v1/analytics/my-detail?from=2026-06-01&to=2026-06-30",
+  "https://dev-agentic-os-aks.setoo.work/api/v1/analytics/my-detail?from=2026-06-01&to=2026-06-30",
   { headers: { Authorization: `Bearer ${API_KEY}` } },
 );
 ```

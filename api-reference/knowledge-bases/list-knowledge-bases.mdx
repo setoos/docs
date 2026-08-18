@@ -9,19 +9,19 @@ Returns every knowledge base belonging to your tenant.
 <CodeGroup>
 
 ```bash curl
-curl https://api.agentic-os.com/api/v1/knowledge-bases \
+curl https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://api.agentic-os.com/api/v1/knowledge-bases",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://api.agentic-os.com/api/v1/knowledge-bases", {
+await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

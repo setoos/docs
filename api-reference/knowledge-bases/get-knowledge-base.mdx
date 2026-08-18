@@ -13,19 +13,19 @@ description: Retrieve a single knowledge base by ID
 <CodeGroup>
 
 ```bash curl
-curl https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID \
+curl https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID", {
+await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

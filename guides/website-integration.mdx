@@ -45,7 +45,7 @@ Before writing code, test every endpoint in real-time on our documentation playg
 1. Open any API Reference page, such as [Make Phone Call](/api-reference/calls/make-phone-call) or [Start Web Call](/api-reference/calls/start-web-call).
 2. Look at the **Interactive Playground** panel on the right.
 3. Paste your `aok_...` key into the **Authorization** input field.
-4. Select the target server (e.g., `https://api.agentic-os.com/api/v1` for production or `http://localhost:8787/api/v1` for local gateway testing).
+4. Confirm the target server (`https://dev-agentic-os-aks.setoo.work/api/v1`).
 5. Fill in the parameters (e.g. `agentId`, `toNumber`) and click **Send** to see live responses from your tenant!
 
 ---
@@ -79,7 +79,7 @@ app.post('/api/request-call', async (req, res) => {
   const { customerPhone, customerName } = req.body;
 
   try {
-    const response = await fetch('https://api.agentic-os.com/api/v1/channels/voice/call', {
+    const response = await fetch('https://dev-agentic-os-aks.setoo.work/api/v1/channels/voice/call', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${AGENTIC_OS_API_KEY}`,
@@ -171,7 +171,7 @@ Your backend requests a session token from Agentic OS:
 ```javascript
 // Backend Route
 app.post('/api/start-web-call', async (req, res) => {
-  const response = await fetch('https://api.agentic-os.com/api/v1/channels/web/session', {
+  const response = await fetch('https://dev-agentic-os-aks.setoo.work/api/v1/channels/web/session', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${process.env.AGENTIC_OS_API_KEY}`,
@@ -195,7 +195,7 @@ Trigger automated WhatsApp messages or SMS follow-ups when users complete action
 import requests
 
 def send_whatsapp_confirmation(phone_number: str, customer_name: str):
-    url = "https://api.agentic-os.com/api/v1/whatsapp/messages"
+    url = "https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/messages"
     headers = {
         "Authorization": "Bearer aok_your_api_key_here",
         "Content-Type": "application/json"

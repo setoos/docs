@@ -28,13 +28,13 @@ results in pages rather than all at once.
 <CodeGroup>
 
 ```bash curl
-curl "https://api.agentic-os.com/api/v1/agents?page=2&pageSize=50" \
+curl "https://dev-agentic-os-aks.setoo.work/api/v1/agents?page=2&pageSize=50" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://api.agentic-os.com/api/v1/agents",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/agents",
     params={"page": 2, "pageSize": 50},
     headers={"Authorization": f"Bearer {API_KEY}"},
 )

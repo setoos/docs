@@ -71,7 +71,8 @@ const docsJson = JSON.parse(fs.readFileSync(docsJsonPath, 'utf8'));
 if (!docsJson.api) docsJson.api = {};
 if (!docsJson.api.mdx) docsJson.api.mdx = {};
 
-const previousServer = docsJson.api.mdx.server;
+const previousServer = docsJson.api.baseUrl || docsJson.api.mdx?.server;
+docsJson.api.baseUrl = normalizedUrl;
 docsJson.api.mdx.server = normalizedUrl;
 
 fs.writeFileSync(docsJsonPath, JSON.stringify(docsJson, null, 2) + '\n');

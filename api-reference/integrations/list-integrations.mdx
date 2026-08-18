@@ -20,19 +20,19 @@ calendar and data providers. Credentials are **never** included in the response.
 <CodeGroup>
 
 ```bash curl
-curl https://api.agentic-os.com/api/v1/integrations \
+curl https://dev-agentic-os-aks.setoo.work/api/v1/integrations \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://api.agentic-os.com/api/v1/integrations",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/integrations",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://api.agentic-os.com/api/v1/integrations", {
+await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/integrations", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```

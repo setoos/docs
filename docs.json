@@ -18,8 +18,9 @@
     "indexing": "all"
   },
   "api": {
+    "baseUrl": "https://dev-agentic-os-aks.setoo.work/api/v1",
     "mdx": {
-      "server": "https://agentics-os.onrender.com/api/v1",
+      "server": "https://dev-agentic-os-aks.setoo.work/api/v1",
       "auth": {
         "method": "bearer"
       }

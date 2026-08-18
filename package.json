@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "sync-env": "node scripts/sync-env.mjs",
-    "dev": "node scripts/sync-env.mjs && npx mint dev --port 3334",
+    "dev": "node scripts/sync-env.mjs && npx mintlify dev --port 3334",
     "dev:gateway": "node scripts/dev-gateway.mjs"
   }
 }

@@ -24,13 +24,13 @@ switch if an agent is misbehaving in production.
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/agents/AGENT_ID/stop-calls \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID/stop-calls \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.post(
-    "https://api.agentic-os.com/api/v1/agents/AGENT_ID/stop-calls",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID/stop-calls",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```

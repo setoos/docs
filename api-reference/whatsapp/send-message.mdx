@@ -33,7 +33,7 @@ description: Send a freeform WhatsApp message
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/channels/whatsapp/messages \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/channels/whatsapp/messages \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "agentId": "AGENT_ID", "toNumber": "+919876543210", "content": "Hello!" }'
@@ -41,7 +41,7 @@ curl -X POST https://api.agentic-os.com/api/v1/channels/whatsapp/messages \
 
 ```python Python
 requests.post(
-    "https://api.agentic-os.com/api/v1/channels/whatsapp/messages",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/channels/whatsapp/messages",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={"agentId": "AGENT_ID", "toNumber": "+919876543210", "content": "Hello!"},
 )

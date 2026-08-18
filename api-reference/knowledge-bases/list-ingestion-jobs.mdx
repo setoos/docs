@@ -15,7 +15,7 @@ Fetches the progress and status of all document vectorization and embedding jobs
 <CodeGroup>
 
 ```bash curl
-curl https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/ingestion-jobs \
+curl https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID/ingestion-jobs \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -23,14 +23,14 @@ curl https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/ingestion-jobs \
 import os, requests
 
 resp = requests.get(
-    "https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/ingestion-jobs",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID/ingestion-jobs",
     headers={"Authorization": f"Bearer {os.environ['AGENTIC_OS_API_KEY']}"},
 )
 print(resp.json())
 ```
 
 ```javascript Node
-const resp = await fetch("https://api.agentic-os.com/api/v1/knowledge-bases/KB_ID/ingestion-jobs", {
+const resp = await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/knowledge-bases/KB_ID/ingestion-jobs", {
   headers: { Authorization: `Bearer ${process.env.AGENTIC_OS_API_KEY}` },
 });
 const jobs = await resp.json();

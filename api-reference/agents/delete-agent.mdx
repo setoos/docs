@@ -20,13 +20,13 @@ description: Permanently delete an agent
 <CodeGroup>
 
 ```bash curl
-curl -X DELETE https://api.agentic-os.com/api/v1/agents/AGENT_ID \
+curl -X DELETE https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.delete(
-    "https://api.agentic-os.com/api/v1/agents/AGENT_ID",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```

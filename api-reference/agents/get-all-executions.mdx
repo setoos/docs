@@ -34,13 +34,13 @@ description: List all call/chat executions for an agent
 <CodeGroup>
 
 ```bash curl
-curl "https://api.agentic-os.com/api/v1/agents/AGENT_ID/executions?status=completed" \
+curl "https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID/executions?status=completed" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://api.agentic-os.com/api/v1/agents/AGENT_ID/executions",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/agents/AGENT_ID/executions",
     params={"status": "completed"},
     headers={"Authorization": f"Bearer {API_KEY}"},
 )

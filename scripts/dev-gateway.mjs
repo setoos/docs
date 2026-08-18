@@ -8,7 +8,7 @@
  * making you pick the right service per endpoint.
  *
  * The ROUTES table below is also the spec for the real ingress: whatever fronts
- * `api.agentic-os.com` needs to path-route exactly like this.
+ * `dev-agentic-os-aks.setoo.work` needs to path-route exactly like this.
  *
  * Usage:
  *   node docs/scripts/dev-gateway.mjs

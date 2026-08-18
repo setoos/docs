@@ -36,13 +36,13 @@ so filter it.
 <CodeGroup>
 
 ```bash curl
-curl "https://api.agentic-os.com/api/v1/voices?languageCode=en-US&gender=female" \
+curl "https://dev-agentic-os-aks.setoo.work/api/v1/voices?languageCode=en-US&gender=female" \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://api.agentic-os.com/api/v1/voices",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/voices",
     headers={"Authorization": f"Bearer {API_KEY}"},
     params={"languageCode": "en-US", "gender": "female"},
 )
@@ -50,7 +50,7 @@ requests.get(
 
 ```javascript Node
 await fetch(
-  "https://api.agentic-os.com/api/v1/voices?languageCode=en-US&gender=female",
+  "https://dev-agentic-os-aks.setoo.work/api/v1/voices?languageCode=en-US&gender=female",
   { headers: { Authorization: `Bearer ${API_KEY}` } },
 );
 ```

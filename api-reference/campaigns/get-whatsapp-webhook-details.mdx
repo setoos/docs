@@ -9,7 +9,7 @@ Fetches the webhook configuration details needed to configure webhook callbacks 
 <CodeGroup>
 
 ```bash curl
-curl -X GET https://api.agentic-os.com/api/v1/whatsapp/webhook-details \
+curl -X GET https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/webhook-details \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
@@ -17,7 +17,7 @@ curl -X GET https://api.agentic-os.com/api/v1/whatsapp/webhook-details \
 import requests
 
 response = requests.get(
-    "https://api.agentic-os.com/api/v1/whatsapp/webhook-details",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/webhook-details",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 print(response.json())
@@ -25,7 +25,7 @@ print(response.json())
 
 ```javascript Node
 const response = await fetch(
-  "https://api.agentic-os.com/api/v1/whatsapp/webhook-details",
+  "https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/webhook-details",
   {
     method: "GET",
     headers: { Authorization: `Bearer ${API_KEY}` },
@@ -41,7 +41,7 @@ console.log(data);
 
 ```json
 {
-  "webhookUrl": "https://api.agentic-os.com/api/v1/whatsapp/webhook",
+  "webhookUrl": "https://dev-agentic-os-aks.setoo.work/api/v1/whatsapp/webhook",
   "verifyToken": "wa_verify_sec_990e8400e29b41d4a716446655440000"
 }
 ```

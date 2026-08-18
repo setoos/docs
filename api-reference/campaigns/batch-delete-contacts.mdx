@@ -21,7 +21,7 @@ Deletes an array of contacts by their IDs from a contact list.
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/contact-lists/33333333-3333-3333-3333-333333333333/contacts/delete-batch \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists/33333333-3333-3333-3333-333333333333/contacts/delete-batch \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -36,7 +36,7 @@ curl -X POST https://api.agentic-os.com/api/v1/contact-lists/33333333-3333-3333-
 import requests
 
 response = requests.post(
-    "https://api.agentic-os.com/api/v1/contact-lists/33333333-3333-3333-3333-333333333333/contacts/delete-batch",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists/33333333-3333-3333-3333-333333333333/contacts/delete-batch",
     headers={
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ print(response.json())
 
 ```javascript Node
 const response = await fetch(
-  "https://api.agentic-os.com/api/v1/contact-lists/33333333-3333-3333-3333-333333333333/contacts/delete-batch",
+  "https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists/33333333-3333-3333-3333-333333333333/contacts/delete-batch",
   {
     method: "POST",
     headers: {

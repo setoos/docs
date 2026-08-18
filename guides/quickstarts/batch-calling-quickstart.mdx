@@ -9,14 +9,14 @@ you build first.
 
 ```bash
 # 1. Create a contact list
-curl -X POST https://api.agentic-os.com/api/v1/contact-lists \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "name": "Batch Test" }'
 # → { "id": "CONTACT_LIST_ID" }
 
 # 2. Add contacts in bulk
-curl -X POST https://api.agentic-os.com/api/v1/contact-lists/CONTACT_LIST_ID/contacts/bulk \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/contact-lists/CONTACT_LIST_ID/contacts/bulk \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -27,7 +27,7 @@ curl -X POST https://api.agentic-os.com/api/v1/contact-lists/CONTACT_LIST_ID/con
   }'
 
 # 3. Create the campaign against that list
-curl -X POST https://api.agentic-os.com/api/v1/campaigns \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/campaigns \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -39,7 +39,7 @@ curl -X POST https://api.agentic-os.com/api/v1/campaigns \
 # → { "id": "CAMPAIGN_ID" }
 
 # 4. Start it — dialing only begins after this call
-curl -X POST https://api.agentic-os.com/api/v1/campaigns/CAMPAIGN_ID/start \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/CAMPAIGN_ID/start \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 

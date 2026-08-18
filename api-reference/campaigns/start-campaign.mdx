@@ -19,7 +19,7 @@ Starts outbound dialing immediately for a campaign in `DRAFT` or `SCHEDULED` sta
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/start \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/start \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{}'
@@ -29,7 +29,7 @@ curl -X POST https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716
 import requests
 
 response = requests.post(
-    "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/start",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/start",
     headers={
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ print(response.status_code)
 
 ```javascript Node
 const response = await fetch(
-  "https://api.agentic-os.com/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/start",
+  "https://dev-agentic-os-aks.setoo.work/api/v1/campaigns/770e8400-e29b-41d4-a716-446655440000/start",
   {
     method: "POST",
     headers: {

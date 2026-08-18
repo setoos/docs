@@ -50,7 +50,7 @@ Places a real outbound call. The agent answers and drives the conversation.
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/channels/voice/call \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -62,7 +62,7 @@ curl -X POST https://api.agentic-os.com/api/v1/channels/voice/call \
 
 ```python Python
 requests.post(
-    "https://api.agentic-os.com/api/v1/channels/voice/call",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/channels/voice/call",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
         "agentId": "AGENT_ID",

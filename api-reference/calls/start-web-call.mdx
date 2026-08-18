@@ -17,7 +17,7 @@ connection details your frontend needs to join the session.
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/channels/web/session \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/channels/web/session \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "agentId": "AGENT_ID" }'
@@ -25,14 +25,14 @@ curl -X POST https://api.agentic-os.com/api/v1/channels/web/session \
 
 ```python Python
 requests.post(
-    "https://api.agentic-os.com/api/v1/channels/web/session",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/channels/web/session",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={"agentId": "AGENT_ID"},
 )
 ```
 
 ```javascript Node
-await fetch("https://api.agentic-os.com/api/v1/channels/web/session", {
+await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/channels/web/session", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,

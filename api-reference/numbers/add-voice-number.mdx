@@ -29,7 +29,7 @@ can place and receive calls on it. Connect the provider first — see
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://api.agentic-os.com/api/v1/voice-numbers \
+curl -X POST https://dev-agentic-os-aks.setoo.work/api/v1/voice-numbers \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -41,14 +41,14 @@ curl -X POST https://api.agentic-os.com/api/v1/voice-numbers \
 
 ```python Python
 requests.post(
-    "https://api.agentic-os.com/api/v1/voice-numbers",
+    "https://dev-agentic-os-aks.setoo.work/api/v1/voice-numbers",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={"provider": "TWILIO", "number": "+14155551234", "agentId": "AGENT_ID"},
 )
 ```
 
 ```javascript Node
-await fetch("https://api.agentic-os.com/api/v1/voice-numbers", {
+await fetch("https://dev-agentic-os-aks.setoo.work/api/v1/voice-numbers", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,
