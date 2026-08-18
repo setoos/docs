@@ -19,7 +19,7 @@
   },
   "api": {
     "mdx": {
-      "server": "http://localhost:8787/api/v1",
+      "server": "https://agentics-os.onrender.com/api/v1",
       "auth": {
         "method": "bearer"
       }
