@@ -245,7 +245,7 @@ AUTH="Authorization: Bearer $AGENTIC_OS_API_KEY"
 PERSONA_ID=$(curl -s "$BASE/prompts/personas" -H "$AUTH" | jq -r '.[0].id')
 
 AGENT_ID=$(curl -s -X POST "$BASE/agents" -H "$AUTH" -H "Content-Type: application/json" \
-  -d "{\"name\":\"Quickstart Agent\",\"agent_persona_id\":\"$PERSONA_ID\",\"is_active\":true}" \
+  -d "{\"name\":\"Quickstart Agent\",\"agent_persona_id\":\"$PERSONA_ID\"}" \
   | jq -r '.id')
 
 VOICE_NUMBER_ID=$(curl -s "$BASE/voice-numbers" -H "$AUTH" | jq -r '.[0].id')

@@ -10,90 +10,38 @@ settings are configured afterward via [Patch update agent](/api-reference/agents
 ### Body parameters
 
 <ParamField body="name" type="string" required>
-  Agent display name, 1–120 characters. This is the only required field
+  Agent display name, 1–120 characters.
 </ParamField>
 
-<ParamField body="channel" type="string">
-  Channel the agent serves — one of `VOICE`, `CHAT`, `WHATSAPP`, `SMS`
-</ParamField>
-
-<ParamField body="agent_persona_id" type="string">
+<ParamField body="agent_persona_id" type="string" required>
   A persona ID to initialize the agent with — list available personas via [`GET /prompts/personas`](/api-reference/configuration/list-personas).
-</ParamField>
-
-<ParamField body="agent_prompt" type="string">
-  System prompt driving the agent's behavior and personality.
-</ParamField>
-
-<ParamField body="llm_model_id" type="string">
-  LLM model UUID to run the agent on — list available LLM models & providers via [`GET /llm/models`](/api-reference/configuration/list-llm-models).
-</ParamField>
-
-<ParamField body="description" type="string">
-  Agent description or internal notes.
-</ParamField>
-
-<ParamField body="voiceProfileId" type="string">
-  Voice profile UUID, for `VOICE` agents — list available voices via [`GET /voices`](/api-reference/configuration/list-voices).
-</ParamField>
-
-<ParamField body="knowledge_base_id" type="string">
-  Knowledge base UUID to ground the agent's answers in.
-</ParamField>
-
-<ParamField body="greet" type="boolean" default="true">
-  Whether the agent speaks first upon connection.
-</ParamField>
-
-<ParamField body="greetMessage" type="string" default="Hello">
-  Opening line when `greet` is enabled.
-</ParamField>
-
-<ParamField body="recordCalls" type="boolean" default="false">
-  Whether calls handled by this agent are recorded.
-</ParamField>
-
-<ParamField body="is_active" type="boolean" default="true">
-  Whether the agent is active.
 </ParamField>
 
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents \
+curl -X POST https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Sales Voice Agent",
-    "channel": "VOICE",
-    "agent_persona_id": "c7a840e6-...",
-    "llm_model_id": "b9d311f2-...",
-    "agent_prompt": "You are a friendly sales representative. Qualify leads concisely.",
-    "greet": true,
-    "greetMessage": "Hello! Thanks for reaching out. How can I help you today?",
-    "is_active": true
+    "agent_persona_id": "c7a840e6-..."
   }'
 ```
 
 ```python Python
 requests.post(
-    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents",
+    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
         "name": "Sales Voice Agent",
-        "channel": "VOICE",
         "agent_persona_id": "c7a840e6-...",
-        "llm_model_id": "b9d311f2-...",
-        "agent_prompt": "You are a friendly sales representative. Qualify leads concisely.",
-        "greet": True,
-        "greetMessage": "Hello! Thanks for reaching out. How can I help you today?",
-        "is_active": True,
     },
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agents", {
+await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,
@@ -101,13 +49,7 @@ await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/agent
   },
   body: JSON.stringify({
     name: "Sales Voice Agent",
-    channel: "VOICE",
     agent_persona_id: "c7a840e6-...",
-    llm_model_id: "b9d311f2-...",
-    agent_prompt: "You are a friendly sales representative. Qualify leads concisely.",
-    greet: true,
-    greetMessage: "Hello! Thanks for reaching out. How can I help you today?",
-    is_active: true,
   }),
 });
 ```
