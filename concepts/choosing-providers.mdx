@@ -5,9 +5,9 @@ description: Picking LLM, voice, and telephony providers
 
 | Layer | Options | Notes |
 |---|---|---|
-| LLM | OpenAI, Anthropic, Google | GPT-4 Turbo balances cost/latency; Claude for longer context |
+| LLM | OpenAI, Google | GPT-4 Turbo balances cost/latency; Gemini for low-latency reasoning |
 | Transcriber | Deepgram, Google STT | Deepgram Nova-3 recommended for lowest latency |
-| Synthesizer | ElevenLabs, Azure TTS | ElevenLabs for the most natural voices |
+| Synthesizer | ElevenLabs | ElevenLabs for the most natural voices |
 | Telephony | Twilio, Plivo, Acefone | Plivo often cheaper for India/APAC traffic |
 
 Configure providers per-tenant under **Integrations** in the dashboard.

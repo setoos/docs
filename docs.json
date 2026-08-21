@@ -136,9 +136,7 @@
               "api-reference/introduction",
               "api-reference/authentication",
               "api-reference/pagination",
-              "api-reference/rate-limiting",
-              "api-reference/errors-status-codes",
-              "api-reference/limits-quotas"
+              "api-reference/errors-status-codes"
             ]
           },
           {

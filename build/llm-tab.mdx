@@ -1,16 +1,56 @@
 ---
 title: LLM Tab
-description: Model, temperature, and max tokens
+description: LLM provider and model selection for conversational intelligence
 ---
 
-| Field | Description | Default |
-|---|---|---|
-| Model | Which LLM to use for this agent | — |
-| Temperature | Randomness of responses (0–1) | Low |
-| Max Response Length | Caps how long a response can be | Short |
-| Response Mode | Streaming or batch delivery | Streaming |
+The **LLM Tab** in Agent Studio configures the underlying Large Language Model (LLM) that powers your agent's comprehension, reasoning, tool execution, and response generation.
 
-<Callout type="tip">
-  A lower temperature keeps responses consistent for support agents. Higher
-  values suit creative or sales-oriented agents.
-</Callout>
+---
+
+## Settings Overview
+
+| Field | Description | Requirement | Options |
+|---|---|---|---|
+| **Provider** | The LLM provider hosting the language model | Required | `OpenAI`, `Google` |
+| **Model** | The specific model used for reasoning and generating dialogue | Required | Available models for the chosen provider |
+
+---
+
+## Detailed Field Specifications
+
+### Provider
+
+* **Description:** Selects the AI platform provider for your agent's language intelligence.
+* **Supported Options:**
+  * **OpenAI** — Industry-standard models with strong reasoning, instruction following, and tool-calling fidelity.
+  * **Google** — High-speed, multimodal Gemini models optimized for ultra-low latency and complex contextual understanding.
+* **Prerequisites:** Provider credentials must be connected under [Integrations](/features/integrations) or enabled for your tenant. Selecting a provider dynamically populates the available models in the **Model** selector.
+
+### Model
+
+* **Description:** Specifies the exact language model version that processes transcripts and generates the agent's real-time replies.
+* **Supported Models:**
+  * **OpenAI:** `GPT-4o`, `GPT-4o mini`, `GPT-4 Turbo`
+  * **Google:** `Gemini 1.5 Pro`, `Gemini 1.5 Flash`, `Gemini 2.0 Flash`
+* **Selection Guidance:**
+  * **Low Latency / High Volume:** Models like `GPT-4o mini` or `Gemini 1.5 Flash` provide sub-second responses ideal for fast, conversational voice interactions.
+  * **Complex Reasoning / Deep Tool Use:** Models like `GPT-4o` or `Gemini 1.5 Pro` are recommended for agents handling multi-step workflows, complex tool schemas, or strict domain logic.
+
+---
+
+## How to Configure
+
+<Steps>
+  <Step title="Open Agent Studio">
+    Navigate to **Agents** in the dashboard and select the agent you want to configure.
+  </Step>
+  <Step title="Select LLM Tab">
+    Click on the **LLM** tab in the configuration panel.
+  </Step>
+  <Step title="Choose Provider & Model">
+    Select your desired **Provider** from the dropdown, then select the target **Model**.
+  </Step>
+  <Step title="Save Changes">
+    Click **Save Changes** to immediately apply the new model to your agent.
+  </Step>
+</Steps>
