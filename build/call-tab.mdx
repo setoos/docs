@@ -1,117 +1,120 @@
 ---
 title: Call Tab
-description: Configure call duration limits, silence timeouts, telephony providers, and caller IDs for your voice agent
+description: Call termination, silence timeout, telephony providers, and caller ID configuration
 ---
 
-The **Call Tab** in Agent Studio controls the runtime lifecycle, safety limits, and telephony routing for all phone and voice interactions handled by your agent.
-
----
-
-## Settings Overview
-
-| Field | Description | Default | Allowed Range / Options |
-|---|---|---|---|
-| **Max Call Duration** | Maximum time a call can run before automatic termination | `90` seconds | `10` – `3600` seconds (up to 60 mins) |
-| **Silence Timeout** | Duration of caller silence before the agent hangs up | `10` seconds | `5` – `60` seconds |
-| **Telephony Provider** | Telecommunications carrier used for call routing | `Tenant default` | `Tenant default`, `Twilio`, `Plivo`, `Acefone` |
-| **Caller ID** | Outbound phone number displayed to the callee | `—` (Unset) | Any verified number from **Phone Numbers** |
+The **Call Tab** in Agent Studio controls call lifecycle limits, silence detection, telephony routing, and caller identification for voice interactions.
 
 ---
 
-## Detailed Field Specifications
+## Overview
 
-### Max Call Duration
+| Field | Description | Default |
+|---|---|---|
+| **Max Call Duration** | Maximum call duration, what happens when the limit is reached, and allowed range/unit | `90 seconds` |
+| **Silence Timeout** | What counts as silence, when the timer starts, and what happens after timeout | `10 seconds` |
+| **Telephony Provider** | Supported providers (Twilio, Plivo, Acefone) and how to configure/select them | `Tenant default` |
+| **Caller ID** | Purpose, source of the number, requirements, and outbound-call behavior | `—` (Unset) |
+| **Integrations** | How telephony credentials and phone numbers are connected to the agent | — |
+| **Configuration Example** | Example of a complete Call Tab configuration and expected call behavior | — |
 
-* **Description:** Sets a hard ceiling on the total duration of an active call session.
-* **Allowed Range & Unit:** Specified in **seconds** (e.g., `90` for 1.5 minutes, `300` for 5 minutes, `1800` for 30 minutes). Allowed range is `10` to `3600` seconds.
-* **Behavior when Limit is Reached:** When the limit is reached, the platform automatically and gracefully terminates the call session.
-* **Why it matters:** Prevents runaway calls caused by stuck conversations, background audio loops, or forgotten connections, protecting your wallet balance from excessive telecom and LLM charges.
+---
 
-### Silence Timeout
+## Max Call Duration
 
-* **Description:** Defines the maximum continuous period of silence tolerated from the caller before the agent concludes that the caller is no longer responsive and ends the call.
-* **What Counts as Silence:** Periods where the platform's Voice Activity Detection (VAD) detects no audible human speech. Non-speech background ambient noise is automatically filtered out.
-* **When the Timer Starts:** The silence timer starts (and resets) each time the agent finishes speaking and is awaiting a response from the caller, or during sustained mid-conversation pauses.
-* **Behavior After Timeout:** Once caller silence exceeds the configured duration, the agent automatically hangs up the call to release telephony lines and prevent idle billing charges.
-* **Allowed Range & Unit:** Specified in **seconds**, typically between `5` and `60` seconds (default: `10` seconds).
+* **Maximum call duration:** Sets the maximum allowable runtime for any single call session handled by the agent.
+* **Allowed range and unit:** Specified in **seconds** (e.g., `90` for 1.5 minutes, `300` for 5 minutes, `1800` for 30 minutes). Supported range is `10` to `3600` seconds (up to 60 minutes).
+* **What happens when the limit is reached:** When the active call duration reaches this limit, the platform automatically and gracefully terminates the call.
+* **Why it matters:** Protects against runaway calls, infinite loops, and unexpected billing charges from dropped caller connections.
 
-### Telephony Provider
+---
 
-* **Description:** Specifies the telephony carrier used to initiate outbound calls and receive inbound calls for this agent.
-* **Supported Providers:** 
-  * `Twilio` — Global reach and carrier-grade reliability.
-  * `Plivo` — Cost-effective voice routing, highly recommended for India and APAC traffic.
-  * `Acefone` — Enterprise VoIP and specialized virtual PBX routing.
-* **How to Configure & Select:**
-  * **Tenant Default:** Inherits the primary telephony provider configured in your organization's [Integrations](/features/integrations) settings.
-  * **Dedicated Selection:** Select an explicit provider from the dropdown to route this specific agent's traffic through a dedicated provider account.
-* **Prerequisites:** You must have connected and verified your provider API credentials under **Integrations** before selecting them.
+## Silence Timeout
 
-### Caller ID
+* **What counts as silence:** Any period during a call where the Voice Activity Detection (VAD) engine detects no human speech input. Ambient background noise is automatically filtered out.
+* **When the timer starts:** The silence timer starts (and resets) immediately after the agent finishes speaking and is waiting for a response from the caller, or during pauses between caller conversational turns.
+* **What happens after timeout:** If the caller remains silent for longer than the configured timeout, the agent automatically ends the call session to free the telephony channel.
+* **Allowed range and unit:** Configured in **seconds** (supported range: `5` to `60` seconds; default is `10` seconds).
 
-* **Description:** The phone number presented as the caller identity (CLI) on the recipient's phone screen when the agent places outbound calls or executes voice campaigns.
-* **Source of the Number:** Numbers registered, verified, or purchased under the [Phone Numbers](/guides/numbers/purchase-phone-numbers) section.
+---
+
+## Telephony Provider
+
+* **Supported providers:**
+  * **Twilio** — Global carrier connectivity and high reliability.
+  * **Plivo** — Cost-effective voice routing, especially for India and APAC destinations.
+  * **Acefone** — Enterprise cloud telephony and virtual PBX routing.
+* **How to configure and select:**
+  * **Tenant Default:** Automatically inherits the default telephony provider configured in your organization's [Integrations](/features/integrations).
+  * **Explicit Selection:** Choose a specific provider from the dropdown to route calls for this particular agent through a dedicated account.
+
+---
+
+## Caller ID
+
+* **Purpose:** The phone number presented as the caller identity (CLI) on the recipient's phone screen during outbound calls and automated campaigns.
+* **Source of the number:** Sourced from verified numbers purchased or registered under the [Phone Numbers](/guides/numbers/purchase-phone-numbers) section.
 * **Requirements:**
-  * Must be a valid, active number in standard E.164 format (e.g., `+14155552671` or `+919876543210`).
-  * Must be purchased through or verified with your selected telephony provider (see [Caller ID Verification](/guides/numbers/caller-id-verification)).
-* **Outbound-Call Behavior:** Carrier signaling transmits this number in the SIP headers. When the recipient receives the call, this number is displayed on their screen. Inbound calls to this number can also be routed back to this agent.
+  * Must be a valid phone number in standard E.164 format (e.g., `+14155552671` or `+919876543210`).
+  * Must be verified or owned under your connected telephony carrier account (see [Caller ID Verification](/guides/numbers/caller-id-verification)).
+* **Outbound-call behavior:** The carrier transmits this number in SIP signaling headers, displaying it to the callee. Inbound calls returning to this number route directly to the assigned agent.
 
 ---
 
-## Telephony Integrations & Number Setup
+## Integrations
 
-To connect telephony credentials and assign phone numbers to your agent:
+How telephony credentials and phone numbers are connected to the agent:
 
 <Steps>
-  <Step title="Connect Telephony Provider">
-    Navigate to **Integrations** in the platform dashboard. Add your provider credentials (such as Twilio Account SID/Auth Token or Plivo Auth ID/Auth Token). Credentials are automatically validated upon saving.
+  <Step title="Connect Provider Credentials">
+    Go to **Integrations** in the dashboard and add your telephony credentials (e.g., Twilio Account SID and Auth Token, or Plivo Auth ID and Auth Token). Credentials are automatically validated upon saving.
   </Step>
-  <Step title="Acquire or Verify Phone Numbers">
-    Go to **Phone Numbers** to purchase dedicated local, toll-free, or 140/160 series numbers directly through your connected carrier, or verify existing numbers for outbound Caller ID use.
+  <Step title="Add and Verify Phone Numbers">
+    Go to **Phone Numbers** to buy numbers directly through your connected carrier or verify existing company numbers for outbound Caller ID use.
   </Step>
-  <Step title="Assign to Agent in Call Tab">
-    Open your agent in **Agent Studio**, click the **Call Tab**, and choose your desired **Telephony Provider** and verified **Caller ID**. Click **Save** to apply the configuration.
+  <Step title="Bind to Agent in Call Tab">
+    Open your agent in **Agent Studio**, switch to the **Call Tab**, and choose the **Telephony Provider** and verified **Caller ID**. Save your changes.
   </Step>
 </Steps>
 
 ---
 
-## Configuration Example & Expected Behavior
+## Configuration Example
 
-### Example: Outbound Appointment Reminder Agent
+### Complete Call Tab Configuration
 
-Here is a typical production configuration for an outbound reminder agent:
+Below is an example of a complete Call Tab configuration:
 
 ```yaml
 # Agent Studio - Call Tab Settings
-max_call_duration: 180       # 3 minutes
-silence_timeout: 8           # 8 seconds
-telephony_provider: "Plivo"  # Route through Plivo APAC
-caller_id: "+14155550199"    # Verified company outbound line
+max_call_duration: 300       # 5 minutes maximum call duration
+silence_timeout: 10          # 10 seconds silence timeout
+telephony_provider: "Plivo"  # Route through Plivo
+caller_id: "+14155550199"    # Verified company caller ID
 ```
 
-### Expected Call Behavior:
+### Expected Call Behavior
 
 ```mermaid
 sequenceDiagram
     autonumber
     participant Callee as Customer / Callee
-    participant Carrier as Telephony (Plivo)
+    participant Carrier as Telephony Carrier (Plivo)
     participant Agent as Voice Agent
 
     Carrier->>Callee: Dial outbound call with Caller ID (+14155550199)
     Callee->>Carrier: Answers call
-    Carrier->>Agent: Session initialized (Max Duration: 180s timer started)
-    Agent->>Callee: Speaks reminder greeting
-    Note over Callee,Agent: Normal conversation turn
-    Callee->>Agent: "Thanks, please confirm for tomorrow at 3 PM."
-    Agent->>Callee: "Confirmed! See you tomorrow."
-    Note over Callee,Agent: Silence detected (Silence Timeout: 8s timer started)
-    Callee-->>Agent: (No further speech for 8 seconds)
-    Agent->>Carrier: Silence timeout triggered -> Hang up call
+    Carrier->>Agent: Call connected (Max Duration timer: 300s starts)
+    Agent->>Callee: "Hello! How can I assist you today?"
+    Note over Callee,Agent: Conversation in progress
+    Callee->>Agent: "I have confirmed the booking, thank you!"
+    Agent->>Callee: "You're all set. Have a wonderful day!"
+    Note over Callee,Agent: Silence detected (Silence Timeout: 10s timer starts)
+    Callee-->>Agent: (No response for 10 seconds)
+    Agent->>Carrier: Silence timeout reached -> Terminate call
     Carrier->>Callee: Call ended gracefully
 ```
 
-* **Outbound Identification:** The recipient's phone displays `+14155550199` as the incoming caller.
-* **Duration Safeguard:** If the call is still active at `180` seconds (3 minutes), the system automatically ends the call to prevent excessive duration.
-* **Silence Handling:** If the customer finishes their response and remains silent for `8` seconds without hanging up, the silence timeout triggers and closes the connection cleanly.
+* **Outbound Caller Display:** The callee sees `+14155550199` on their incoming call screen.
+* **Silence Handling:** If the conversation ends and the callee doesn't hang up, the agent waits `10 seconds` of silence before automatically hanging up.
+* **Duration Limit:** If the call exceeds `300 seconds` (5 minutes), the session is terminated automatically to prevent open-line billing.
