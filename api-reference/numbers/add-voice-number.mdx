@@ -18,8 +18,14 @@ can place and receive calls on it. Connect the provider first — see
   The phone number in E.164 format, e.g. `+14155551234`
 </ParamField>
 
+<ParamField body="connectionId" type="string" required>
+  UUID of the connected provider integration this number belongs to. Get it from
+  [List integrations](/api-reference/integrations/list-integrations) — it's the
+  `id` of the telephony integration for your provider. Must be a valid UUID.
+</ParamField>
+
 <ParamField body="agentId" type="string">
-  Agent to assign the number to. Can be attached later instead
+  Agent to assign the number to. Can be attached later instead. Must be a valid UUID.
 </ParamField>
 
 <ParamField body="isActive" type="boolean" default="true">
@@ -35,6 +41,7 @@ curl -X POST https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/voice
   -d '{
     "provider": "TWILIO",
     "number": "+14155551234",
+    "connectionId": "123e4567-e89b-12d3-a456-426614174000",
     "agentId": "AGENT_ID"
   }'
 ```
@@ -43,7 +50,12 @@ curl -X POST https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/voice
 requests.post(
     "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/voice-numbers",
     headers={"Authorization": f"Bearer {API_KEY}"},
-    json={"provider": "TWILIO", "number": "+14155551234", "agentId": "AGENT_ID"},
+    json={
+        "provider": "TWILIO",
+        "number": "+14155551234",
+        "connectionId": "123e4567-e89b-12d3-a456-426614174000",
+        "agentId": "AGENT_ID",
+    },
 )
 ```
 
@@ -57,6 +69,7 @@ await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/voice
   body: JSON.stringify({
     provider: "TWILIO",
     number: "+14155551234",
+    connectionId: "123e4567-e89b-12d3-a456-426614174000",
     agentId: "AGENT_ID",
   }),
 });
