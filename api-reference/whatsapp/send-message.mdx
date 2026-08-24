@@ -7,7 +7,10 @@ description: Send a freeform WhatsApp message
 ### Body parameters
 
 <ParamField body="agentId" type="string" required>
-  Agent sending the message. Must be a UUID of a WHATSAPP-channel agent
+  UUID of the agent sending the message. The agent must belong to the tenant of
+  your API token, be active, and have a WhatsApp connection configured
+  (`connectionId`). A 404 is returned if the agent is missing, in another
+  tenant, inactive, or has no WhatsApp connection.
 </ParamField>
 
 <ParamField body="toNumber" type="string" required>
