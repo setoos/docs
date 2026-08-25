@@ -281,12 +281,6 @@
             ]
           },
           {
-            "group": "WhatsApp",
-            "pages": [
-              "api-reference/whatsapp/send-template"
-            ]
-          },
-          {
             "group": "Logs",
             "pages": [
               "api-reference/logs/list-call-logs",
