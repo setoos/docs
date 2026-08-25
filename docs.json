@@ -283,7 +283,6 @@
           {
             "group": "WhatsApp",
             "pages": [
-              "api-reference/whatsapp/send-message",
               "api-reference/whatsapp/send-template"
             ]
           },
