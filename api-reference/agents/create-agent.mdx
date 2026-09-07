@@ -20,7 +20,7 @@ settings are configured afterward via [Patch update agent](/api-reference/agents
 <CodeGroup>
 
 ```bash curl
-curl -X POST https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents \
+curl -X POST https://prod-platform-core-api.20x.business/api/v1/agents \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -31,7 +31,7 @@ curl -X POST https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agen
 
 ```python Python
 requests.post(
-    "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents",
+    "https://prod-platform-core-api.20x.business/api/v1/agents",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
         "name": "Sales Voice Agent",
@@ -41,7 +41,7 @@ requests.post(
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1/agents", {
+await fetch("https://prod-platform-core-api.20x.business/api/v1/agents", {
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,

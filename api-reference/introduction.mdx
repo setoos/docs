@@ -45,11 +45,16 @@ API key into the **Bearer Token** field, fill in the required parameters, and hi
   and billing as calling from your own code. Use a test agent while exploring.
 </Callout>
 
-## Base URL
+## Base URLs
 
-```bash
-https://dev-agentic-os-aks.setoo.work/api/v1
-```
+The Agentic OS production APIs are served across three engine services:
+
+| Service | Production Base URL | Scope |
+| :--- | :--- | :--- |
+| **Platform Core** | `https://prod-platform-core-api.20x.business/api/v1` | Profile, Wallet, Billing, Analytics, Integrations, API Keys |
+| **Comms Engine** | `https://prod-comms-engine-api.20x.business/api/v1` | Agents, Channels, Calls, Phone Numbers, Knowledge Bases |
+| **Campaign Engine** | `https://prod-campaign-engine-api.20x.business/api/v1` | Voice Campaigns, Contact Lists, WhatsApp, SMS Campaigns |
+
 
 <CardGroup cols={2}>
   <Card title="Authentication" href="/api-reference/authentication" icon="key">

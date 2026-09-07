@@ -7,8 +7,8 @@
  * docs can use a single base URL (`http://localhost:8080/api/v1`) instead of
  * making you pick the right service per endpoint.
  *
- * The ROUTES table below is also the spec for the real ingress: whatever fronts
- * `dev-agentic-os-aks.setoo.work` needs to path-route exactly like this.
+ * The ROUTES table below maps the service endpoints corresponding to the production
+ * engines (Platform Core, Comms Engine, and Campaign Engine at 20x.business).
  *
  * Usage:
  *   node docs/scripts/dev-gateway.mjs

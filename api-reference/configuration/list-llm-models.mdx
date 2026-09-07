@@ -12,19 +12,19 @@ Providers are listed separately at `GET /llm/providers`.
 <CodeGroup>
 
 ```bash curl
-curl https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/llm/models \
+curl https://prod-comms-engine-api.20x.business/api/v1/llm/models \
   -H "Authorization: Bearer $AGENTIC_OS_API_KEY"
 ```
 
 ```python Python
 requests.get(
-    "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/llm/models",
+    "https://prod-comms-engine-api.20x.business/api/v1/llm/models",
     headers={"Authorization": f"Bearer {API_KEY}"},
 )
 ```
 
 ```javascript Node
-await fetch("https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1/llm/models", {
+await fetch("https://prod-comms-engine-api.20x.business/api/v1/llm/models", {
   headers: { Authorization: `Bearer ${API_KEY}` },
 });
 ```
