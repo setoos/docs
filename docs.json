@@ -19,15 +19,15 @@
   },
   "api": {
     "baseUrl": [
-      "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1",
-      "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1",
-      "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1"
+      "https://prod-platform-core-api.20x.business/api/v1",
+      "https://prod-comms-engine-api.20x.business/api/v1",
+      "https://prod-campaign-engine-api.20x.business/api/v1"
     ],
     "mdx": {
       "server": [
-        "https://dev-agentic-os-platform-core-api-aks.setoo.work/api/v1",
-        "https://dev-agentic-os-comms-engine-api-aks.setoo.work/api/v1",
-        "https://dev-agentic-os-campaign-engine-api-aks.setoo.work/api/v1"
+        "https://prod-platform-core-api.20x.business/api/v1",
+        "https://prod-comms-engine-api.20x.business/api/v1",
+        "https://prod-campaign-engine-api.20x.business/api/v1"
       ],
       "auth": {
         "method": "bearer"
