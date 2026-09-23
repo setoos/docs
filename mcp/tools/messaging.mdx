@@ -1,0 +1,201 @@
+---
+title: Messaging Tools
+description: The ten MCP tools for WhatsApp and SMS post-call follow-up messages
+---
+
+Ten tools, six for WhatsApp and four for SMS.
+
+Group name for `?tools=`: **`messaging`**
+
+## These are not campaigns
+
+Despite the name, a WhatsApp or SMS "campaign" is **not** an outbound campaign. It
+messages nobody on its own.
+
+What it actually is: **one agent's post-call follow-up rules.** After a call involving
+that agent ends, the message matching the call's outcome is sent to the person who was
+on the call. That is the whole mechanism.
+
+Which means:
+
+- **No contact list.** Recipients are whoever was on a call.
+- **No schedule, and nothing to start.** Saving one active is what makes it live.
+- **One per agent.** A second attempt for the same agent is rejected — check the list
+  first and update the existing one.
+
+To phone a list of people, you want [`create_campaign`](/mcp/tools/campaigns) instead.
+
+<Callout type="warning">
+  Unless you pass `isActive: false`, these take effect **immediately**, and every
+  subsequent call by that agent messages the customer. Read the exact message back and
+  approve it before saving.
+</Callout>
+
+## WhatsApp vs SMS
+
+|  | WhatsApp | SMS |
+| :--- | :--- | :--- |
+| Message body | A Meta-approved template name | Free text, max 1600 characters |
+| Approval step | Yes — Meta must have approved the template | **None.** Your text is sent verbatim |
+| Templates per campaign | Up to 20, keyed on process and call outcome | **Exactly 2**, one per outcome |
+| Per agent | One | One |
+| Updating templates | Replaces the whole set | Replaces the whole set |
+| Extra fields | Sender override via `phoneNumberId` | Indian DLT sender and template ids |
+
+<Callout type="warning">
+  SMS has no approval gate. Whatever text you supply goes to real customers as
+  written. WhatsApp at least fails closed if a template was never approved.
+</Callout>
+
+## What "UNANSWERED" covers
+
+Both channels key their messages on the call outcome, and there are two: `ANSWERED`
+and `UNANSWERED`.
+
+`UNANSWERED` is broader than it reads. Anything that is not answered maps to it — no
+answer, busy, failed, voicemail. So word that message to suit any call that did not
+connect, not just a missed ring.
+
+Leaving an outcome out simply sends nothing for it.
+
+## WhatsApp tools
+
+### list_whatsapp_campaigns
+
+Lists the WhatsApp follow-up campaigns in the account with their template
+configuration.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+Show my WhatsApp follow-ups.
+```
+
+### list_whatsapp_templates
+
+Lists the templates Meta has approved for the account. Reaches Meta directly, so this
+reflects their current approval state rather than a local copy.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+Which WhatsApp templates are approved?
+```
+
+### list_whatsapp_senders
+
+Lists the phone numbers registered under the account's WhatsApp Business account.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+Which numbers can I send WhatsApp messages from?
+```
+
+### create_whatsapp_campaign
+
+Sets up automatic WhatsApp follow-ups for one agent. Up to 20 templates, keyed on
+process and call outcome.
+
+**Permission:** `campaigns:write` · **Destructive:** no
+
+```
+After calls by my "Sales qualifier" agent, send the approved
+"followup_answered" template to people who answered.
+```
+
+### update_whatsapp_campaign
+
+Changes an agent's WhatsApp rules, or switches them on and off.
+
+**Permission:** `campaigns:write` · **Destructive:** no
+
+<Callout type="warning">
+  Supplying `templates` **replaces the entire set**, it does not merge. To change one
+  message, send all of them back with that one edited — otherwise the others are
+  dropped.
+</Callout>
+
+```
+Turn off the WhatsApp follow-ups for my support agent.
+```
+
+### delete_whatsapp_campaign
+
+Permanently deletes an agent's WhatsApp follow-up campaign and all its templates.
+
+**Permission:** `campaigns:delete` · **Destructive:** **yes**
+
+```
+Delete the WhatsApp follow-up for my "Old outbound" agent.
+```
+
+## SMS tools
+
+### list_sms_campaigns
+
+Lists the SMS follow-up campaigns in the account, including their message text.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+Show my SMS follow-ups and what they say.
+```
+
+### create_sms_campaign
+
+Sets up automatic SMS follow-ups for one agent. **At most two messages** — one for
+`ANSWERED`, one for `UNANSWERED`. A second entry for the same outcome is rejected.
+
+**Permission:** `campaigns:write` · **Destructive:** no
+
+```
+After calls by my "Sales qualifier" agent, text people who didn't answer:
+"Sorry we missed you — reply here and we'll call back."
+```
+
+<Callout type="info">
+  Texting Indian numbers additionally needs a DLT sender id and template id, registered
+  with your provider. Without them, messages fail.
+</Callout>
+
+### update_sms_campaign
+
+Changes an agent's SMS messages, or switches them on and off.
+
+**Permission:** `campaigns:write` · **Destructive:** no
+
+Same replacement rule as WhatsApp: `templates` replaces the whole set.
+
+```
+Change the unanswered SMS for my sales agent.
+```
+
+### delete_sms_campaign
+
+Permanently deletes an agent's SMS follow-up campaign and both its messages.
+
+**Permission:** `campaigns:delete` · **Destructive:** **yes**
+
+```
+Delete the SMS follow-up for my "Old outbound" agent.
+```
+
+## Setting one up
+
+<Steps>
+  <Step title="Check there isn't one already">
+    `list_whatsapp_campaigns` or `list_sms_campaigns`. One per agent is a hard limit,
+    so a second create is rejected.
+  </Step>
+  <Step title="For WhatsApp, check your templates">
+    `list_whatsapp_templates`. You can only use names Meta has approved.
+  </Step>
+  <Step title="Save it inactive first">
+    Pass `isActive: false` while you review the wording.
+  </Step>
+  <Step title="Activate">
+    `update_...` with `isActive: true`. From that point every call by the agent
+    messages the customer.
+  </Step>
+</Steps>

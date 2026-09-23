@@ -34,3 +34,24 @@ Any connected integration can be revoked at any time.
   agent's calls immediately — rotate credentials instead of revoking when
   possible.
 </Callout>
+
+## Connecting an AI assistant instead
+
+Integrations are about credentials 20X holds on your behalf. The reverse direction —
+letting an outside AI assistant act on your 20X account — is the
+[MCP server](/mcp/introduction).
+
+<Callout type="info">
+  An assistant connected over MCP can never read the credentials stored here, or the
+  provider balances alongside them. No permission exists for either, so none can be
+  granted.
+</Callout>
+
+<CardGroup cols={2}>
+  <Card title="MCP Server" href="/mcp/introduction" icon="robot">
+    Connect ChatGPT, Claude, Cursor or Lovable to this account.
+  </Card>
+  <Card title="Permissions" href="/mcp/permissions" icon="shield-check">
+    What an assistant can and cannot be granted.
+  </Card>
+</CardGroup>

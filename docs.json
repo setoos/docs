@@ -295,6 +295,53 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "MCP",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "mcp/introduction",
+              "mcp/quickstart",
+              "mcp/permissions",
+              "mcp/how-it-works"
+            ]
+          },
+          {
+            "group": "Connect a Client",
+            "pages": [
+              "mcp/clients/chatgpt",
+              "mcp/clients/claude",
+              "mcp/clients/cursor",
+              "mcp/clients/lovable",
+              "mcp/clients/api-key"
+            ]
+          },
+          {
+            "group": "Tools",
+            "pages": [
+              "mcp/tools/overview",
+              "mcp/tools/agents",
+              "mcp/tools/campaigns",
+              "mcp/tools/contacts",
+              "mcp/tools/messaging",
+              "mcp/tools/knowledge",
+              "mcp/tools/numbers",
+              "mcp/tools/calls",
+              "mcp/tools/catalog",
+              "mcp/tools/reporting",
+              "mcp/tools/account"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "mcp/limits-and-errors",
+              "mcp/troubleshooting"
+            ]
+          }
+        ]
       }
     ]
   }

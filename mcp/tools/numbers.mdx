@@ -1,0 +1,118 @@
+---
+title: Phone Number Tools
+description: The five MCP tools for searching, buying and assigning phone numbers
+---
+
+Five tools. Two of them have consequences worth understanding before you grant them.
+
+Group name for `?tools=`: **`numbers`**
+
+## search_available_numbers
+
+Searches the telephony provider for numbers available to buy in a country. Searching
+costs nothing and commits to nothing.
+
+**Permission:** `numbers:read` · **Destructive:** no
+
+```
+What numbers are available in India?
+Find me a Mumbai landline number.
+```
+
+<Callout type="info">
+  The provider's inventory changes between calls, so the same search can return
+  different results a minute later. A number seen in a search is not reserved.
+</Callout>
+
+## list_phone_numbers
+
+Lists the numbers the account already owns, with status and monthly cost.
+
+**Permission:** `numbers:read` · **Destructive:** no
+
+```
+What numbers do I own?
+How much am I paying monthly for numbers?
+```
+
+## list_provider_connections
+
+Lists the telephony providers connected to the account — Plivo, Twilio, Acefone — and
+which are usable.
+
+**Permission:** `catalog:read` · **Destructive:** no
+
+Note this uses `catalog:read`, not a numbers permission: it answers "what can I choose
+from", and returns no credentials.
+
+```
+Which telephony providers are connected?
+```
+
+## purchase_phone_number
+
+Buys a phone number.
+
+**Permission:** `numbers:purchase` · **Destructive:** **yes**
+
+<Callout type="warning">
+  **This spends real money and cannot be undone.** The setup fee plus the first month
+  are deducted from your wallet immediately, then it renews monthly until you release
+  it. There is no refund, and releasing a number is deliberately not available through
+  MCP at all.
+
+  Check the balance first with [`get_wallet_balance`](/mcp/tools/account).
+</Callout>
+
+```
+Buy the number +91 22 1234 5678.
+```
+
+A retry after a timeout returns the original order rather than buying a second number,
+so a flaky connection will not double-charge you.
+
+## assign_voice_number
+
+Links a phone number to an agent so it can place or receive calls.
+
+**Permission:** `numbers:write` · **Destructive:** **yes**
+
+<Callout type="warning">
+  Flagged destructive even though it spends nothing. If the number already belongs to a
+  different agent, this **moves** it — and that agent immediately stops being able to
+  call or receive on it, with no warning and nothing in the response to say something
+  was taken away.
+
+  Check `list_phone_numbers` first if you are not sure whether a number is in use.
+</Callout>
+
+```
+Link +91 22 1234 5678 to my "Sales qualifier" agent.
+```
+
+## Getting an agent onto the phone
+
+<Steps>
+  <Step title="Check what you already own">
+    `list_phone_numbers`. Buying a second number when an idle one exists is a common
+    and avoidable cost.
+  </Step>
+  <Step title="If you need one, search">
+    `search_available_numbers`
+  </Step>
+  <Step title="Check the balance">
+    [`get_wallet_balance`](/mcp/tools/account)
+  </Step>
+  <Step title="Buy it">
+    `purchase_phone_number`. Irreversible.
+  </Step>
+  <Step title="Link it to the agent">
+    `assign_voice_number`
+  </Step>
+</Steps>
+
+<Callout type="info">
+  Numbers for commercial voice traffic in India have extra requirements — see
+  [Purchase 140/160 numbers](/guides/numbers/purchase-140-160-numbers). Inbound routing
+  is configured in the dashboard, not through MCP.
+</Callout>

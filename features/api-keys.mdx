@@ -37,3 +37,22 @@ receiving results without polling.
   An API key carries the same permissions as the user who created it. Rotate a
   key immediately if you suspect it's been exposed.
 </Callout>
+
+## Not the same as an integration key
+
+The keys on this page are **widget keys** — typically pinned to one agent and used
+from a website or your own backend.
+
+Connecting an AI assistant over MCP uses a different kind: an **integration key**,
+which is account-wide and carries an explicit list of permissions. Those live on the
+**MCP & Keys** page in the dashboard and are listed separately, so that revoking one
+cannot accidentally take down a live website widget.
+
+<CardGroup cols={2}>
+  <Card title="Connect an AI assistant" href="/mcp/introduction" icon="robot">
+    Run the platform from ChatGPT, Claude, Cursor or Lovable.
+  </Card>
+  <Card title="Integration keys" href="/mcp/clients/api-key" icon="key">
+    Scoped, account-wide keys for scripts, CI and cron.
+  </Card>
+</CardGroup>

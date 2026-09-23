@@ -1,0 +1,85 @@
+---
+title: MCP Server
+description: Connect ChatGPT, Claude, Cursor or Lovable to your 20X account and run the platform from a chat window
+---
+
+The 20X MCP server connects an AI assistant directly to your 20X account over the
+[Model Context Protocol](https://modelcontextprotocol.io). Once connected, the
+assistant can build agents, assemble contact lists, run campaigns, read call
+outcomes and place calls — from a chat window, with no dashboard tab open.
+
+It is hosted by us. There is nothing to install, clone or run locally.
+
+## The endpoint
+
+```
+https://mcp.20x.business/mcp
+```
+
+Paste that into your assistant, sign in, approve what it may do, and you are
+connected. There is no key to create, copy or later rotate.
+
+<Callout type="info">
+  Use the full URL including the `/mcp` path. Some clients compare the URL you
+  typed against the server's own identity and refuse to connect on a mismatch, so
+  `https://mcp.20x.business` on its own will not work.
+</Callout>
+
+## What an assistant can do
+
+64 tools, grouped by the part of the platform they touch.
+
+| Area | Tools | What it covers |
+| :--- | :--- | :--- |
+| **Agents** | 6 | List, inspect, create, edit and delete agents. Draft prompts. |
+| **Campaigns** | 12 | Build outbound call campaigns, then start, schedule, pause, resume or abort them. |
+| **Contacts** | 6 | Create contact lists and fill them. |
+| **Messaging** | 10 | WhatsApp and SMS post-call follow-up rules. |
+| **Knowledge** | 9 | Create knowledge bases, add text, track processing. |
+| **Numbers** | 5 | Search, buy and assign phone numbers. |
+| **Catalog** | 5 | Voices, languages, models, personas, templates — the options to choose from. |
+| **Reporting** | 4 | Call logs, usage, post-call analysis and transcripts. |
+| **Calls** | 2 | Place a single outbound call. |
+| **Account** | 5 | Profile, pricing, cost estimates, wallet balance. |
+
+Of those 64: 33 only read, 16 create or change something, and 15 are flagged
+destructive — they delete data, place real calls, or spend wallet balance. Most
+clients ask you to confirm before running one.
+
+## You decide what it may do
+
+Connecting shows you a permission screen. Read-only permissions arrive pre-ticked;
+anything that spends money, deletes data or reads what a customer said needs a
+deliberate tick from you.
+
+Some things are not on that screen at all, and cannot be granted by any means: the
+assistant can never top up your wallet, buy a plan, reach your invoices,
+transaction history, payment details or saved integration credentials, or manage
+your API keys, users or roles.
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" href="/mcp/quickstart" icon="rocket">
+    Connect an assistant in three steps.
+  </Card>
+  <Card title="Permissions" href="/mcp/permissions" icon="shield-check">
+    Every permission you can grant, and what is never grantable.
+  </Card>
+  <Card title="Tool Reference" href="/mcp/tools/overview" icon="wrench">
+    All 64 tools, their permissions and what they change.
+  </Card>
+  <Card title="How It Works" href="/mcp/how-it-works" icon="diagram-project">
+    Architecture, credential handling and tenant isolation.
+  </Card>
+</CardGroup>
+
+## Pick your client
+
+<CardGroup cols={2}>
+  <Card title="ChatGPT" href="/mcp/clients/chatgpt" icon="comments" />
+  <Card title="Claude" href="/mcp/clients/claude" icon="message" />
+  <Card title="Cursor" href="/mcp/clients/cursor" icon="code" />
+  <Card title="Lovable" href="/mcp/clients/lovable" icon="heart" />
+</CardGroup>
+
+Running something with no browser to sign in with — a cron job, a CI step, a
+server-side script? Use an [integration key](/mcp/clients/api-key) instead.

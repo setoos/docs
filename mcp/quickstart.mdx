@@ -1,0 +1,95 @@
+---
+title: Quickstart
+description: Connect an AI assistant to your 20X account in three steps
+---
+
+Connecting takes one URL and a sign-in. No key to create, no file to edit, nothing
+to install.
+
+## The endpoint
+
+```
+https://mcp.20x.business/mcp
+```
+
+<Steps>
+  <Step title="Paste the endpoint into your assistant">
+    Every client puts this in a slightly different place:
+
+    - **ChatGPT** — Settings → Connectors → Create
+    - **Claude** — Settings → Connectors → Add custom connector
+    - **Cursor** — Settings → MCP → New MCP Server
+    - **Lovable** — Connectors → **+** → MCP server
+
+    Choose OAuth or "Sign in" when asked how to authenticate. Do not paste an API
+    key — you will not need one.
+  </Step>
+
+  <Step title="Sign in and approve the permissions">
+    A 20X page opens listing what the assistant is asking to do. Tick what you
+    want to allow and approve.
+
+    Read-only permissions are already ticked. Anything that spends money, deletes
+    data or reads what a customer said is left unticked for you to decide on
+    deliberately.
+  </Step>
+
+  <Step title="Ask it something">
+    Start with a read, so nothing changes while you are checking the connection:
+
+    ```
+    List my 20X agents.
+    ```
+
+    If you get your agents back, you are connected. If the assistant says it has
+    no such tool, see [Troubleshooting](/mcp/troubleshooting).
+  </Step>
+</Steps>
+
+## Then try a real task
+
+Once the connection works, the assistant can carry a whole workflow. For example:
+
+```
+Create a contact list called "October leads", add these three numbers to it,
+then build a call campaign using my "Sales qualifier" agent — but don't start
+dialling, I want to review it first.
+```
+
+<Callout type="warning">
+  Building a campaign and running one are separate permissions on purpose.
+  `create_campaign` only saves configuration and dials nobody. Dialling needs
+  **Start and stop campaigns**, which places real calls and draws down your wallet
+  balance. Leave that permission unticked and an assistant can prepare everything
+  but never launch it.
+</Callout>
+
+## Exact setup steps per client
+
+Each client has its own menu path and its own quirks worth knowing before you
+start.
+
+<CardGroup cols={2}>
+  <Card title="ChatGPT" href="/mcp/clients/chatgpt" icon="comments">
+    Needs developer mode, and a Business, Enterprise or Edu workspace for write
+    actions.
+  </Card>
+  <Card title="Claude" href="/mcp/clients/claude" icon="message">
+    One connector covers web, desktop and mobile.
+  </Card>
+  <Card title="Cursor" href="/mcp/clients/cursor" icon="code">
+    Forwards only ~40 tools. Narrow the set with `?tools=`.
+  </Card>
+  <Card title="Lovable" href="/mcp/clients/lovable" icon="heart">
+    Chat connectors stay personal to you.
+  </Card>
+</CardGroup>
+
+<CardGroup cols={2}>
+  <Card title="Scripts, CI and cron" href="/mcp/clients/api-key" icon="terminal">
+    No browser to sign in with? Use an integration key.
+  </Card>
+  <Card title="Permissions" href="/mcp/permissions" icon="shield-check">
+    What each permission allows, before you tick it.
+  </Card>
+</CardGroup>

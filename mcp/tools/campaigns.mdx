@@ -1,0 +1,237 @@
+---
+title: Campaign Tools
+description: The twelve MCP tools for building and running outbound call campaigns
+---
+
+Twelve tools. A campaign dials a contact list with one agent, on a schedule you set.
+
+Group name for `?tools=`: **`campaigns`**
+
+<Callout type="warning">
+  **Building a campaign and running one are separate permissions.** `create_campaign`
+  and `update_campaign` need `campaigns:write` and dial nobody. Everything that
+  actually places calls needs `campaigns:execute`, which is a deliberate second grant.
+  Leave it unticked and an assistant can prepare a campaign completely but never
+  launch it.
+</Callout>
+
+<Callout type="info">
+  These tools are for **call** campaigns only. WhatsApp and SMS "campaigns" are a
+  different thing entirely — per-agent follow-up messages, no contact list, nothing to
+  start. See [Messaging Tools](/mcp/tools/messaging). A well-behaved assistant asked to
+  "create a campaign" with no channel named will ask which of the three you mean rather
+  than guessing.
+</Callout>
+
+## Reading
+
+### list_campaigns
+
+Lists call campaigns, optionally filtered by status.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+List my campaigns.
+Which campaigns are currently running?
+```
+
+### get_campaign
+
+Full configuration of one campaign — dialling rules, call window, retry settings.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+Show me how the "October outbound" campaign is set up.
+```
+
+### get_campaign_summary
+
+Progress statistics: how many contacts have been called, how many are left, how the
+outcomes break down.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+How is the October campaign doing?
+What percentage of the October campaign has been called?
+```
+
+### list_campaign_attempts
+
+Individual call attempts for a campaign, optionally filtered by outcome.
+
+**Permission:** `campaigns:read` · **Destructive:** no
+
+```
+Show me the failed attempts in the October campaign.
+Which contacts didn't answer?
+```
+
+## Building
+
+### create_campaign
+
+Creates a call campaign in **DRAFT** status. Saves configuration only — it places no
+calls and spends nothing.
+
+**Permission:** `campaigns:write` · **Destructive:** no
+
+Two prerequisites:
+
+- A contact list holding **at least two contacts**. Fewer is rejected upstream, so
+  build the list first with [contact tools](/mcp/tools/contacts).
+- Campaign names must be unique in the account.
+
+The outbound number is resolved from the agent automatically, the same way the
+dashboard does it. Supply one explicitly only to dial from a different number.
+
+```
+Create a campaign called "October outbound" using my "Sales qualifier" agent
+and the "October leads" list. Don't start it.
+```
+
+<Callout type="info">
+  Automatic number resolution reads the agent and the outbound number list, so it also
+  needs `agents:read` and `calls:read`. Without those, the number has to be named
+  explicitly.
+</Callout>
+
+### update_campaign
+
+Changes a campaign's configuration.
+
+**Permission:** `campaigns:write` · **Destructive:** no
+
+<Callout type="warning">
+  **Only DRAFT campaigns can be changed.** Once a campaign has been started,
+  scheduled or completed, the upstream service rejects edits. To change a running
+  campaign you have to pause or abort it first, and aborting is irreversible.
+</Callout>
+
+```
+Change the October campaign's call window to 10am–6pm.
+Set the October campaign to start tomorrow at 9am.
+```
+
+## Running
+
+Everything below needs `campaigns:execute`.
+
+### start_campaign
+
+Starts dialling immediately.
+
+**Permission:** `campaigns:execute` · **Destructive:** **yes**
+
+<Callout type="warning">
+  This places real phone calls to every contact in the list and deducts from your
+  wallet as it goes. Confirm the campaign, the list size and the call window before
+  running it. Starting an already-running campaign is rejected rather than dialling
+  twice.
+</Callout>
+
+```
+Start the October campaign.
+```
+
+### schedule_campaign
+
+Arms the campaign to begin at its configured `scheduledAt` time.
+
+**Permission:** `campaigns:execute` · **Destructive:** **yes**
+
+When that time arrives it places real calls with no further confirmation. Set the time
+with `update_campaign` first.
+
+```
+Schedule the October campaign to run at its configured time.
+```
+
+### pause_campaign
+
+Stops new calls being placed. Calls already in progress finish normally.
+
+**Permission:** `campaigns:execute` · **Destructive:** no
+
+Reversible, which is what distinguishes it from `abort_campaign`. Not flagged
+destructive, but it still needs the execute permission because interrupting something
+live is an execution decision.
+
+```
+Pause the October campaign.
+```
+
+### resume_campaign
+
+Resumes a paused campaign.
+
+**Permission:** `campaigns:execute` · **Destructive:** **yes**
+
+Places real calls to the remaining contacts and deducts from the wallet.
+
+<Callout type="info">
+  Only **PAUSED** campaigns can be resumed. For a DRAFT or SCHEDULED one, use
+  `start_campaign` instead.
+</Callout>
+
+```
+Resume the October campaign.
+```
+
+### abort_campaign
+
+Permanently terminates a campaign. Remaining contacts are never called, and it cannot
+be restarted.
+
+**Permission:** `campaigns:execute` · **Destructive:** **yes**
+
+<Callout type="warning">
+  If you might want the campaign back, you want `pause_campaign`. Pausing is
+  reversible; this is not. Aborting is also the prerequisite for deleting a campaign
+  that is still live.
+</Callout>
+
+```
+Abort the October campaign permanently.
+```
+
+## Deleting
+
+### delete_campaign
+
+Permanently deletes a campaign and its attempt history. Cannot be undone.
+
+**Permission:** `campaigns:delete` · **Destructive:** **yes**
+
+A live campaign has to be aborted first.
+
+```
+Delete the "September test" campaign.
+```
+
+## End to end
+
+<Steps>
+  <Step title="Build a contact list">
+    [`create_contact_list`](/mcp/tools/contacts) then `add_contacts`. At least two
+    contacts.
+  </Step>
+  <Step title="Create the campaign">
+    `create_campaign`. It lands in DRAFT and dials nobody.
+  </Step>
+  <Step title="Review it">
+    `get_campaign` to check the agent, number and call window.
+  </Step>
+  <Step title="Check there are funds">
+    [`get_wallet_balance`](/mcp/tools/account).
+  </Step>
+  <Step title="Dial">
+    `start_campaign` now, or `schedule_campaign` for later.
+  </Step>
+  <Step title="Watch it">
+    `get_campaign_summary` for progress, `list_campaign_attempts` for individual
+    outcomes.
+  </Step>
+</Steps>

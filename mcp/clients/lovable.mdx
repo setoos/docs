@@ -1,0 +1,49 @@
+---
+title: Connect Lovable
+description: Add 20X as an MCP server in Lovable
+---
+
+```
+https://mcp.20x.business/mcp
+```
+
+<Callout type="info">
+  Chat connectors are personal to you. They are never bundled into an app you
+  publish, so connecting here does not expose your 20X account to anyone using
+  something you build.
+</Callout>
+
+<Steps>
+  <Step title="Open the connector catalog">
+    Open **Connectors**, select **+** in the top right of the catalog, and choose
+    **MCP server**.
+  </Step>
+
+  <Step title="Paste the endpoint">
+    Use the endpoint above, exactly as shown.
+  </Step>
+
+  <Step title="Sign in and approve">
+    A 20X screen opens listing what Lovable is asking to do. Read-only permissions
+    are pre-ticked. Tick anything further you want to allow, then approve.
+
+    See [Permissions](/mcp/permissions) for what each one means.
+  </Step>
+
+  <Step title="Check it worked">
+    Ask:
+
+    ```
+    List my 20X agents.
+    ```
+  </Step>
+</Steps>
+
+## If something is off
+
+| Symptom | Cause |
+| :--- | :--- |
+| Connector fails to add | Check the URL ends in `/mcp`. |
+| An error naming a permission | That permission was not ticked. Reconnect and tick it. |
+
+More in [Troubleshooting](/mcp/troubleshooting).
