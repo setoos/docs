@@ -1,0 +1,58 @@
+---
+title: Call Tools
+description: Place a single outbound call, and list the numbers available to dial from
+---
+
+Two tools, kept in their own group so that enabling on-demand dialling is a deliberate
+act rather than something bundled in with reporting.
+
+Group name for `?tools=`: **`calls`**
+
+## list_voice_numbers
+
+Lists the phone numbers configured for outbound calling, with the id needed to dial
+from each.
+
+**Permission:** `calls:read` · **Destructive:** no
+
+```
+Which numbers can I call out from?
+```
+
+## initiate_call
+
+Places a single outbound phone call, now.
+
+**Permission:** `calls:execute` · **Destructive:** **yes**
+
+<Callout type="warning">
+  This rings a real person immediately and deducts from your wallet. Calling twice
+  places two calls — nothing deduplicates it. Most clients will ask you to confirm
+  first.
+</Callout>
+
+```
+Call +91 98765 43210 with my "Sales qualifier" agent.
+```
+
+## Why this needs its own permission
+
+`calls:execute` is separate from `campaigns:execute`, and the distinction is not
+bureaucratic.
+
+A campaign dials a contact list somebody assembled, and you can review that list
+before anything happens. `initiate_call` dials whatever number it is handed, on the
+spot, with no review step built in. It is the tool with the least friction between a
+sentence in a chat window and a real phone ringing, so it carries its own grant.
+
+Grant it when you want an assistant to be able to say "calling them now". Leave it off
+and campaigns still work.
+
+<CardGroup cols={2}>
+  <Card title="Campaign Tools" href="/mcp/tools/campaigns" icon="phone-volume">
+    Dialling a reviewed list instead of one number.
+  </Card>
+  <Card title="Reporting Tools" href="/mcp/tools/reporting" icon="chart-line">
+    What happened on the calls afterwards.
+  </Card>
+</CardGroup>

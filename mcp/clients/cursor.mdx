@@ -1,0 +1,123 @@
+---
+title: Connect Cursor
+description: Add 20X as an MCP server in Cursor, and narrow the tool set to fit Cursor's limit
+---
+
+```
+https://mcp.20x.business/mcp?tools=agents,catalog,numbers,calls,contacts,campaigns
+```
+
+<Callout type="warning">
+  Use the URL above, with the `?tools=` part, rather than the bare endpoint. Cursor
+  forwards only about the first 40 tool definitions to the model and silently drops
+  the rest — a connection advertising all 64 loses roughly two dozen with no warning
+  about which. [Why this happens](#why-the-tools-filter).
+</Callout>
+
+<Steps>
+  <Step title="Add the server">
+    **Settings → MCP → New MCP Server**, and paste the URL above.
+
+    Add no Authorization header. Cursor signs in through the browser.
+  </Step>
+
+  <Step title="Sign in and approve">
+    Cursor opens a browser window. A 20X screen lists what it is asking to do.
+    Read-only permissions are pre-ticked. Tick anything further you want to allow,
+    then approve.
+
+    See [Permissions](/mcp/permissions) for what each one means.
+  </Step>
+
+  <Step title="Fully quit and reopen Cursor">
+    Closing the window is not enough — quit the application completely and reopen
+    it. Cursor does not reliably pick up a new MCP server otherwise.
+  </Step>
+
+  <Step title="Check it worked">
+    Ask:
+
+    ```
+    List my 20X agents.
+    ```
+  </Step>
+</Steps>
+
+## Why the tools filter
+
+Cursor's roughly 40-tool ceiling is a long-standing, documented limit. The 20X server
+advertises 64 tools, comfortably past it, and the overflow is invisible: Cursor does
+not report which tools it dropped, so the symptom is an assistant that inexplicably
+cannot do something it should.
+
+Narrowing the set is usually the better configuration anyway. A model choosing
+between twelve relevant tools picks correctly more often than one choosing between
+sixty-four, and someone wiring up outbound calling does not need the knowledge base
+tools competing for attention.
+
+The default above gives you 36 tools — enough to build an agent, give it a number,
+assemble a contact list and run a campaign end to end.
+
+## Available groups
+
+Combine any of these as a comma-separated list.
+
+| Group | Tools | Covers |
+| :--- | :--- | :--- |
+| `agents` | 6 | Create, edit, inspect and delete agents |
+| `campaigns` | 12 | Build call campaigns, then start, pause, resume or abort them |
+| `contacts` | 6 | Contact lists and their contacts |
+| `messaging` | 10 | WhatsApp and SMS post-call follow-ups |
+| `knowledge` | 9 | Knowledge bases and ingestion |
+| `numbers` | 5 | Search, buy and assign phone numbers |
+| `catalog` | 5 | Voices, models, personas, presets, templates |
+| `reporting` | 4 | Call logs, usage, analysis, transcripts |
+| `calls` | 2 | Place a single outbound call |
+| `account` | 5 | Profile, pricing, estimates, wallet balance |
+
+Omit `?tools=` entirely to expose all 64 — fine in Claude or ChatGPT, not in Cursor.
+
+Some examples:
+
+```
+# Campaign work only
+https://mcp.20x.business/mcp?tools=campaigns,contacts,agents
+
+# Reporting assistant, reads only
+https://mcp.20x.business/mcp?tools=reporting,agents
+
+# Everything (not for Cursor)
+https://mcp.20x.business/mcp
+```
+
+<Callout type="info">
+  A group name that does not exist is rejected, not ignored. If you typo
+  `?tools=knowlege`, the connection fails with a message listing the valid names —
+  rather than quietly serving all 64 and putting you back in the situation you were
+  trying to avoid.
+</Callout>
+
+### Two things to be clear about
+
+**A filtered tool is genuinely absent.** Naming it directly returns "unknown tool"
+rather than running it. This is the usual cause of "the assistant says it cannot
+create a campaign" — the tool was filtered out of the URL, so there is no permission
+error for the model to point at and it blames the integration instead. If an
+assistant claims it cannot do something it should be able to, check your `?tools=`
+list before anything else.
+
+**This is not a security boundary.** It is an operator convenience, and anyone can
+change the URL. What an assistant is actually allowed to do comes from the
+permissions you approved. See [Permissions](/mcp/permissions).
+
+## If something is off
+
+| Symptom | Cause |
+| :--- | :--- |
+| Fewer tools than expected | The ~40 cap. Narrow the set with `?tools=`. |
+| Server does not appear after adding | Cursor was not fully quit and reopened. |
+| "Unknown tool" for something that should exist | Its group is not in your `?tools=` list. |
+| Connection fails immediately | A typo in a group name, or a URL not ending in `/mcp`. |
+| Requests time out after working earlier | Toggle the server off and on in Settings → MCP. |
+
+More in [Troubleshooting](/mcp/troubleshooting).

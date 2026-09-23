@@ -1,0 +1,105 @@
+---
+title: Contact Tools
+description: The six MCP tools for building and maintaining contact lists
+---
+
+Six tools. A contact list is what a call campaign dials through, so this is usually
+the first step in setting one up.
+
+Group name for `?tools=`: **`contacts`**
+
+## list_contact_lists
+
+Lists the contact lists in the account with the number of contacts in each.
+
+**Permission:** `contacts:read` · **Destructive:** no
+
+```
+What contact lists do I have?
+Which of my lists has the most contacts?
+```
+
+## list_contacts
+
+Lists contacts in one list — phone number, name and email. Paginated, capped at 25
+per page.
+
+**Permission:** `contacts:read` · **Destructive:** no
+
+```
+Show me the contacts in "October leads".
+```
+
+## create_contact_list
+
+Creates an empty contact list. Names must be distinct enough to tell apart later.
+
+**Permission:** `contacts:write` · **Destructive:** no
+
+```
+Create a contact list called "October leads".
+```
+
+## add_contacts
+
+Adds contacts to an existing list, in batches.
+
+**Permission:** `contacts:write` · **Destructive:** no
+
+```
+Add these numbers to "October leads": +91 98765 43210, +91 98765 43211.
+Add the contacts from this list I'm pasting, with their names.
+```
+
+<Callout type="warning">
+  Re-sending the same contacts can create duplicates — nothing upstream deduplicates
+  them. If an assistant is unsure whether an add succeeded, have it check with
+  `list_contacts` rather than adding again.
+</Callout>
+
+## delete_contacts
+
+Permanently removes specific contacts from a list. Use it to correct a bad import
+without discarding the whole list.
+
+**Permission:** `contacts:delete` · **Destructive:** **yes**
+
+```
+Remove the contact with number +91 98765 43210 from "October leads".
+```
+
+## delete_contact_list
+
+Permanently deletes a list and every contact in it. Cannot be undone.
+
+**Permission:** `contacts:delete` · **Destructive:** **yes**
+
+```
+Delete the contact list called "Old test data".
+```
+
+<Callout type="warning">
+  This is customer data and there is no undo. Most clients will ask you to confirm
+  first. Check whether a campaign still references the list before removing it.
+</Callout>
+
+## Before you build a campaign
+
+A call campaign needs a contact list holding **at least two contacts**. Creating one
+against a list with fewer is rejected, so the order is:
+
+<Steps>
+  <Step title="Create the list">
+    `create_contact_list`
+  </Step>
+  <Step title="Add at least two contacts">
+    `add_contacts`
+  </Step>
+  <Step title="Then build the campaign">
+    [`create_campaign`](/mcp/tools/campaigns)
+  </Step>
+</Steps>
+
+Bulk CSV upload is not available through MCP — tool arguments are JSON, and the
+server cannot read your disk. For a large import, use the
+[dashboard or the REST API](/api-reference/campaigns/upload-contacts-csv).

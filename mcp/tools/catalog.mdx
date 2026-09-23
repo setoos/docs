@@ -1,0 +1,85 @@
+---
+title: Catalog Tools
+description: The five read-only MCP tools that list what you can choose from when configuring an agent
+---
+
+Five tools, all read-only and all free. They answer one question: what are the options?
+
+Group name for `?tools=`: **`catalog`**
+
+<Callout type="info">
+  Enable this group alongside `agents`. An assistant creating an agent without it has to
+  guess at voice, model and persona ids — and guessed ids either fail or silently land
+  you on platform defaults.
+</Callout>
+
+## list_catalog_items
+
+Lists the building blocks for configuring an agent, by kind — voices, languages,
+speech providers and similar.
+
+**Permission:** `catalog:read` · **Destructive:** no
+
+```
+What voices are available?
+Which languages can my agent speak?
+```
+
+## list_agent_templates
+
+Lists the prebuilt agent templates on the platform — starting points for common jobs
+rather than blank agents.
+
+**Permission:** `catalog:read` · **Destructive:** no
+
+```
+What agent templates are available?
+```
+
+## list_agent_presets
+
+Lists the quick-start configurations, the same set the dashboard offers. A preset
+supplies a coherent stack — model, voice, speech recognition, persona — that is known
+to work together.
+
+**Permission:** `catalog:read` · **Destructive:** no
+
+```
+What presets can I use for a new agent?
+```
+
+<Callout type="info">
+  This is the one to reach for first when creating an agent. Individual fields override
+  a preset, so "this preset but a different voice" works.
+</Callout>
+
+## list_llm_models
+
+Lists the language models an agent can use for its reasoning, with the id needed to set
+one.
+
+**Permission:** `catalog:read` · **Destructive:** no
+
+```
+Which language models can I use?
+```
+
+## list_personas
+
+Lists the personas available to an agent. A persona sets the manner it speaks in.
+
+**Permission:** `catalog:read` · **Destructive:** no
+
+```
+What personas are available?
+Show me the personas and pick a friendly one for support.
+```
+
+<CardGroup cols={2}>
+  <Card title="Agent Tools" href="/mcp/tools/agents" icon="robot">
+    Where these ids get used.
+  </Card>
+  <Card title="Account Tools" href="/mcp/tools/account" icon="user">
+    What a given configuration will cost per minute.
+  </Card>
+</CardGroup>

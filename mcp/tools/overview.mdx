@@ -1,0 +1,189 @@
+---
+title: Tool Reference
+description: All 64 tools the 20X MCP server exposes, with the permission each one needs
+---
+
+64 tools. 33 only read, 16 create or change something, and 15 are flagged
+destructive.
+
+Each is a thin wrapper over one REST endpoint, so a tool behaves exactly as the
+equivalent [API call](/api-reference/introduction) would.
+
+## What "destructive" means here
+
+Two kinds of thing, both flagged the same way because both deserve a pause:
+
+- **Irreversible** — the eight deletes, and aborting a campaign.
+- **Real-world effect** — places calls, sends messages, spends wallet balance, or
+  takes a capability away from something that was working.
+
+Most clients ask you to confirm before running one. That prompt is a convenience, not
+the control: a client is free to ignore the flag, and people click through prompts.
+The actual protection is that these tools need their own permission — `campaigns:execute`
+is separate from `campaigns:write`, and each delete needs its own `*:delete`.
+
+## Agents
+
+[Full detail →](/mcp/tools/agents)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_agents` | `agents:read` | — |
+| `get_agent` | `agents:read` | — |
+| `create_agent` | `agents:write` | — |
+| `update_agent` | `agents:write` | — |
+| `generate_agent_prompt` | `agents:write` | — |
+| `delete_agent` | `agents:delete` | Yes |
+
+## Campaigns
+
+[Full detail →](/mcp/tools/campaigns)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_campaigns` | `campaigns:read` | — |
+| `get_campaign` | `campaigns:read` | — |
+| `get_campaign_summary` | `campaigns:read` | — |
+| `list_campaign_attempts` | `campaigns:read` | — |
+| `create_campaign` | `campaigns:write` | — |
+| `update_campaign` | `campaigns:write` | — |
+| `start_campaign` | `campaigns:execute` | Yes |
+| `schedule_campaign` | `campaigns:execute` | Yes |
+| `pause_campaign` | `campaigns:execute` | — |
+| `resume_campaign` | `campaigns:execute` | Yes |
+| `abort_campaign` | `campaigns:execute` | Yes |
+| `delete_campaign` | `campaigns:delete` | Yes |
+
+## Contacts
+
+[Full detail →](/mcp/tools/contacts)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_contact_lists` | `contacts:read` | — |
+| `list_contacts` | `contacts:read` | — |
+| `create_contact_list` | `contacts:write` | — |
+| `add_contacts` | `contacts:write` | — |
+| `delete_contacts` | `contacts:delete` | Yes |
+| `delete_contact_list` | `contacts:delete` | Yes |
+
+## Messaging
+
+[Full detail →](/mcp/tools/messaging)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_whatsapp_campaigns` | `campaigns:read` | — |
+| `list_whatsapp_templates` | `campaigns:read` | — |
+| `list_whatsapp_senders` | `campaigns:read` | — |
+| `create_whatsapp_campaign` | `campaigns:write` | — |
+| `update_whatsapp_campaign` | `campaigns:write` | — |
+| `delete_whatsapp_campaign` | `campaigns:delete` | Yes |
+| `list_sms_campaigns` | `campaigns:read` | — |
+| `create_sms_campaign` | `campaigns:write` | — |
+| `update_sms_campaign` | `campaigns:write` | — |
+| `delete_sms_campaign` | `campaigns:delete` | Yes |
+
+## Knowledge
+
+[Full detail →](/mcp/tools/knowledge)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_knowledge_bases` | `knowledge:read` | — |
+| `get_knowledge_base` | `knowledge:read` | — |
+| `list_knowledge_sources` | `knowledge:read` | — |
+| `get_ingestion_status` | `knowledge:read` | — |
+| `create_knowledge_base` | `knowledge:write` | — |
+| `add_knowledge_text` | `knowledge:write` | — |
+| `start_knowledge_ingestion` | `knowledge:write` | — |
+| `delete_knowledge_source` | `knowledge:delete` | Yes |
+| `delete_knowledge_base` | `knowledge:delete` | Yes |
+
+## Numbers
+
+[Full detail →](/mcp/tools/numbers)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `search_available_numbers` | `numbers:read` | — |
+| `list_phone_numbers` | `numbers:read` | — |
+| `list_provider_connections` | `catalog:read` | — |
+| `assign_voice_number` | `numbers:write` | Yes |
+| `purchase_phone_number` | `numbers:purchase` | Yes |
+
+## Catalog
+
+[Full detail →](/mcp/tools/catalog)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_catalog_items` | `catalog:read` | — |
+| `list_agent_templates` | `catalog:read` | — |
+| `list_agent_presets` | `catalog:read` | — |
+| `list_llm_models` | `catalog:read` | — |
+| `list_personas` | `catalog:read` | — |
+
+## Reporting
+
+[Full detail →](/mcp/tools/reporting)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_call_logs` | `calls:read` | — |
+| `list_usage_records` | `usage:read` | — |
+| `analyze_calls` | `transcripts:read` | — |
+| `get_call_transcript` | `transcripts:read` | — |
+
+## Calls
+
+[Full detail →](/mcp/tools/calls)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_voice_numbers` | `calls:read` | — |
+| `initiate_call` | `calls:execute` | Yes |
+
+## Account
+
+[Full detail →](/mcp/tools/account)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `get_profile` | `profile:read` | — |
+| `update_profile` | `profile:write` | — |
+| `get_pricing_rate_card` | `pricing:read` | — |
+| `estimate_agent_cost` | `pricing:read` | — |
+| `get_wallet_balance` | `wallet:read` | — |
+
+## The 15 destructive tools, in one place
+
+`delete_agent` · `delete_campaign` · `delete_contacts` · `delete_contact_list` ·
+`delete_knowledge_source` · `delete_knowledge_base` · `delete_whatsapp_campaign` ·
+`delete_sms_campaign` · `start_campaign` · `schedule_campaign` · `resume_campaign` ·
+`abort_campaign` · `purchase_phone_number` · `initiate_call` · `assign_voice_number`
+
+`assign_voice_number` is on the list for a reason that is easy to miss: if the number
+already belongs to another agent, linking it moves it, and that agent immediately
+stops being able to call or receive on it.
+
+`pause_campaign` is not on the list — pausing is reversible — but it still needs
+`campaigns:execute`, because interrupting something live is an execution decision.
+
+## Tools that do not exist
+
+Asked for one of these, an assistant will not find it. That is deliberate, not a gap:
+
+| Not available | Why |
+| :--- | :--- |
+| Upload a file to a knowledge base | Tool arguments are JSON, and the server cannot see your disk. Use `add_knowledge_text`. |
+| Read back stored knowledge text, or search a knowledge base | Would be a bulk export of your internal documents through a chat client. |
+| Release a phone number | No undo, no refund. |
+| Anything touching wallet top-up, invoices, payment details, credentials, API keys, users or roles | No permission exists for these. See [Permissions](/mcp/permissions). |
+| Workflows | There is no workflow API to wrap yet. |
+
+## Narrowing what is advertised
+
+A connection can expose a subset by appending `?tools=` to the endpoint. This is
+necessary in Cursor, which drops tools past roughly the first 40 —
+[details and group names](/mcp/clients/cursor#available-groups).

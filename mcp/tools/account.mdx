@@ -1,0 +1,100 @@
+---
+title: Account Tools
+description: The five MCP tools for profile, pricing, cost estimates and wallet balance
+---
+
+Five tools. Deliberately narrow — this is the area where most of what exists in the
+platform is not reachable by an assistant at all.
+
+Group name for `?tools=`: **`account`**
+
+## get_profile
+
+Returns your name, email, role and organisation details.
+
+**Permission:** `profile:read` · **Destructive:** no
+
+Never includes wallet balance or anything billing-related.
+
+```
+Which 20X account am I connected to?
+```
+
+## update_profile
+
+Changes your first name, last name, or both.
+
+**Permission:** `profile:write` · **Destructive:** no
+
+That is the entire scope of it. Email, password and role cannot be changed through MCP.
+
+```
+Change my first name to Vaibhav.
+```
+
+## get_pricing_rate_card
+
+Returns the current published rate card — what each component costs per unit.
+
+**Permission:** `pricing:read` · **Destructive:** no
+
+Published prices, not your balance and not your actual spend.
+
+```
+What does a minute of calling cost?
+```
+
+## estimate_agent_cost
+
+Estimates the per-minute cost of an agent, either an existing one or a configuration
+you are considering.
+
+**Permission:** `pricing:read` · **Destructive:** no
+
+```
+What will my "Sales qualifier" agent cost per minute?
+Would switching to a cheaper model save much?
+```
+
+## get_wallet_balance
+
+Returns the current wallet balance and currency.
+
+**Permission:** `wallet:read` · **Destructive:** no
+
+Balance and currency, nothing else. No transactions, no invoices, no payment details.
+
+It exists so an assistant can check there are funds before doing something that spends
+— starting a campaign, buying a number.
+
+```
+What's my wallet balance?
+Do I have enough balance to run the October campaign?
+```
+
+## What is not here, and why
+
+There is no tool for any of the following, and no permission that could enable one:
+
+- Adding money to the wallet — recharge, checkout, plan or addon purchase
+- Invoices, transaction history, the billing profile, payment methods, currency changes
+- Saved integration credentials and connected provider balances
+- API keys and service tokens
+- Users and roles
+
+The rule: **spending an existing balance on platform work can be granted. Adding to that
+balance never can.**
+
+That line is why `start_campaign` and `purchase_phone_number` exist while recharge does
+not. An assistant holding every permission we issue can spend a funded wallet down to
+zero and then stops. It cannot top itself up, so the worst case is bounded by whatever
+you chose to put in the wallet.
+
+<CardGroup cols={2}>
+  <Card title="Permissions" href="/mcp/permissions" icon="shield-check">
+    The full list, and what is never grantable.
+  </Card>
+  <Card title="How It Works" href="/mcp/how-it-works" icon="diagram-project">
+    How monetary fields are filtered out of responses.
+  </Card>
+</CardGroup>

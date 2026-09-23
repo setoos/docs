@@ -1,0 +1,92 @@
+---
+title: Limits & Errors
+description: Rate limits, page sizes and the error codes the MCP server returns
+---
+
+## Limits
+
+| Limit | Value | Notes |
+| :--- | :--- | :--- |
+| Tool calls | 120 per 60 seconds, per credential | Guards against a model looping on a tool |
+| List results | 25 items per page | Every list tool, no exceptions |
+| Credential cache | 60 seconds | Bounds how long a revoked credential stays effective |
+
+**The rate limit is not a billing control.** It exists because a model that
+misunderstands a tool can call it in a tight loop, and 120 calls a minute is far more
+than any genuine conversation needs while still cutting a runaway short. It is counted
+in memory per server instance, so under load the effective budget can be higher than
+the stated number.
+
+**The 25-item page cap** is there because a raw upstream page would consume a large
+share of the model's context for a single call. Ask for more and the assistant pages
+through rather than getting everything at once.
+
+**The 60-second cache** means a revoked key or a changed permission set can stay
+effective for up to a minute. If you are revoking because of a suspected leak, assume
+the credential is live for that minute.
+
+## Error codes
+
+The endpoint speaks JSON-RPC, so errors come back in a JSON-RPC envelope rather than the
+REST error shape used elsewhere in these docs.
+
+| Code | HTTP | Meaning | What to do |
+| :--- | :--- | :--- | :--- |
+| `-32001` | 401 | Not authenticated, or the credential lacks the permission | Reconnect, or tick the permission named in the message |
+| `-32002` | 503 | We could not reach the service that validates your credential | Retry. Your credential is probably fine |
+| `-32602` | 400 | An unknown `?tools=` group name | Fix the spelling — the message lists valid names |
+| `-32603` | 500 | Internal error | Retry; if it persists, contact support |
+| `-32000` | 405 | You sent a `GET` | Use `POST` |
+
+### 401 and 503 are different problems
+
+A `401` means the credential was rejected: it is wrong, revoked, or missing a
+permission. A `503` means we could not ask — the validating service was unreachable.
+
+These are kept distinct on purpose. Reporting an outage as an authentication failure
+would send you off regenerating a key that was never the problem.
+
+### Permission errors name the permission
+
+When a credential lacks a permission, the error says which one. The check runs before
+any request leaves the MCP server, so a refused call costs nothing and changes nothing —
+a missing `campaigns:execute` is refused before a single number is dialled.
+
+## Why GET returns 405
+
+The MCP spec allows a client to open a `GET` to receive server-initiated messages over a
+held-open stream. Some clients try it automatically.
+
+This server never pushes unsolicited messages. Every tool result returns on the `POST`
+that asked for it. So that stream would sit open indefinitely carrying nothing — a
+connection leak, and one that can exhaust a client's connection pool and make the server
+appear to hang.
+
+The `405` costs a client nothing: it has no persistent stream to lose. The response body
+explains this rather than being a bare status code.
+
+## Failures never look like empty results
+
+When an upstream service is unavailable, a list tool returns a retryable error. It never
+returns an empty list.
+
+This matters more than it sounds. A list tool answering `[]` on failure would have the
+assistant tell you "you have no campaigns" as a statement of fact, and you would have no
+way to tell that apart from the truth.
+
+## What is not logged
+
+One structured line per tool call: which credential, which account, which tool, the
+outcome and how long it took.
+
+Deliberately not logged: tool arguments and response bodies. They contain phone numbers
+and customer conversations.
+
+<CardGroup cols={2}>
+  <Card title="Troubleshooting" href="/mcp/troubleshooting" icon="wrench">
+    Symptoms and their causes.
+  </Card>
+  <Card title="How It Works" href="/mcp/how-it-works" icon="diagram-project">
+    Why the transport is shaped this way.
+  </Card>
+</CardGroup>

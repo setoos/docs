@@ -1,0 +1,135 @@
+---
+title: Agent Tools
+description: The six MCP tools for listing, creating, editing and deleting agents
+---
+
+Six tools. An agent is the brain of every conversation — its prompt, model, voice
+and knowledge. None of these place calls or spend wallet balance.
+
+Group name for `?tools=`: **`agents`**
+
+## list_agents
+
+Lists the voice and chat agents in the account: id, name, channel and whether each is
+active. Supports a name or description search.
+
+**Permission:** `agents:read` · **Destructive:** no
+
+```
+List my agents.
+Which of my agents are inactive?
+```
+
+## get_agent
+
+Full configuration of one agent, including its prompt, model, persona and attached
+knowledge base. Long prompts come back truncated.
+
+**Permission:** `agents:read` · **Destructive:** no
+
+```
+Show me how my "Sales qualifier" agent is configured.
+What model does my support agent use?
+```
+
+## create_agent
+
+Creates a new agent. Configuration only — it places no calls and spends nothing.
+
+**Permission:** `agents:write` · **Destructive:** no
+
+<Callout type="warning">
+  An agent created without settling its configuration silently gets platform defaults,
+  and you will not see that afterwards. A well-behaved assistant will either offer you
+  a preset or ask for the whole stack — model, voice, speech recognition, persona — in
+  one go before creating anything. If it creates an agent immediately without asking,
+  check the result with `get_agent`.
+</Callout>
+
+The normal path is to pick a preset, the same set the dashboard offers. Individual
+fields you supply override the preset, so a preset plus one deliberate change works.
+
+```
+Create a sales agent using the standard preset, called "October outbound".
+What presets are available for a new agent?
+```
+
+<Callout type="info">
+  A new agent cannot take live calls until a phone connection is attached, which is
+  done in the dashboard. Assigning an outbound number is separate — see
+  [`assign_voice_number`](/mcp/tools/numbers).
+</Callout>
+
+## update_agent
+
+Changes an existing agent. Only the fields supplied are touched; everything else is
+left alone.
+
+**Permission:** `agents:write` · **Destructive:** no
+
+```
+Change my support agent's greeting to something warmer.
+Attach the "Refund policy" knowledge base to my support agent.
+Deactivate the "Old campaign" agent.
+```
+
+<Callout type="warning">
+  Two pairings that fail quietly if changed by halves:
+
+  - A voice belongs to a text-to-speech provider. Change both together, or the agent
+    fails mid-call.
+  - Attaching a knowledge base with nothing ingested yet retrieves nothing and gives
+    no sign of it. Check with [`get_knowledge_base`](/mcp/tools/knowledge) first.
+</Callout>
+
+## generate_agent_prompt
+
+Drafts a system prompt, greeting and fallback message from a plain-language
+instruction. **Returns the text without saving it** — apply it with `update_agent` if
+you like it.
+
+**Permission:** `agents:write` · **Destructive:** no
+
+Takes a few seconds, and consumes AI capacity, which is why it needs a write
+permission despite saving nothing.
+
+```
+Draft a prompt for an agent that books dental appointments and never gives
+medical advice.
+```
+
+## delete_agent
+
+Permanently deletes an agent and its AI brain. Cannot be undone.
+
+**Permission:** `agents:delete` · **Destructive:** **yes**
+
+Most clients will ask you to confirm. Deleting twice is a not-found, not a second
+deletion.
+
+```
+Delete the agent called "Test agent 3".
+```
+
+<Callout type="warning">
+  Check nothing live depends on it first. Campaigns and assigned numbers reference an
+  agent, and deleting it does not clean those up for you.
+</Callout>
+
+## A typical sequence
+
+<Steps>
+  <Step title="See the options">
+    `list_agent_presets`, `list_llm_models`, `list_personas` — all in the
+    [catalog group](/mcp/tools/catalog).
+  </Step>
+  <Step title="Create the agent">
+    `create_agent` with a preset, or with the full stack specified.
+  </Step>
+  <Step title="Give it a prompt">
+    `generate_agent_prompt` to draft one, then `update_agent` to apply it.
+  </Step>
+  <Step title="Give it a number">
+    [`assign_voice_number`](/mcp/tools/numbers) so it can dial.
+  </Step>
+</Steps>

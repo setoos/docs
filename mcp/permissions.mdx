@@ -1,0 +1,172 @@
+---
+title: Permissions
+description: Every permission you can grant an AI assistant, and the ones that can never be granted
+---
+
+When you connect an assistant, a 20X page lists what it is asking to do. You tick
+what you want to allow. The assistant can do nothing beyond what you approve.
+
+There are 25 permissions. Read-only ones arrive pre-ticked. Anything that spends
+money, deletes data or reads what a customer said is left for you to tick
+deliberately.
+
+## Risk levels
+
+Each permission carries one of four levels, shown on the consent screen so a long
+list does not hide the consequential entries.
+
+| Level | Meaning |
+| :--- | :--- |
+| **Read** | Looks at data. Changes nothing. |
+| **Write** | Creates or edits data. Reversible. |
+| **Spend** | Deducts from your wallet, or reaches a real person. |
+| **Delete** | Permanently removes data. |
+
+Spend is deliberately separate from write. Write and delete are both about data;
+spend is about money leaving your wallet and calls reaching real people, which is a
+different decision, and it must not arrive bundled with a "tick all write" reflex.
+
+## Agents
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read agents | `agents:read` | List agents and view their configuration. | Read |
+| Create and edit agents | `agents:write` | Create new agents, change prompts and settings, generate prompts. | Write |
+| Delete agents | `agents:delete` | Permanently delete an agent and its AI brain. | Delete |
+
+## Campaigns
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read campaigns | `campaigns:read` | List campaigns, view progress and call attempts. | Read |
+| Create and edit campaigns | `campaigns:write` | Create and edit draft campaigns. Cannot start them or spend wallet balance. | Write |
+| Start and stop campaigns | `campaigns:execute` | Start, schedule, pause, resume or abort a campaign. Places real calls and deducts from your wallet. | Spend |
+| Delete campaigns | `campaigns:delete` | Permanently delete a campaign and its attempt history. | Delete |
+
+<Callout type="warning">
+  **Start and stop campaigns** is the one most worth thinking about. Without it an
+  assistant can build a campaign end to end but never dial it — which is often
+  exactly what you want while you are still getting comfortable.
+</Callout>
+
+## Contacts
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read contacts | `contacts:read` | List contact lists and the contacts inside them. | Read |
+| Add contacts | `contacts:write` | Create contact lists and add contacts to them. | Write |
+| Delete contact lists | `contacts:delete` | Permanently delete a contact list and every contact in it. | Delete |
+
+## Knowledge bases
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read knowledge bases | `knowledge:read` | List knowledge bases, their documents and processing status. Never returns the stored document text. | Read |
+| Add knowledge | `knowledge:write` | Create a knowledge base and add documents to it. Processing uses embedding credits. | Write |
+| Delete knowledge | `knowledge:delete` | Permanently delete a knowledge base or one of its documents. Agents using it keep answering, but without that knowledge. | Delete |
+
+## Phone numbers
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read phone numbers | `numbers:read` | List the numbers you own and search what is available to buy. Searching costs nothing. | Read |
+| Link phone numbers to agents | `numbers:write` | Connect a number to an agent so it can call or receive calls. If the number already belongs to a different agent, moves it — that agent immediately loses the ability to call or receive on it. Spends nothing. | Write |
+| Buy phone numbers | `numbers:purchase` | Buy a number. Deducts setup plus the first month from your wallet, then renews monthly. Cannot be undone. | Spend |
+
+## Account
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read profile | `profile:read` | Your name, email, role and organisation details. Never wallet balance or billing. | Read |
+| Edit your name | `profile:write` | Change your first and last name only. Cannot change email, password or role. | Write |
+| Read pricing | `pricing:read` | List prices and cost estimates for a configuration. Never your balance or actual spend. | Read |
+| Read wallet balance | `wallet:read` | See the balance only, so an assistant can check funds before spending. No transactions, invoices or payment details, and no way to add funds. | Read |
+
+## Reporting
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read call logs | `calls:read` | List calls with outcome and duration only. Not what was said. | Read |
+| Read call transcripts | `transcripts:read` | Read what customers actually said, and the lead analysis from it. This sends private conversations to whichever AI assistant holds the credential. Recordings are never exposed. | Read |
+| Place single calls | `calls:execute` | Dial one number on demand. Rings a real person immediately and deducts from your wallet. Unlike a campaign there is no contact list to review first. | Spend |
+| Read usage | `usage:read` | Call counts, talk time and per-agent activity. Costs and wallet balance are never exposed. | Read |
+| Read catalog | `catalog:read` | List available voices, languages, providers and agent templates. | Read |
+
+## What arrives pre-ticked
+
+These 11 read-only permissions are ticked by default, so "let the assistant see my
+data" needs no thought:
+
+`agents:read` · `campaigns:read` · `contacts:read` · `catalog:read` ·
+`knowledge:read` · `calls:read` · `usage:read` · `pricing:read` · `profile:read` ·
+`wallet:read` · `numbers:read`
+
+## What carries a warning
+
+These 8 are flagged on the consent screen. You can still grant every one of them —
+the flag exists so a skimmed screen does not hide the distinction:
+
+| Permission | Why it is flagged |
+| :--- | :--- |
+| `campaigns:execute` | Dials real people and draws down the wallet. |
+| `calls:execute` | Dials one real person immediately, with no list to review. |
+| `numbers:purchase` | Spends, and cannot be undone. |
+| `transcripts:read` | Returns what a real customer said, which then reaches the AI assistant you connected. |
+| `agents:delete` | Permanent. |
+| `campaigns:delete` | Permanent. |
+| `contacts:delete` | Permanent, and it is customer data. |
+| `knowledge:delete` | Permanent. |
+
+<Callout type="warning">
+  `transcripts:read` is a read permission, but it is the one with the widest privacy
+  reach. Granting it means real customer conversations leave 20X and enter the
+  assistant's model. Grant it when you want call analysis in chat; leave it off
+  otherwise.
+</Callout>
+
+## What can never be granted
+
+Not "off by default" — absent. There is no permission for any of the following, so
+no assistant and no key can be given them:
+
+- Adding money to your wallet: recharge, checkout, plan or addon purchase
+- Invoices, transaction history, the billing profile, payment methods, currency changes
+- Saved integration credentials and connected provider balances
+- Creating, reading or revoking API keys and service tokens
+- Creating, editing or removing users and roles
+- Releasing a phone number, which has no undo and no refund
+- Retrying a failed renewal payment
+- Reading back the text stored in a knowledge base, or querying one by similarity
+
+The rule behind that list: **spending an existing balance on platform work can be
+granted. Adding to that balance never can.** So an assistant holding every
+permission we issue can spend a funded wallet down to zero and then stops. It
+cannot top itself up, so the worst case is bounded by whatever you chose to put in
+the wallet.
+
+## When a permission is missing
+
+The assistant still sees the tool, and gets a clear error naming the permission it
+needs. That is deliberate: a tool that vanishes silently leaves the assistant saying
+"I can't do that" with nothing you can act on, while a named permission tells you
+exactly which box to tick.
+
+The check runs before any request leaves the MCP server, so a refused call costs
+nothing and changes nothing. For the tools that spend, that means a missing
+`campaigns:execute` is refused before a single number is dialled.
+
+## Reviewing and revoking
+
+Everything you have connected is listed in the dashboard under
+**MCP & Keys** → Connected Apps, with the permissions each one holds. Revoking takes
+effect immediately and the assistant loses access without you changing anything on
+its side.
+
+<CardGroup cols={2}>
+  <Card title="How It Works" href="/mcp/how-it-works" icon="diagram-project">
+    Why the server cannot exceed what you could do yourself.
+  </Card>
+  <Card title="Tool Reference" href="/mcp/tools/overview" icon="wrench">
+    Which permission each of the 64 tools needs.
+  </Card>
+</CardGroup>

@@ -1,0 +1,57 @@
+---
+title: Connect ChatGPT
+description: Add 20X as a connector in ChatGPT
+---
+
+```
+https://mcp.20x.business/mcp
+```
+
+<Callout type="warning">
+  Write actions need a **Business, Enterprise or Edu** workspace. On Pro, the
+  connector works but is limited to reading. Worth knowing now rather than after you
+  have set everything up.
+</Callout>
+
+<Steps>
+  <Step title="Enable developer mode">
+    **Settings → Connected apps**, and turn on developer mode for the workspace.
+    Custom connectors are not available until this is on.
+  </Step>
+
+  <Step title="Create the connector">
+    **Settings → Connectors → Create**, and paste the endpoint above as the MCP
+    server URL.
+  </Step>
+
+  <Step title="Choose OAuth">
+    When asked how to authenticate, choose OAuth. Do not paste an API key.
+  </Step>
+
+  <Step title="Approve the permissions">
+    A 20X screen opens listing what ChatGPT is asking to do. Read-only permissions
+    are pre-ticked. Tick anything further you want to allow, then approve.
+
+    See [Permissions](/mcp/permissions) for what each one means.
+  </Step>
+
+  <Step title="Check it worked">
+    In a new chat, ask:
+
+    ```
+    List my 20X agents.
+    ```
+
+    Getting your agents back means the connection is live.
+  </Step>
+</Steps>
+
+## If something is off
+
+| Symptom | Cause |
+| :--- | :--- |
+| No option to create a connector | Developer mode is off for the workspace. |
+| It reads fine but cannot create or change anything | Pro workspace. Write actions need Business, Enterprise or Edu. |
+| An error naming a permission | That permission was not ticked. Reconnect and tick it. |
+
+More in [Troubleshooting](/mcp/troubleshooting).

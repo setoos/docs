@@ -1,0 +1,178 @@
+---
+title: Knowledge Tools
+description: The nine MCP tools for knowledge bases, plus two things they deliberately cannot do
+---
+
+Nine tools. A knowledge base holds documents an agent can consult mid-call.
+
+Group name for `?tools=`: **`knowledge`**
+
+## Two things to know first
+
+**There is no file upload tool.** Tool arguments are JSON, so a binary body cannot be
+expressed — and a file path would not help either, since the MCP server runs on our
+infrastructure and cannot see your disk. Use `add_knowledge_text`: the assistant
+extracts the text and passes it as a string, and the same processing runs as for an
+upload.
+
+**Nothing reads content back.** No tool returns stored document text, and none searches
+a knowledge base by similarity. Either would be a bulk export of your internal
+documents through a chat client, and neither would look like one from the tool name.
+Listing sources returns names, types, sizes and processing state only.
+
+<Callout type="warning">
+  **Watch for summarising.** An assistant asked to "add this document" will often
+  summarise it unless told not to. A summarised refund policy produces an agent that is
+  confidently wrong on live calls, with nothing in the data to show why.
+
+  Say "add this verbatim, do not summarise". `add_knowledge_text` reports the character
+  count it stored — compare it against the source, since that is the one number that
+  makes a silent summary visible.
+</Callout>
+
+## Reading
+
+### list_knowledge_bases
+
+Lists the knowledge bases in the account.
+
+**Permission:** `knowledge:read` · **Destructive:** no
+
+```
+What knowledge bases do I have?
+```
+
+### get_knowledge_base
+
+One knowledge base with its retrieval settings and how much content has been processed.
+
+**Permission:** `knowledge:read` · **Destructive:** no
+
+```
+Is the "Refund policy" knowledge base ready to use?
+```
+
+<Callout type="info">
+  Check this before attaching a knowledge base to an agent. One with nothing processed
+  yet retrieves nothing during calls and gives no sign of it.
+</Callout>
+
+### list_knowledge_sources
+
+Lists the documents in one knowledge base with their type and size. Not their content.
+
+**Permission:** `knowledge:read` · **Destructive:** no
+
+```
+What documents are in my "Product FAQ" knowledge base?
+```
+
+### get_ingestion_status
+
+Checks whether a processing job has finished. Status is `queued`, `running`,
+`completed`, `failed` or `cancelled`. A failed job includes the reason.
+
+**Permission:** `knowledge:read` · **Destructive:** no
+
+```
+Has the refund policy finished processing?
+```
+
+<Callout type="warning">
+  Content is not available to an agent until status is `completed`. Queued or running
+  means the agent still cannot see it; failed means it never will.
+</Callout>
+
+## Writing
+
+### create_knowledge_base
+
+Creates an empty knowledge base. It starts with no content.
+
+**Permission:** `knowledge:write` · **Destructive:** no
+
+```
+Create a knowledge base called "Refund policy".
+```
+
+### add_knowledge_text
+
+Adds a document as text and starts processing it so agents can use it. Returns a job id
+and the character count stored.
+
+**Permission:** `knowledge:write` · **Destructive:** no
+
+```
+Add this text to the "Refund policy" knowledge base, verbatim, without
+summarising: ...
+```
+
+<Callout type="info">
+  Calling this twice adds the document twice. Content is deduplicated by hash during
+  processing, so the text is not duplicated, but a second source entry still appears in
+  the list.
+</Callout>
+
+### start_knowledge_ingestion
+
+Reprocesses a knowledge base so its content is embedded and searchable. Safe to re-run
+— documents are deduplicated by content hash, so it converges rather than accumulating.
+
+**Permission:** `knowledge:write` · **Destructive:** no
+
+```
+Reprocess my "Product FAQ" knowledge base.
+```
+
+## Deleting
+
+### delete_knowledge_source
+
+Permanently deletes one document from a knowledge base, along with its embedded
+content.
+
+**Permission:** `knowledge:delete` · **Destructive:** **yes**
+
+```
+Remove the outdated pricing document from "Product FAQ".
+```
+
+### delete_knowledge_base
+
+Permanently deletes an entire knowledge base: every document in it, and all embedded
+content.
+
+**Permission:** `knowledge:delete` · **Destructive:** **yes**
+
+```
+Delete the "Old FAQ" knowledge base.
+```
+
+<Callout type="warning">
+  Agents pointed at a deleted knowledge base keep answering calls — they just answer
+  without that knowledge, and nothing flags it. Detach it from the agent with
+  [`update_agent`](/mcp/tools/agents) if you want that to be visible.
+</Callout>
+
+## Adding knowledge end to end
+
+<Steps>
+  <Step title="Create the knowledge base">
+    `create_knowledge_base`
+  </Step>
+  <Step title="Add the text">
+    `add_knowledge_text`. Ask for it verbatim, and check the reported character count.
+  </Step>
+  <Step title="Wait for processing">
+    `get_ingestion_status` until it reads `completed`.
+  </Step>
+  <Step title="Attach it to an agent">
+    [`update_agent`](/mcp/tools/agents) with the knowledge base id.
+  </Step>
+</Steps>
+
+<Callout type="info">
+  Processing consumes embedding credits. For large documents or bulk file uploads, the
+  [dashboard or REST API](/api-reference/knowledge-bases/add-source) handles files
+  directly.
+</Callout>

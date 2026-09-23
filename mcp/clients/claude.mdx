@@ -1,0 +1,58 @@
+---
+title: Connect Claude
+description: Add 20X as a custom connector in Claude
+---
+
+```
+https://mcp.20x.business/mcp
+```
+
+<Callout type="info">
+  Connectors are shared across Claude web, desktop and mobile. Set this up once and
+  it is available in all three.
+</Callout>
+
+<Steps>
+  <Step title="Add a custom connector">
+    **Settings → Connectors → Add custom connector**, and paste the endpoint above.
+  </Step>
+
+  <Step title="Leave the authentication defaults">
+    Keep authentication on **Sign in now**, and set the OAuth client to
+    **Register automatically**. Claude handles the rest — there is nothing to
+    configure and no client ID to obtain.
+  </Step>
+
+  <Step title="Approve the permissions">
+    A 20X screen opens listing what Claude is asking to do. Read-only permissions
+    are pre-ticked. Tick anything further you want to allow, then approve.
+
+    See [Permissions](/mcp/permissions) for what each one means.
+  </Step>
+
+  <Step title="Check it worked">
+    In a new conversation, ask:
+
+    ```
+    List my 20X agents.
+    ```
+  </Step>
+</Steps>
+
+## Configuring by file instead
+
+If you configure Claude Desktop by editing `claude_desktop_config.json` rather than
+through Connectors, that route launches local subprocesses and cannot use the
+sign-in flow. It needs an integration key and a bridge instead — see
+[Scripts & CI](/mcp/clients/api-key).
+
+Using Connectors, as above, is simpler and is the recommended path.
+
+## If something is off
+
+| Symptom | Cause |
+| :--- | :--- |
+| Connector fails to add | Check the URL ends in `/mcp`. Claude compares it against the server's own identity. |
+| An error naming a permission | That permission was not ticked. Reconnect and tick it. |
+
+More in [Troubleshooting](/mcp/troubleshooting).

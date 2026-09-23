@@ -1,0 +1,199 @@
+---
+title: Troubleshooting
+description: Common MCP connection problems, what causes them, and answers to frequent questions
+---
+
+## The connection will not establish
+
+<Accordion title="The client rejects the URL, or connecting fails immediately">
+  Check the endpoint is exactly:
+
+  ```
+  https://mcp.20x.business/mcp
+  ```
+
+  The two usual mistakes are dropping the `/mcp` path and a typo in a `?tools=` group
+  name. Clients compare the URL you typed against the server's own identity and refuse
+  on a mismatch, and an unknown group name is rejected rather than ignored — the error
+  lists the valid names.
+</Accordion>
+
+<Accordion title="ChatGPT has no option to create a connector">
+  Developer mode is off. Turn it on under **Settings → Connected apps**, for the
+  workspace rather than for you personally.
+</Accordion>
+
+<Accordion title="Cursor: the server does not appear after adding it">
+  Cursor needs a full restart. Quit the application completely and reopen it — closing
+  the window is not enough.
+</Accordion>
+
+<Accordion title="It asks for an API key, but I wanted to sign in">
+  Choose OAuth or "Sign in" where the client asks how to authenticate, and leave the
+  Authorization header empty. If a client only offers a key field, it is a config-file
+  client and needs [an integration key](/mcp/clients/api-key).
+</Accordion>
+
+## It connects, but cannot do something
+
+<Accordion title="The assistant says it cannot create a campaign (or any other tool)">
+  Usually a `?tools=` filter, not a permission. A filtered tool is genuinely absent, so
+  the model gets no permission error to point at and blames the integration instead.
+
+  Check your URL includes the group. `campaigns` left out of the Cursor default is the
+  single most common report of this.
+
+  If the group is present, it is a permission — see below.
+</Accordion>
+
+<Accordion title="An error naming a permission, like campaigns:execute">
+  That permission was not granted. Either reconnect and tick it, or for an integration
+  key, create a new key with it — permissions cannot be added to an existing key.
+
+  The [Permissions page](/mcp/permissions) says what each one allows.
+
+  Refusals like this cost nothing and change nothing. A missing `campaigns:execute` is
+  refused before any number is dialled.
+</Accordion>
+
+<Accordion title="Cursor shows fewer tools than expected">
+  Cursor forwards only about the first 40 tool definitions to the model and drops the
+  rest without saying which. Narrow the set with `?tools=` —
+  [group names and a recommended default](/mcp/clients/cursor#available-groups).
+</Accordion>
+
+<Accordion title="ChatGPT reads fine but cannot change anything">
+  Write actions need a Business, Enterprise or Edu workspace. Pro is limited to reading.
+</Accordion>
+
+<Accordion title="A revoked key still works">
+  Validated credentials are cached for up to 60 seconds. Wait a minute. For a suspected
+  leak, assume the key is live for that time.
+</Accordion>
+
+<Accordion title="Requests time out after working earlier (Cursor)">
+  Toggle the server off and on under **Settings → MCP**. If it recurs, restart Cursor
+  fully.
+</Accordion>
+
+## Something behaved unexpectedly
+
+<Accordion title="A campaign was created but nothing is dialling">
+  Correct behaviour. `create_campaign` saves configuration in DRAFT and dials nobody.
+  Dialling is `start_campaign`, which needs `campaigns:execute`.
+</Accordion>
+
+<Accordion title="A campaign edit was rejected">
+  Only DRAFT campaigns can be changed. A started, scheduled or completed one has to be
+  paused or aborted first — and aborting cannot be undone.
+</Accordion>
+
+<Accordion title="Creating a campaign failed on the contact list">
+  A call campaign needs a contact list holding at least two contacts. Build the list
+  first. Campaign names also have to be unique in the account.
+</Accordion>
+
+<Accordion title="An agent is not using its knowledge base">
+  Most likely the content has not finished processing. Check
+  `get_ingestion_status` — an agent pointed at a knowledge base with nothing processed
+  retrieves nothing and gives no sign of it.
+
+  The other possibility is that the document was summarised on the way in. Compare the
+  character count `add_knowledge_text` reported against your source.
+</Accordion>
+
+<Accordion title="An agent suddenly cannot make calls">
+  Check whether its number was reassigned. `assign_voice_number` moves a number that
+  already belongs to another agent, and that agent loses the ability to call or receive
+  on it immediately, with nothing in the response to say so.
+</Accordion>
+
+<Accordion title="WhatsApp or SMS follow-up messages stopped for some outcomes">
+  Updating `templates` replaces the entire set rather than merging. If you sent one
+  template to change one message, the others were dropped. Send them all back with the
+  one edit.
+</Accordion>
+
+<Accordion title="Customers who were busy or went to voicemail got the 'no answer' message">
+  Expected. There are two outcomes, `ANSWERED` and `UNANSWERED`, and `UNANSWERED` covers
+  everything that did not connect — no answer, busy, failed, voicemail. Word it to suit
+  all of them.
+</Accordion>
+
+## Questions
+
+<Accordion title="Can an assistant spend my money?">
+  Only if you grant it, and only what is already in your wallet.
+
+  `campaigns:execute`, `calls:execute` and `numbers:purchase` spend. All three are
+  unticked by default and flagged on the consent screen.
+
+  It can never add money. There is no permission for recharge, checkout, plans or
+  payment details — so an assistant holding every permission we issue can spend a funded
+  wallet to zero and then stops. The worst case is bounded by what you put in.
+</Accordion>
+
+<Accordion title="Can it see my invoices, payment details or saved credentials?">
+  No, and not because of a default setting. No permission for those exists, so none can
+  be granted. Same for API keys, service tokens, users and roles.
+</Accordion>
+
+<Accordion title="Can it reach another account?">
+  No. The account comes from your credential, and no tool accepts an account or tenant
+  identifier at any level. There is no field in which "act on another account" could be
+  expressed.
+</Accordion>
+
+<Accordion title="Do you store my credential?">
+  No. It lives for the duration of one request, is forwarded on the downstream call, and
+  is dropped when the request ends. Logs redact anything matching a key pattern.
+</Accordion>
+
+<Accordion title="Can it read call recordings?">
+  No. There is no tool that returns a recording, and the field is filtered out of every
+  response regardless of permissions.
+
+  Transcripts are different — `transcripts:read` does return what customers said. See
+  [the privacy note](/mcp/tools/reporting#a-word-on-transcripts).
+</Accordion>
+
+<Accordion title="Can I upload a PDF to a knowledge base?">
+  Not through MCP. Tool arguments are JSON, and the server cannot read your disk. Have
+  the assistant extract the text and pass it to `add_knowledge_text` — and tell it not to
+  summarise. Use the dashboard or the
+  [REST API](/api-reference/knowledge-bases/add-source) for files.
+</Accordion>
+
+<Accordion title="Why can't it read my knowledge base content back?">
+  Deliberate. It would be a bulk export of your internal documents through a chat client,
+  and it would not look like one from the tool name. Listing sources returns names,
+  types, sizes and processing state.
+</Accordion>
+
+<Accordion title="Can it release a phone number?">
+  No. Releasing has no undo and no refund, so it is not available through MCP at all. Use
+  the dashboard.
+</Accordion>
+
+<Accordion title="Are there workflow tools?">
+  Not yet. There is no workflow API for the MCP server to wrap. The permissions
+  `workflows:read` and `workflows:execute` exist in the catalogue but are deliberately
+  kept off the consent screen, since granting them would unlock nothing.
+</Accordion>
+
+<Accordion title="MCP or the REST API?">
+  Use MCP when a language model is deciding what to call. Use the
+  [REST API](/api-reference/introduction) when your own code is deciding — it is more
+  direct, and every MCP tool is a wrapper over one of its endpoints anyway.
+</Accordion>
+
+<Accordion title="Does using MCP cost extra?">
+  No. The server itself is free. What the tools do costs what it normally costs — calls
+  draw down the wallet, embedding uses credits, reads are free.
+</Accordion>
+
+## Still stuck
+
+Get the tool name and the exact error text from the assistant, then see
+[Getting Help](/getting-help). [Limits & Errors](/mcp/limits-and-errors) lists what each
+error code means.

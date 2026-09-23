@@ -1,0 +1,154 @@
+---
+title: Scripts, CI & Cron
+description: Connect to the MCP server with a static integration key when there is no browser to sign in with
+---
+
+Signing in is the better path wherever it works. It does not work everywhere:
+
+- A cron job, a CI step or a server-side script has no browser to open and no person
+  to approve a consent screen.
+- Claude Desktop configured by editing `claude_desktop_config.json` launches local
+  subprocesses only, so it needs a bridge regardless.
+
+For those, use a static integration key.
+
+## Create an integration key
+
+<Steps>
+  <Step title="Open MCP & Keys">
+    In the dashboard, go to **MCP & Keys**.
+  </Step>
+
+  <Step title="Create an integration key">
+    Give it a name that says where it will live — `github-actions`,
+    `nightly-report` — so it is obvious later which one to revoke.
+  </Step>
+
+  <Step title="Tick only the permissions it needs">
+    A key for a reporting script needs `calls:read` and `usage:read`, not
+    `campaigns:execute`. See [Permissions](/mcp/permissions).
+  </Step>
+
+  <Step title="Copy it now">
+    The key is shown once. It starts with `aok_`.
+  </Step>
+</Steps>
+
+<Callout type="warning">
+  **Integration keys are not the same as the widget API keys** on the
+  [API Keys](/features/api-keys) page. Widget keys are pinned to one agent and
+  embedded in a public website. Integration keys are account-wide and scoped, and
+  live in your own tooling. They are listed separately so that revoking one cannot
+  accidentally take down a live website widget — check which list you are in before
+  revoking anything.
+</Callout>
+
+<Callout type="warning">
+  Never commit a key. Put it in a secret store, a CI secret, or an environment
+  variable.
+</Callout>
+
+## Claude Desktop, via config file
+
+Needs Node installed. The config file lives at `%APPDATA%\Claude\` on Windows and
+`~/Library/Application Support/Claude/` on macOS.
+
+```json
+{
+  "mcpServers": {
+    "20x": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.20x.business/mcp",
+        "--header",
+        "Authorization:${AUTH}"
+      ],
+      "env": {
+        "AUTH": "Bearer aok_YOUR_KEY_HERE"
+      }
+    }
+  }
+}
+```
+
+<Callout type="info">
+  The credential goes in `env` rather than inline in `args` on purpose: an argument
+  value containing a space is unreliable on Windows.
+</Callout>
+
+Restart Claude Desktop after editing. If you use Connectors instead of this file,
+[the sign-in route](/mcp/clients/claude) is simpler and needs no key.
+
+## curl and scripts
+
+The endpoint speaks JSON-RPC over HTTP. Listing the available tools:
+
+```bash
+curl -X POST https://mcp.20x.business/mcp \
+  -H "Authorization: Bearer aok_YOUR_KEY_HERE" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Calling one:
+
+```bash
+curl -X POST https://mcp.20x.business/mcp \
+  -H "Authorization: Bearer aok_YOUR_KEY_HERE" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": { "name": "list_agents", "arguments": {} }
+  }'
+```
+
+Both `Accept` values are required by the transport. Use `POST` — a `GET` returns
+`405` by design.
+
+<Callout type="info">
+  If all you want is data from a script, the [REST API](/api-reference/introduction)
+  is the more direct option. MCP earns its place when a language model is choosing
+  what to call.
+</Callout>
+
+## Narrowing the tool set
+
+Append `?tools=` with a comma-separated list of groups to expose only some tools on a
+connection:
+
+```
+https://mcp.20x.business/mcp?tools=reporting,agents
+```
+
+Group names and counts are listed on the [Cursor page](/mcp/clients/cursor#available-groups).
+This matters most in Cursor, which drops tools past roughly the first 40.
+
+## What the key can do
+
+Exactly the permissions you ticked when you created it, and nothing else. A tool
+outside them is still listed, but returns an error naming the permission it needs,
+before any request reaches the platform — so a refused call costs nothing.
+
+## Rotating and revoking
+
+Revoke from **MCP & Keys**. Revocation takes up to 60 seconds to take effect, because
+validated credentials are cached briefly. For a suspected leak, revoke and assume the
+key is live for that minute.
+
+Keys cannot be retrieved after creation. To rotate, create the replacement, deploy
+it, then revoke the old one.
+
+<CardGroup cols={2}>
+  <Card title="Permissions" href="/mcp/permissions" icon="shield-check">
+    What to tick, and what is never grantable.
+  </Card>
+  <Card title="Limits & Errors" href="/mcp/limits-and-errors" icon="gauge">
+    Rate limits and error codes for scripted callers.
+  </Card>
+</CardGroup>

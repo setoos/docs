@@ -1,0 +1,98 @@
+---
+title: Reporting Tools
+description: The four MCP tools for call logs, usage, post-call analysis and transcripts
+---
+
+Four tools, all read-only. They sit in one group because the workflow they serve starts
+from a call list: find the calls, then read the verdict or the words.
+
+Group name for `?tools=`: **`reporting`**
+
+<Callout type="warning">
+  Two of these need `transcripts:read`, which is the permission with the widest privacy
+  reach in the platform. See [the privacy note](#a-word-on-transcripts) below before
+  granting it.
+</Callout>
+
+## list_call_logs
+
+Lists completed and in-progress calls with outcome, duration and the agent involved.
+
+**Permission:** `calls:read` · **Destructive:** no
+
+Outcome and duration only — **not what was said.** Per-call cost and recording URLs are
+filtered out and never reach an AI client.
+
+```
+Show me yesterday's calls.
+How many calls failed this week?
+```
+
+## list_usage_records
+
+Reports platform usage for a date range: call counts, talk time, per-agent activity.
+
+**Permission:** `usage:read` · **Destructive:** no
+
+Costs and wallet balance are filtered out of this response, so it answers "how much did
+we do" rather than "how much did we spend".
+
+```
+How many calls did we make last month?
+Which agent handled the most talk time in October?
+```
+
+## analyze_calls
+
+Returns calls with the post-call analysis already computed for each — intent, lead
+quality and similar, rather than raw dialogue.
+
+**Permission:** `transcripts:read` · **Destructive:** no
+
+This is the tool for questions about what calls *meant* across many of them.
+
+```
+Which calls last week looked like qualified leads?
+Summarise what customers were asking about yesterday.
+```
+
+## get_call_transcript
+
+The full transcript of one call — what the customer and the agent each said.
+
+**Permission:** `transcripts:read` · **Destructive:** no
+
+```
+Show me the transcript of my last call.
+What exactly did the customer on that failed call say?
+```
+
+<Callout type="info">
+  Recordings are never exposed. There is no tool that returns a recording URL, and the
+  field is filtered out of every response regardless of permissions.
+</Callout>
+
+## A word on transcripts
+
+`transcripts:read` is flagged on the consent screen, and it is worth a moment's thought
+even though it only reads.
+
+A transcript is what a real customer actually said. Granting this permission means those
+conversations leave 20X and enter whichever AI assistant you connected, where they are
+processed under that provider's terms, not ours.
+
+That may be exactly what you want — call analysis in a chat window is genuinely useful.
+But it is a different decision from letting an assistant see how many calls you made,
+and the consent screen keeps the two apart for that reason.
+
+If you want call reporting without that reach, grant `calls:read` and `usage:read` and
+leave `transcripts:read` off. `list_call_logs` and `list_usage_records` keep working.
+
+<CardGroup cols={2}>
+  <Card title="Campaign Tools" href="/mcp/tools/campaigns" icon="phone-volume">
+    Per-campaign progress and attempt outcomes.
+  </Card>
+  <Card title="Permissions" href="/mcp/permissions" icon="shield-check">
+    What each permission exposes.
+  </Card>
+</CardGroup>
