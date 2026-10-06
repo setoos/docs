@@ -15,11 +15,6 @@ infrastructure and cannot see your disk. Use `add_knowledge_text`: the assistant
 extracts the text and passes it as a string, and the same processing runs as for an
 upload.
 
-**Nothing reads content back.** No tool returns stored document text, and none searches
-a knowledge base by similarity. Either would be a bulk export of your internal
-documents through a chat client, and neither would look like one from the tool name.
-Listing sources returns names, types, sizes and processing state only.
-
 <Callout type="warning">
   **Watch for summarising.** An assistant asked to "add this document" will often
   summarise it unless told not to. A summarised refund policy produces an agent that is
@@ -29,6 +24,51 @@ Listing sources returns names, types, sizes and processing state only.
   count it stored — compare it against the source, since that is the one number that
   makes a silent summary visible.
 </Callout>
+
+**Your assistant cannot read the content back, but your agent can.** These are two
+different things:
+
+| | Who | Can it read knowledge base content? |
+| :--- | :--- | :--- |
+| **MCP tools** | The AI assistant you are chatting with (ChatGPT, Claude, Cursor) | **No.** No tool returns stored document text or searches a knowledge base. Listing sources returns names, types, sizes and processing state only. |
+| **Agent retrieval** | Your 20X agent, during a live call or chat | **Yes.** Once the knowledge base is attached, the agent searches it on every turn and answers from what it finds. |
+
+The MCP side is deliberate. A tool that returned document text would be a bulk export
+of your internal documents through a chat client, and would not look like one from its
+name.
+
+## How an agent uses a knowledge base
+
+1. **Attach it.** Set the knowledge base on the agent with
+   [`update_agent`](/mcp/tools/agents) (or `create_agent`). Only content that has
+   finished processing is used.
+2. **During the conversation**, each time the caller says something, the agent
+   searches the attached knowledge base for the passages closest in meaning to what was
+   asked.
+3. **Passages that match well enough** are given to the agent's language model with the
+   question, and it answers from them. Passages scoring below the knowledge base's
+   retrieval threshold are ignored.
+4. **If nothing matches**, the agent answers from its prompt alone. It does not say that
+   the knowledge base had nothing.
+
+## Checking that an agent can use it
+
+No MCP tool lets you query the knowledge base directly. Check it in two steps instead:
+
+**1. Check the setup**
+
+| Check | Tool | What to look for |
+| :--- | :--- | :--- |
+| The agent is attached | `get_agent` | `knowledgeBaseId` is the knowledge base you expect |
+| Content was processed | `get_knowledge_base` | `vectorCount` above 0. If it is 0, the agent retrieves nothing |
+| Every document is there | `list_knowledge_sources` | Each document is listed, with a sensible size |
+| Processing finished | `get_ingestion_status` | `completed`, not `queued`, `running` or `failed` |
+
+**2. Test it in a real conversation**
+
+Place a test call with [`initiate_call`](/mcp/tools/calls) to your own number. Ask
+something only the knowledge base can answer. Then read what the agent said with
+[`get_call_transcript`](/mcp/tools/reporting), which needs `transcripts:read`.
 
 ## Reading
 

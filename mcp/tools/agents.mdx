@@ -55,9 +55,10 @@ What presets are available for a new agent?
 ```
 
 <Callout type="info">
-  A new agent cannot take live calls until a phone connection is attached, which is
-  done in the dashboard. Assigning an outbound number is separate — see
-  [`assign_voice_number`](/mcp/tools/numbers).
+  A new agent cannot take or place live calls until it has a number. Use
+  [`list_provider_numbers`](/mcp/tools/numbers) to find the number you already have on
+  your provider, and [`register_voice_number`](/mcp/tools/numbers) to add it, choosing
+  inbound, outbound or both.
 </Callout>
 
 ## update_agent
@@ -69,9 +70,13 @@ left alone.
 
 ```
 Change my support agent's greeting to something warmer.
+Set the fallback message to "Sorry, could you say that again?"
 Attach the "Refund policy" knowledge base to my support agent.
 Deactivate the "Old campaign" agent.
 ```
+
+Setting a greeting also turns greeting on, matching the dashboard — otherwise you would
+have a greeting the agent never speaks. Pass `greet` explicitly to override that.
 
 <Callout type="warning">
   Two pairings that fail quietly if changed by halves:
@@ -130,6 +135,7 @@ Delete the agent called "Test agent 3".
     `generate_agent_prompt` to draft one, then `update_agent` to apply it.
   </Step>
   <Step title="Give it a number">
-    [`assign_voice_number`](/mcp/tools/numbers) so it can dial.
+    [`list_provider_numbers`](/mcp/tools/numbers) then
+    [`register_voice_number`](/mcp/tools/numbers) with outbound set, so it can dial.
   </Step>
 </Steps>

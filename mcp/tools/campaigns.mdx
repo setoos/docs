@@ -7,6 +7,11 @@ Twelve tools. A campaign dials a contact list with one agent, on a schedule you 
 
 Group name for `?tools=`: **`campaigns`**
 
+**Lifecycle:** a new campaign starts as a **Draft**. You can keep it in Draft and edit
+it as often as you like. No one is called and nothing is charged. From Draft it is
+started (**Running**) or scheduled (**Scheduled**), and can then be **Paused**,
+resumed, **Completed** or **Aborted**. Only Draft campaigns can be edited.
+
 <Callout type="warning">
   **Building a campaign and running one are separate permissions.** `create_campaign`
   and `update_campaign` need `campaigns:write` and dial nobody. Everything that

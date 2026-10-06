@@ -1,23 +1,92 @@
 ---
 title: Phone Number Tools
-description: The five MCP tools for searching, buying and assigning phone numbers
+description: The MCP tools for finding, adding, buying and assigning phone numbers
 ---
 
-Five tools. Two of them have consequences worth understanding before you grant them.
+Most people already have a number on their telephony provider. Start there. Buying a new
+number is the last step, not the first.
 
 Group name for `?tools=`: **`numbers`**
 
-## search_available_numbers
+## Inbound and outbound
 
-Searches the telephony provider for numbers available to buy in a country. Searching
-costs nothing and commits to nothing.
+A number connects to an agent in two separate ways, and they follow different rules.
+
+| | What it means | How many agents |
+| :--- | :--- | :--- |
+| **Inbound** | Calls *to* the number are answered by this agent | **One.** Giving it to an agent takes it from whoever had it |
+| **Outbound** | This agent places calls *from* the number | **Any number.** Several agents can dial from one number |
+
+**Outbound is required for an agent to make calls or run campaigns.** The assistant asks
+you which you want before it connects a number.
+
+## list_provider_connections
+
+Lists the telephony providers connected to the account, such as Plivo, Twilio, Vobiz and
+Acefone, with the `connectionId` the other tools need.
+
+**Permission:** `catalog:read` · **Destructive:** no
+
+Connecting a provider happens in the dashboard, because it needs your provider
+credentials.
+
+```
+Which telephony providers are connected?
+```
+
+## list_provider_numbers
+
+Lists the numbers that already exist on your own provider account, and for each one
+whether it is already added to Agentic OS and which agent answers it.
 
 **Permission:** `numbers:read` · **Destructive:** no
 
+Works for Plivo, Twilio and Vobiz. **Acefone has no API for listing numbers.** For
+Acefone the assistant asks you to type the number in.
+
 ```
-What numbers are available in India?
-Find me a Mumbai landline number.
+What numbers do I have on Plivo?
+Add a number to my HDFC agent.
 ```
+
+## register_voice_number
+
+Adds a number you already have on your provider to Agentic OS and connects it to an
+agent. This is the dashboard's **Add Voice Number → Register**, and it costs nothing.
+
+**Permission:** `numbers:write` · **Destructive:** no
+
+The provider confirms your account really owns the number. If it is already added, it is
+reused rather than added twice. You can also set **concurrency** (1–100, or leave it for
+the provider default) and **call timeout** (10–600 seconds, default 60).
+
+```
+Add +91 22 6997 6242 to the HDFC agent for outbound calls.
+Use my Plivo number for both inbound and outbound on the Sales agent.
+```
+
+<Callout type="warning">
+  Taking a number for **inbound** when another agent already has it moves it. That agent
+  stops answering calls on it straight away. The assistant asks before doing this.
+  Using a number for **outbound** never takes it from anyone.
+</Callout>
+
+## assign_voice_number
+
+Links a number to an agent. By default it sets both inbound and outbound. Pass `inbound`
+or `outbound` as false to set only one.
+
+**Permission:** `numbers:write` · **Destructive:** **yes**
+
+It is flagged destructive because, when inbound is set on a number another agent holds,
+it moves the number away from that agent.
+
+## search_available_numbers
+
+Searches the telephony provider for **new** numbers you could buy. Searching costs nothing
+and commits to nothing.
+
+**Permission:** `numbers:read` · **Destructive:** no
 
 <Callout type="info">
   The provider's inventory changes between calls, so the same search can return
@@ -26,28 +95,10 @@ Find me a Mumbai landline number.
 
 ## list_phone_numbers
 
-Lists the numbers the account already owns, with status and monthly cost.
+Lists the numbers bought **through Agentic OS**, with status and monthly cost. A number you
+rent directly on Plivo or Twilio does not appear here. Use `list_provider_numbers` for those.
 
 **Permission:** `numbers:read` · **Destructive:** no
-
-```
-What numbers do I own?
-How much am I paying monthly for numbers?
-```
-
-## list_provider_connections
-
-Lists the telephony providers connected to the account — Plivo, Twilio, Acefone — and
-which are usable.
-
-**Permission:** `catalog:read` · **Destructive:** no
-
-Note this uses `catalog:read`, not a numbers permission: it answers "what can I choose
-from", and returns no credentials.
-
-```
-Which telephony providers are connected?
-```
 
 ## purchase_phone_number
 
@@ -64,55 +115,30 @@ Buys a phone number.
   Check the balance first with [`get_wallet_balance`](/mcp/tools/account).
 </Callout>
 
-```
-Buy the number +91 22 1234 5678.
-```
-
 A retry after a timeout returns the original order rather than buying a second number,
 so a flaky connection will not double-charge you.
-
-## assign_voice_number
-
-Links a phone number to an agent so it can place or receive calls.
-
-**Permission:** `numbers:write` · **Destructive:** **yes**
-
-<Callout type="warning">
-  Flagged destructive even though it spends nothing. If the number already belongs to a
-  different agent, this **moves** it — and that agent immediately stops being able to
-  call or receive on it, with no warning and nothing in the response to say something
-  was taken away.
-
-  Check `list_phone_numbers` first if you are not sure whether a number is in use.
-</Callout>
-
-```
-Link +91 22 1234 5678 to my "Sales qualifier" agent.
-```
 
 ## Getting an agent onto the phone
 
 <Steps>
-  <Step title="Check what you already own">
-    `list_phone_numbers`. Buying a second number when an idle one exists is a common
-    and avoidable cost.
+  <Step title="Find the provider">
+    `list_provider_connections`
   </Step>
-  <Step title="If you need one, search">
-    `search_available_numbers`
+  <Step title="Find the number you already have">
+    `list_provider_numbers`. For Acefone, type the number instead.
   </Step>
-  <Step title="Check the balance">
-    [`get_wallet_balance`](/mcp/tools/account)
+  <Step title="Choose inbound, outbound or both">
+    Outbound is needed for the agent to make calls or run campaigns.
   </Step>
-  <Step title="Buy it">
-    `purchase_phone_number`. Irreversible.
-  </Step>
-  <Step title="Link it to the agent">
-    `assign_voice_number`
+  <Step title="Add it to the agent">
+    `register_voice_number`
   </Step>
 </Steps>
 
+Only if your provider account has no numbers: `search_available_numbers`, check
+[`get_wallet_balance`](/mcp/tools/account), then `purchase_phone_number`.
+
 <Callout type="info">
   Numbers for commercial voice traffic in India have extra requirements — see
-  [Purchase 140/160 numbers](/guides/numbers/purchase-140-160-numbers). Inbound routing
-  is configured in the dashboard, not through MCP.
+  [Purchase 140/160 numbers](/guides/numbers/purchase-140-160-numbers).
 </Callout>

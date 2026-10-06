@@ -1,9 +1,9 @@
 ---
 title: Account Tools
-description: The five MCP tools for profile, pricing, cost estimates and wallet balance
+description: The six MCP tools for profile, pricing, cost estimates, wallet balance and billing currency
 ---
 
-Five tools. Deliberately narrow — this is the area where most of what exists in the
+Six tools. Deliberately narrow — this is the area where most of what exists in the
 platform is not reachable by an assistant at all.
 
 Group name for `?tools=`: **`account`**
@@ -38,7 +38,8 @@ Returns the current published rate card — what each component costs per unit.
 
 **Permission:** `pricing:read` · **Destructive:** no
 
-Published prices, not your balance and not your actual spend.
+Published prices, not your balance. For what you have actually spent, use
+`list_usage_records` in the reporting group.
 
 ```
 What does a minute of calling cost?
@@ -72,18 +73,52 @@ What's my wallet balance?
 Do I have enough balance to run the October campaign?
 ```
 
+## set_billing_currency
+
+Switches the organisation's billing currency between **USD** and **INR**.
+
+**Permission:** `currency:write` · **Asks you to confirm:** yes
+
+```
+Change my billing currency to dollars.
+```
+
+Your existing wallet balance is converted at the live exchange rate, so its value
+stays the same while the figure changes. No money is added or removed.
+
+It also sets which payment gateway a later top-up runs through (INR → Razorpay,
+USD → Stripe) and the currency costs are quoted in across Logs, Dashboard and
+Campaigns.
+
+Two things worth knowing:
+
+- The permission is **unticked by default**, so you grant it deliberately.
+- USD and INR are the only supported values. Anything else is rejected rather than
+  ignored.
+- Switching back will not land on exactly the original figure, because each
+  conversion rounds.
+
+This is the only tool that writes to a billing route. It is here rather than excluded
+because it moves nothing in or out of the wallet — it re-denominates what is already
+there. Behaviour is identical to the Billing Currency control on the Profile page, so
+an assistant and a person produce the same result.
+
 ## What is not here, and why
 
 There is no tool for any of the following, and no permission that could enable one:
 
 - Adding money to the wallet — recharge, checkout, plan or addon purchase
-- Invoices, transaction history, the billing profile, payment methods, currency changes
+- Invoices, transaction history, the billing profile, payment methods
 - Saved integration credentials and connected provider balances
 - API keys and service tokens
 - Users and roles
 
 The rule: **spending an existing balance on platform work can be granted. Adding to that
 balance never can.**
+
+`set_billing_currency` is the one case that sits on the line rather than either side of
+it, and it was added deliberately after review: it neither spends nor adds, it changes
+the unit the balance is denominated in.
 
 That line is why `start_campaign` and `purchase_phone_number` exist while recharge does
 not. An assistant holding every permission we issue can spend a funded wallet down to
