@@ -314,8 +314,7 @@
               "mcp/clients/chatgpt",
               "mcp/clients/claude",
               "mcp/clients/cursor",
-              "mcp/clients/lovable",
-              "mcp/clients/api-key"
+              "mcp/clients/lovable"
             ]
           },
           {

@@ -81,15 +81,16 @@ different decision, and it must not arrive bundled with a "tick all write" refle
 | Edit your name | `profile:write` | Change your first and last name only. Cannot change email, password or role. | Write |
 | Read pricing | `pricing:read` | List prices and cost estimates for a configuration. Never your balance or actual spend. | Read |
 | Read wallet balance | `wallet:read` | See the balance only, so an assistant can check funds before spending. No transactions, invoices or payment details, and no way to add funds. | Read |
+| Change billing currency | `currency:write` | Switch between USD and INR. Your existing balance is converted at the live rate, so its value stays the same but the number changes. Also sets which gateway a future top-up uses. | Write |
 
 ## Reporting
 
 | Permission | Scope | What it allows | Level |
 | :--- | :--- | :--- | :--- |
-| Read call logs | `calls:read` | List calls with outcome and duration only. Not what was said. | Read |
+| Read call logs | `calls:read` | List calls with status, duration, start and end time, from/to numbers, agent and campaign. No per-call cost, recording or what was said. | Read |
 | Read call transcripts | `transcripts:read` | Read what customers actually said, and the lead analysis from it. This sends private conversations to whichever AI assistant holds the credential. Recordings are never exposed. | Read |
 | Place single calls | `calls:execute` | Dial one number on demand. Rings a real person immediately and deducts from your wallet. Unlike a campaign there is no contact list to review first. | Spend |
-| Read usage | `usage:read` | Call counts, talk time and per-agent activity. Costs and wallet balance are never exposed. | Read |
+| Read usage | `usage:read` | Call counts, talk time, and what it cost — total spend plus the breakdown by agent and component. The same figures the dashboard shows. Not the wallet balance, and not per-vendor wholesale cost. | Read |
 | Read catalog | `catalog:read` | List available voices, languages, providers and agent templates. | Read |
 
 ## What arrives pre-ticked
@@ -103,7 +104,7 @@ data" needs no thought:
 
 ## What carries a warning
 
-These 8 are flagged on the consent screen. You can still grant every one of them —
+These 9 are flagged on the consent screen. You can still grant every one of them —
 the flag exists so a skimmed screen does not hide the distinction:
 
 | Permission | Why it is flagged |
@@ -111,6 +112,7 @@ the flag exists so a skimmed screen does not hide the distinction:
 | `campaigns:execute` | Dials real people and draws down the wallet. |
 | `calls:execute` | Dials one real person immediately, with no list to review. |
 | `numbers:purchase` | Spends, and cannot be undone. |
+| `currency:write` | Spends nothing, but re-denominates the whole balance at a live rate and does not cleanly reverse. |
 | `transcripts:read` | Returns what a real customer said, which then reaches the AI assistant you connected. |
 | `agents:delete` | Permanent. |
 | `campaigns:delete` | Permanent. |
@@ -130,7 +132,7 @@ Not "off by default" — absent. There is no permission for any of the following
 no assistant and no key can be given them:
 
 - Adding money to your wallet: recharge, checkout, plan or addon purchase
-- Invoices, transaction history, the billing profile, payment methods, currency changes
+- Invoices, transaction history, the billing profile, payment methods
 - Saved integration credentials and connected provider balances
 - Creating, reading or revoking API keys and service tokens
 - Creating, editing or removing users and roles
@@ -143,6 +145,11 @@ granted. Adding to that balance never can.** So an assistant holding every
 permission we issue can spend a funded wallet down to zero and then stops. It
 cannot top itself up, so the worst case is bounded by whatever you chose to put in
 the wallet.
+
+`currency:write` is the single exception to the shape of that list — it lives on a
+billing route but neither spends nor adds, it only changes the unit the balance is
+counted in. It was added after review rather than by drift, and it reaches
+`PATCH /billing/currency` and nothing else.
 
 ## When a permission is missing
 
