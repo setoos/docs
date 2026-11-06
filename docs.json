@@ -328,6 +328,7 @@
               "mcp/tools/knowledge",
               "mcp/tools/numbers",
               "mcp/tools/calls",
+              "mcp/tools/inbox",
               "mcp/tools/catalog",
               "mcp/tools/reporting",
               "mcp/tools/account"

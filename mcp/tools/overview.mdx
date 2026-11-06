@@ -1,9 +1,9 @@
 ---
 title: Tool Reference
-description: All 64 tools the 20X MCP server exposes, with the permission each one needs
+description: All 84 tools the 20X MCP server exposes, with the permission each one needs
 ---
 
-64 tools. 33 only read, 16 create or change something, and 15 are flagged
+84 tools. 42 only read, 23 create or change something, and 19 are flagged
 destructive.
 
 Each is a thin wrapper over one REST endpoint, so a tool behaves exactly as the
@@ -34,6 +34,10 @@ is separate from `campaigns:write`, and each delete needs its own `*:delete`.
 | `update_agent` | `agents:write` | — |
 | `generate_agent_prompt` | `agents:write` | — |
 | `delete_agent` | `agents:delete` | Yes |
+| `list_agent_functions` | `agents:read` | — |
+| `attach_agent_function` | `agents:write` | — |
+| `update_agent_function` | `agents:write` | — |
+| `detach_agent_function` | `agents:write` | Yes |
 
 ## Campaigns
 
@@ -146,6 +150,23 @@ is separate from `campaigns:write`, and each delete needs its own `*:delete`.
 | `list_voice_numbers` | `calls:read` | — |
 | `initiate_call` | `calls:execute` | Yes |
 
+## Social inbox (Instagram and Facebook)
+
+[Full detail →](/mcp/tools/inbox)
+
+| Tool | Permission | Destructive |
+| :--- | :--- | :--- |
+| `list_social_accounts` | `catalog:read` | — |
+| `create_social_agent` | `agents:write` | — |
+| `list_social_conversations` | `conversations:read` | — |
+| `get_social_conversation` | `conversations:read` | — |
+| `send_social_reply` | `conversations:reply` | Yes |
+| `take_over_social_conversation` | `conversations:reply` | — |
+| `hand_back_social_conversation` | `conversations:reply` | — |
+| `register_inbox_webhook` | `conversations:read` | — |
+| `list_inbox_webhooks` | `conversations:read` | — |
+| `remove_inbox_webhook` | `conversations:read` | Yes |
+
 ## Account
 
 [Full detail →](/mcp/tools/account)
@@ -158,12 +179,14 @@ is separate from `campaigns:write`, and each delete needs its own `*:delete`.
 | `estimate_agent_cost` | `pricing:read` | — |
 | `get_wallet_balance` | `wallet:read` | — |
 
-## The 15 destructive tools, in one place
+## The 19 destructive tools, in one place
 
 `delete_agent` · `delete_campaign` · `delete_contacts` · `delete_contact_list` ·
 `delete_knowledge_source` · `delete_knowledge_base` · `delete_whatsapp_campaign` ·
 `delete_sms_campaign` · `start_campaign` · `schedule_campaign` · `resume_campaign` ·
-`abort_campaign` · `purchase_phone_number` · `initiate_call` · `assign_voice_number`
+`abort_campaign` · `purchase_phone_number` · `initiate_call` · `assign_voice_number` ·
+`set_billing_currency` · `detach_agent_function` · `send_social_reply` ·
+`remove_inbox_webhook`
 
 `assign_voice_number` is on the list for a reason that is easy to miss: if the number
 already belongs to another agent, linking it moves it, and that agent immediately

@@ -14,13 +14,19 @@ https://mcp.20x.business/mcp
 
 <Steps>
   <Step title="Add a custom connector">
-    **Settings → Connectors → Add custom connector**, and paste the endpoint above.
+    **Customize → Connectors**, select **+**, then **Add custom connector**. Paste
+    the endpoint above as the MCP server URL.
+
+    On a Team or Enterprise plan, an Owner adds the connector first under
+    **Organization settings → Connectors**, and each member then connects from
+    **Customize → Connectors**. The Free plan allows one custom connector.
   </Step>
 
-  <Step title="Leave the authentication defaults">
-    Keep authentication on **Sign in now**, and set the OAuth client to
-    **Register automatically**. Claude handles the rest — there is nothing to
-    configure and no client ID to obtain.
+  <Step title="Set the authentication">
+    Set authentication to **Sign in now**, and the OAuth client to
+    **Register automatically**. Claude's recommended "Use Claude's published
+    identity" does not work with 20X. There is nothing else to configure and no
+    client ID to obtain.
   </Step>
 
   <Step title="Approve the permissions">

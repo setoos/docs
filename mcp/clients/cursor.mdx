@@ -15,23 +15,28 @@ https://mcp.20x.business/mcp?tools=agents,catalog,numbers,calls,contacts,campaig
 </Callout>
 
 <Steps>
-  <Step title="Add the server">
-    **Settings → MCP → New MCP Server**, and paste the URL above.
+  <Step title="Add the server to mcp.json">
+    Add this to `~/.cursor/mcp.json`, creating the file if it does not exist:
+
+    ```json
+    {
+      "mcpServers": {
+        "20x": {
+          "url": "https://mcp.20x.business/mcp?tools=agents,catalog,numbers,calls,contacts,campaigns"
+        }
+      }
+    }
+    ```
 
     Add no Authorization header. Cursor signs in through the browser.
   </Step>
 
   <Step title="Sign in and approve">
-    Cursor opens a browser window. A 20X screen lists what it is asking to do.
-    Read-only permissions are pre-ticked. Tick anything further you want to allow,
-    then approve.
+    Open **Customize** in the Cursor sidebar, find **20x** and sign in. A 20X screen
+    opens in your browser listing what Cursor is asking to do. Read-only permissions
+    are pre-ticked. Tick anything further you want to allow, then approve.
 
     See [Permissions](/mcp/permissions) for what each one means.
-  </Step>
-
-  <Step title="Fully quit and reopen Cursor">
-    Closing the window is not enough — quit the application completely and reopen
-    it. Cursor does not reliably pick up a new MCP server otherwise.
   </Step>
 
   <Step title="Check it worked">
@@ -46,7 +51,7 @@ https://mcp.20x.business/mcp?tools=agents,catalog,numbers,calls,contacts,campaig
 ## Why the tools filter
 
 Cursor's roughly 40-tool ceiling is a long-standing, documented limit. The 20X server
-advertises 64 tools, comfortably past it, and the overflow is invisible: Cursor does
+advertises 74 tools, comfortably past it, and the overflow is invisible: Cursor does
 not report which tools it dropped, so the symptom is an assistant that inexplicably
 cannot do something it should.
 
@@ -64,7 +69,7 @@ Combine any of these as a comma-separated list.
 
 | Group | Tools | Covers |
 | :--- | :--- | :--- |
-| `agents` | 6 | Create, edit, inspect and delete agents |
+| `agents` | 10 | Create, edit, inspect and delete agents, and attach their functions |
 | `campaigns` | 12 | Create and edit draft call campaigns, then start, schedule, pause, resume or abort them |
 | `contacts` | 6 | Contact lists and their contacts |
 | `messaging` | 10 | WhatsApp and SMS post-call follow-ups |
@@ -73,9 +78,10 @@ Combine any of these as a comma-separated list.
 | `catalog` | 5 | Voices, models, personas, presets, templates |
 | `reporting` | 4 | Call logs, usage, analysis, transcripts |
 | `calls` | 2 | Place a single outbound call |
-| `account` | 5 | Profile, pricing, estimates, wallet balance |
+| `account` | 6 | Profile, pricing, estimates, wallet balance, billing currency |
+| `inbox` | 10 | Instagram and Facebook accounts, conversations, human takeover, push notifications |
 
-Omit `?tools=` entirely to expose all 64 — fine in Claude or ChatGPT, not in Cursor.
+Omit `?tools=` entirely to expose all 84 — fine in Claude or ChatGPT, not in Cursor.
 
 Some examples:
 
@@ -115,9 +121,9 @@ permissions you approved. See [Permissions](/mcp/permissions).
 | Symptom | Cause |
 | :--- | :--- |
 | Fewer tools than expected | The ~40 cap. Narrow the set with `?tools=`. |
-| Server does not appear after adding | Cursor was not fully quit and reopened. |
+| Server does not appear after adding | Check `~/.cursor/mcp.json` is valid JSON, then look in Output → **MCP Logs**. |
 | "Unknown tool" for something that should exist | Its group is not in your `?tools=` list. |
 | Connection fails immediately | A typo in a group name, or a URL not ending in `/mcp`. |
-| Requests time out after working earlier | Toggle the server off and on in Settings → MCP. |
+| Requests time out after working earlier | Toggle the server off and on in Customize. |
 
 More in [Troubleshooting](/mcp/troubleshooting).

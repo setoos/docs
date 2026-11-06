@@ -1,31 +1,31 @@
 ---
 title: Connect ChatGPT
-description: Add 20X as a connector in ChatGPT
+description: Add 20X as a custom MCP plugin in ChatGPT
 ---
 
 ```
 https://mcp.20x.business/mcp
 ```
 
-<Callout type="warning">
-  Write actions need a **Business, Enterprise or Edu** workspace. On Pro, the
-  connector works but is limited to reading. Worth knowing now rather than after you
-  have set everything up.
+<Callout type="info">
+  ChatGPT asks you to confirm before it changes anything in 20X. Reads run without
+  asking.
 </Callout>
 
 <Steps>
-  <Step title="Enable developer mode">
-    **Settings → Connected apps**, and turn on developer mode for the workspace.
-    Custom connectors are not available until this is on.
+  <Step title="Open your personal plugins">
+    In ChatGPT on the web, open **Plugins** and go to the **Personal** tab. Select
+    **Add**, then **Add custom MCP server**.
   </Step>
 
-  <Step title="Create the connector">
-    **Settings → Connectors → Create**, and paste the endpoint above as the MCP
-    server URL.
+  <Step title="Fill in the form">
+    - **Name**: `20X`
+    - **Connection**: choose **Server URL** and paste the endpoint above.
+    - **Authentication**: **OAuth**. Do not paste an API key.
   </Step>
 
-  <Step title="Choose OAuth">
-    When asked how to authenticate, choose OAuth. Do not paste an API key.
+  <Step title="Create the plugin">
+    Tick **I understand and want to continue**, then select **Create as a plugin**.
   </Step>
 
   <Step title="Approve the permissions">
@@ -36,13 +36,14 @@ https://mcp.20x.business/mcp
   </Step>
 
   <Step title="Check it worked">
-    In a new chat, ask:
+    In a new chat, type `@`, select **20X**, and ask:
 
     ```
     List my 20X agents.
     ```
 
-    Getting your agents back means the connection is live.
+    Getting your agents back means the connection is live. If 20X does not appear
+    after `@`, install it from **Plugins → Personal** first.
   </Step>
 </Steps>
 
@@ -50,8 +51,8 @@ https://mcp.20x.business/mcp
 
 | Symptom | Cause |
 | :--- | :--- |
-| No option to create a connector | Developer mode is off for the workspace. |
-| It reads fine but cannot create or change anything | Pro workspace. Write actions need Business, Enterprise or Edu. |
+| No **Add custom MCP server** option | In a work workspace, an admin has not allowed **Create plugins with MCPs**. |
+| ChatGPT stops before changing something | Expected. Approve the confirmation in the chat. |
 | An error naming a permission | That permission was not ticked. Reconnect and tick it. |
 
 More in [Troubleshooting](/mcp/troubleshooting).

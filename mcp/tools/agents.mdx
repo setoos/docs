@@ -1,9 +1,9 @@
 ---
 title: Agent Tools
-description: The six MCP tools for listing, creating, editing and deleting agents
+description: The ten MCP tools for listing, creating, editing and deleting agents, and attaching their functions
 ---
 
-Six tools. An agent is the brain of every conversation — its prompt, model, voice
+Ten tools. An agent is the brain of every conversation — its prompt, model, voice
 and knowledge. None of these place calls or spend wallet balance.
 
 Group name for `?tools=`: **`agents`**
@@ -120,6 +120,81 @@ Delete the agent called "Test agent 3".
   Check nothing live depends on it first. Campaigns and assigned numbers reference an
   agent, and deleting it does not clean those up for you.
 </Callout>
+
+## Agent functions
+
+Functions are things an agent can do during a conversation. In the dashboard they are
+under **Agent → Configuration → Tools**:
+
+| Function | What the assistant asks you for |
+| :--- | :--- |
+| Transfer Call | One or more phone numbers, and when to transfer to each |
+| Collect Data | The fields to collect: name, type, required or not |
+| Book Appointment | The Cal.com event type and time zone. Optional reminders |
+| Book Multi Location Appointment | Per location: name, **Cal.com API key**, event type, time zone, and the cities, keywords and organizations it covers |
+| Schedule Callback | The time zone |
+| Save Rating Feedback | Nothing required |
+
+Only these six built-in functions can be attached through MCP. Custom MCP tools from
+the dashboard's "Add Custom MCP" are not.
+
+<Callout type="warning">
+  **Book Multi Location Appointment needs an API key.** Before asking for it, the
+  assistant tells you the key will pass through the AI assistant and be stored by 20X,
+  and waits for you to agree. Nothing is saved until you do. If you would rather not
+  share a key in chat, set this function up in the dashboard.
+</Callout>
+
+The booking functions need Cal.com connected under **Integrations** in the dashboard,
+and an agent can have only one of the two.
+
+### list_agent_functions
+
+With an agent: its functions and their settings, plus what can still be attached.
+Without one: every agent and the functions attached to each.
+
+**Permission:** `agents:read` · **Destructive:** no
+
+API keys are always shown masked, e.g. `****abcd`.
+
+```
+Which functions are attached to my DMART agent?
+Which agents can transfer calls?
+```
+
+### attach_agent_function
+
+Attaches a function to an agent. It is used from the agent's next conversation.
+
+**Permission:** `agents:write` · **Destructive:** no
+
+```
+Add Transfer Call to DMART. Transfer billing questions to +919800000000.
+Let DMART collect the caller's name and email.
+```
+
+### update_agent_function
+
+Changes the settings of a function already attached. Settings you don't mention stay
+as they are. For multi-location booking, a saved API key is kept unless you give a
+new one.
+
+**Permission:** `agents:write` · **Destructive:** no
+
+```
+Add a second transfer number for sales: +919811111111.
+```
+
+### detach_agent_function
+
+Removes a function from an agent. Its saved settings, including any API keys, are
+permanently deleted.
+
+**Permission:** `agents:write` · **Destructive:** **yes**
+
+```
+Remove Schedule Callback from DMART.
+```
 
 ## A typical sequence
 
