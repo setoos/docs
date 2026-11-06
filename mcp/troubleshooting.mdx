@@ -18,14 +18,15 @@ description: Common MCP connection problems, what causes them, and answers to fr
   lists the valid names.
 </Accordion>
 
-<Accordion title="ChatGPT has no option to create a connector">
-  Developer mode is off. Turn it on under **Settings → Connected apps**, for the
-  workspace rather than for you personally.
+<Accordion title="ChatGPT has no option to add a custom MCP server">
+  Custom MCP servers are added under **Plugins → Personal → Add → Add custom MCP
+  server**. In a work workspace, an admin must allow **Create plugins with MCPs**.
 </Accordion>
 
 <Accordion title="Cursor: the server does not appear after adding it">
-  Cursor needs a full restart. Quit the application completely and reopen it — closing
-  the window is not enough.
+  Check that `~/.cursor/mcp.json` is valid JSON, then open **Customize** in the sidebar
+  and make sure 20x is turned on and signed in. Output → **MCP Logs** shows why a server
+  failed to start.
 </Accordion>
 
 <Accordion title="It asks for an API key, but I wanted to sign in">
@@ -62,8 +63,9 @@ description: Common MCP connection problems, what causes them, and answers to fr
   [group names and a recommended default](/mcp/clients/cursor#available-groups).
 </Accordion>
 
-<Accordion title="ChatGPT reads fine but cannot change anything">
-  Write actions need a Business, Enterprise or Edu workspace. Pro is limited to reading.
+<Accordion title="ChatGPT stops before changing something">
+  Expected. ChatGPT asks you to confirm every write action. Approve the confirmation in
+  the chat.
 </Accordion>
 
 <Accordion title="A revoked key still works">
@@ -72,8 +74,7 @@ description: Common MCP connection problems, what causes them, and answers to fr
 </Accordion>
 
 <Accordion title="Requests time out after working earlier (Cursor)">
-  Toggle the server off and on under **Settings → MCP**. If it recurs, restart Cursor
-  fully.
+  Toggle the server off and on under **Customize**. If it recurs, restart Cursor.
 </Accordion>
 
 ## Something behaved unexpectedly

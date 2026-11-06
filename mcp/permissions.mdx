@@ -93,6 +93,16 @@ different decision, and it must not arrive bundled with a "tick all write" refle
 | Read usage | `usage:read` | Call counts, talk time, and what it cost — total spend plus the breakdown by agent and component. The same figures the dashboard shows. Not the wallet balance, and not per-vendor wholesale cost. | Read |
 | Read catalog | `catalog:read` | List available voices, languages, providers and agent templates. | Read |
 
+## Social inbox (Instagram and Facebook)
+
+| Permission | Scope | What it allows | Level |
+| :--- | :--- | :--- | :--- |
+| Read Instagram and Facebook chats | `conversations:read` | Read Instagram and Facebook DMs and comment threads, and whether the AI or a person is answering. These are customers' own words. With an integration key, also lets the app receive new messages as they arrive. | Read |
+| Reply to Instagram and Facebook chats | `conversations:reply` | Reply to customers as the business, take a conversation over from the AI, and hand it back. Replies reach real customers immediately and cannot be undone. Spends nothing. | Write |
+
+Neither is ever granted by default. A key created without a permission list does not
+get them, and the Read-only preset leaves `conversations:read` unticked.
+
 ## What arrives pre-ticked
 
 These 11 read-only permissions are ticked by default, so "let the assistant see my
@@ -104,7 +114,7 @@ data" needs no thought:
 
 ## What carries a warning
 
-These 9 are flagged on the consent screen. You can still grant every one of them —
+These 11 are flagged on the consent screen. You can still grant every one of them —
 the flag exists so a skimmed screen does not hide the distinction:
 
 | Permission | Why it is flagged |
@@ -114,6 +124,8 @@ the flag exists so a skimmed screen does not hide the distinction:
 | `numbers:purchase` | Spends, and cannot be undone. |
 | `currency:write` | Spends nothing, but re-denominates the whole balance at a live rate and does not cleanly reverse. |
 | `transcripts:read` | Returns what a real customer said, which then reaches the AI assistant you connected. |
+| `conversations:read` | Returns customers' own Instagram and Facebook messages. |
+| `conversations:reply` | Sends messages to real customers as your business. |
 | `agents:delete` | Permanent. |
 | `campaigns:delete` | Permanent. |
 | `contacts:delete` | Permanent, and it is customer data. |
@@ -174,6 +186,6 @@ its side.
     Why the server cannot exceed what you could do yourself.
   </Card>
   <Card title="Tool Reference" href="/mcp/tools/overview" icon="wrench">
-    Which permission each of the 64 tools needs.
+    Which permission each of the 74 tools needs.
   </Card>
 </CardGroup>

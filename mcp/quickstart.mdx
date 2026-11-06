@@ -16,10 +16,10 @@ https://mcp.20x.business/mcp
   <Step title="Paste the endpoint into your assistant">
     Every client puts this in a slightly different place:
 
-    - **ChatGPT** — Settings → Connectors → Create
-    - **Claude** — Settings → Connectors → Add custom connector
-    - **Cursor** — Settings → MCP → New MCP Server
-    - **Lovable** — Connectors → **+** → MCP server
+    - **ChatGPT** — Plugins → Personal → Add → Add custom MCP server
+    - **Claude** — Customize → Connectors → **+** → Add custom connector
+    - **Cursor** — add it to `~/.cursor/mcp.json`, then sign in from Customize
+    - **Lovable** — Connectors → Add custom → MCP server
 
     Choose OAuth or "Sign in" when asked how to authenticate. Do not paste an API
     key — you will not need one.
@@ -71,8 +71,7 @@ start.
 
 <CardGroup cols={2}>
   <Card title="ChatGPT" href="/mcp/clients/chatgpt" icon="comments">
-    Needs developer mode, and a Business, Enterprise or Edu workspace for write
-    actions.
+    Added as a personal plugin. Asks you to confirm before every change.
   </Card>
   <Card title="Claude" href="/mcp/clients/claude" icon="message">
     One connector covers web, desktop and mobile.

@@ -1,0 +1,141 @@
+---
+title: Social Inbox Tools
+description: Instagram and Facebook accounts, the agent answering each one, conversations, human takeover and push notifications
+---
+
+Ten tools for running an Instagram and Facebook inbox from another app. 20X holds the
+connections and its agent answers customers automatically; these tools let an app show
+those conversations and let a person jump in.
+
+Group name for `?tools=`: **`inbox`**
+
+<Callout type="info">
+  Connect Instagram accounts and Facebook Pages in the 20X dashboard first
+  (**Integrations**). No tool can connect an account. Do not connect the same account to
+  another app's own Meta integration as well, or both will answer every customer.
+</Callout>
+
+## Accounts and agents
+
+### list_social_accounts
+
+The connected Instagram accounts and Facebook Pages, with the `channel` and
+`connectionId` each one needs and which agent already answers it. Optional `channel`
+filter: `INSTAGRAM` or `FACEBOOK`.
+
+**Permission:** `catalog:read` (plus `agents:read` to see the agent) · **Destructive:** no
+
+### create_social_agent
+
+Creates a new agent that answers one Instagram account or Facebook Page. It starts
+replying to that account's DMs and comments straight away. Each account can have one
+agent.
+
+**Permission:** `agents:write` (plus `catalog:read` to confirm the account) · **Destructive:** no
+
+Pass `channel`, `connectionId` and `executionAuthorized: true` once the user has approved
+it. Optional settings: `replyToDms`, `replyToComments` (both default on) and
+`pauseMinutes` (default 30).
+
+## Conversations
+
+A conversation is one customer talking to one agent, across both DMs and comments. The
+agent's channel decides whether it is Instagram or Facebook.
+
+### list_social_conversations
+
+Newest activity first. Each conversation shows its `channel`, the last message, whether
+the AI or a person is answering (`mode`), and whether a DM reply is still allowed
+(`replyWindowOpen`). Optional filters: `channel`, `agentId`.
+
+**Permission:** `conversations:read` · **Destructive:** no
+
+### get_social_conversation
+
+The messages in one conversation, oldest first, each marked as from the `customer`, the
+`ai` or a `human`. A customer comment carries the `commentId` needed to answer it
+publicly.
+
+**Permission:** `conversations:read` · **Destructive:** no
+
+## A person jumping in
+
+| What happens | Effect |
+| :--- | :--- |
+| Take over | The AI pauses on that conversation. |
+| A person replies | The reply goes out and the pause restarts (30 minutes by default). |
+| Hand back | The AI answers the customer's next message. |
+| Nobody hands back | The AI takes over again on its own when the pause runs out. |
+
+Replying from the Instagram or Facebook app itself pauses the AI in the same way.
+
+### send_social_reply
+
+Replies as the business: a DM, or a public reply under a comment when `commentId` is
+given.
+
+**Permission:** `conversations:reply` · **Destructive:** **yes**
+
+<Callout type="warning">
+  This reaches a real customer immediately and cannot be undone. Meta only allows DM
+  replies within 24 hours of the customer's last message, on both Instagram and Facebook.
+</Callout>
+
+### take_over_social_conversation
+
+Pauses the AI on one conversation without sending anything.
+
+**Permission:** `conversations:reply` · **Destructive:** no
+
+### hand_back_social_conversation
+
+Ends the pause now. Sends nothing.
+
+**Permission:** `conversations:reply` · **Destructive:** no
+
+## Push notifications
+
+An app can be told about new messages as they happen instead of asking repeatedly.
+These three work with an integration key only, not through an AI assistant connection.
+
+### register_inbox_webhook
+
+Registers an HTTPS URL. 20X then POSTs an event for every new customer message, every AI
+or human reply, and every switch between AI and human, on both channels. Each event
+carries `channel`. Returns a signing secret once; registering the same URL again
+replaces it.
+
+**Permission:** `conversations:read` · **Destructive:** no
+
+Each delivery has these headers:
+
+| Header | Meaning |
+| :--- | :--- |
+| `X-20X-Event-Id` | Unique per event. Retries reuse it, so de-duplicate on it. |
+| `X-20X-Event-Type` | `message.created` or `thread.mode_changed` |
+| `X-20X-Timestamp` | Unix seconds when this attempt was sent |
+| `X-20X-Signature` | `v1=` + hex HMAC-SHA256 of `"<timestamp>.<raw body>"` with the secret |
+
+Reject a signature that does not match, or a timestamp more than 5 minutes old. Answer
+with any 2xx quickly; anything else is retried with backoff, up to 6 attempts.
+
+### list_inbox_webhooks
+
+The registered URLs. Secrets are never returned.
+
+**Permission:** `conversations:read` · **Destructive:** no
+
+### remove_inbox_webhook
+
+Stops deliveries to one URL and discards its secret.
+
+**Permission:** `conversations:read` · **Destructive:** **yes**
+
+<CardGroup cols={2}>
+  <Card title="Permissions" href="/mcp/permissions" icon="key">
+    What conversations:read and conversations:reply allow.
+  </Card>
+  <Card title="Agent Tools" href="/mcp/tools/agents" icon="robot">
+    Editing the agent's instructions after it is created.
+  </Card>
+</CardGroup>
